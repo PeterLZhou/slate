@@ -254,22 +254,7 @@
               </ul>
           </li>
           <li>
-            <a href="#langapi-clients" class="toc-h1 toc-link" data-title="LangApi Clients">LangApi Clients</a>
-          </li>
-          <li>
-            <a href="#preparing-texts-for-translation" class="toc-h1 toc-link" data-title="Preparing Texts For Translation">Preparing Texts For Translation</a>
-          </li>
-          <li>
             <a href="#interpolation" class="toc-h1 toc-link" data-title="Interpolation">Interpolation</a>
-          </li>
-          <li>
-            <a href="#request-translations" class="toc-h1 toc-link" data-title="Request Translations">Request Translations</a>
-          </li>
-          <li>
-            <a href="#receive-translations" class="toc-h1 toc-link" data-title="Receive Translations">Receive Translations</a>
-          </li>
-          <li>
-            <a href="#ready-to-go" class="toc-h1 toc-link" data-title="Ready to go!">Ready to go!</a>
           </li>
           <li>
             <a href="#language-codes" class="toc-h1 toc-link" data-title="Language Codes">Language Codes</a>
@@ -387,51 +372,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>Since we&#39;re using machine translations in this demo, the translations are done instantly! Thanks Google. To pull them back into your repo, run <strong>langapi pull</strong> in your <strong>root directory</strong>.</p>
 <h2 id='that-39-s-it'>That&#39;s it</h2>
 <p>Congratulations! You&#39;ve just translated your first string using LangAPI. We hope it was easy enough, and we&#39;d love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!</p>
-<h1 id='langapi-clients'>LangApi Clients</h1>
-<blockquote>
-<p>Language codes can be found on the Language Codes tab of this documentation.</p>
-</blockquote>
-<pre class="highlight javascript tab-javascript"><code><span class="c1">//LangClient.js</span>
-<span class="kd">var</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
-  <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">LANG_KEY</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./.lang/translations.json"</span><span class="p">),</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./.lang/langconfig.json"</span><span class="p">)</span>
-<span class="p">);</span>
-
-<span class="kr">export</span> <span class="kd">function</span> <span class="nx">tr</span><span class="p">(</span><span class="nx">phrase</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="nx">phrase</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre>
-<blockquote>
-<p>You can generate a typescript Lang Client by adding the --ts flag.</p>
-</blockquote>
-<pre class="highlight typescript tab-typescript"><code><span class="c1">// LangClient.ts</span>
-<span class="k">import</span> <span class="nx">LangTranslateClient</span> <span class="k">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
-
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LangTranslateClient</span><span class="p">(</span>
-  <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">LANG_KEY</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./.lang/translations.json"</span><span class="p">),</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./.lang/langconfig.json"</span><span class="p">)</span>
-<span class="p">);</span>
-
-<span class="k">export</span> <span class="kd">function</span> <span class="nx">tr</span><span class="p">(</span><span class="nx">phrase</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="nx">phrase</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre><h1 id='preparing-texts-for-translation'>Preparing Texts For Translation</h1>
-<p>Wrap all of the strings you want translated with Lang API&#39;s tr function.</p>
-<pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
-
-<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">);</span>
-
-<span class="c1">// translatedString (es): ¡Hola Mundo!</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
-
-<span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">);</span>
-
-<span class="c1">// translatedString (es): ¡Hola Mundo!</span>
-</code></pre><h1 id='interpolation'>Interpolation</h1>
+<h1 id='interpolation'>Interpolation</h1>
 <p>Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. You must put param() calls inside of tr() calls.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span><span class="p">,</span> <span class="nx">param</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
@@ -447,38 +388,6 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Welcome to "</span> <span class="o">+</span> <span class="nx">param</span><span class="p">(</span><span class="nx">ESCAPED_SITE</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"!"</span><span class="p">);</span>
 
 <span class="c1">// translatedString (es): ¡Bienvenido a Lang API!</span>
-</code></pre><h1 id='request-translations'>Request Translations</h1>
-<p>Search through your codebase for all requested strings and send them to our API endpoint for translation. The push function parses your codebase for tr(...) calls and requests all previously unrequested strings for you. Phrases are uniquely identified by string value, so two tr() calls on the same string will only generate one request.</p>
-<pre class="highlight shell tab-shell--all"><code><span class="c">#!/usr/bin/bash</span>
-
-<span class="gp">&gt; </span>langapi push
-</code></pre>
-<blockquote>
-<p>Make sure your .env file contains your Lang API key, which is used for authentication</p>
-</blockquote>
-<h1 id='receive-translations'>Receive Translations</h1>
-<p>The pull function gets all requested phrases that have been translated thus far caches the results inside of your translations.json, which is where tr(...) will fetch your translations.</p>
-<pre class="highlight shell tab-shell--all"><code><span class="c">#!/usr/bin/bash</span>
-
-<span class="gp">&gt; </span>langapi pull
-</code></pre>
-<blockquote>
-<p>Make sure your .env file contains your Lang API key, which is used for authentication</p>
-</blockquote>
-<h1 id='ready-to-go'>Ready to go!</h1>
-<p>Once you&#39;ve requested translations and cached the results in translations.json, you&#39;re all set to display localized strings with the tr(...) function. Strings that are not yet translated will default to the original language string.</p>
-<pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
-<span class="kd">var</span> <span class="nx">tr</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./LangClient"</span><span class="p">);</span>
-
-<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">);</span>
-
-<span class="c1">// translatedString (missing translation): Hello world!</span>
-</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
-<span class="k">import</span> <span class="nx">tr</span> <span class="k">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
-
-<span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">);</span>
-
-<span class="c1">// translatedString (missing translation): Hello world!</span>
 </code></pre><h1 id='language-codes'>Language Codes</h1>
 <p>Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.</p>
 
