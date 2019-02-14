@@ -249,7 +249,7 @@
                     <a href="#push-and-pull-translations" class="toc-h2 toc-link" data-title="Push and Pull Translations">Push and Pull Translations</a>
                   </li>
                   <li>
-                    <a href="#that-39-s-it" class="toc-h2 toc-link" data-title="That's it">That's it</a>
+                    <a href="#finish" class="toc-h2 toc-link" data-title="Finish">Finish</a>
                   </li>
               </ul>
           </li>
@@ -275,7 +275,7 @@
 <h1 id='getting-started'>Getting Started</h1>
 <p>Follow the steps below to translate your first string in under 3 minutes!</p>
 <h2 id='sign-up'>Sign Up</h2>
-<p>Before you start translating, you&#39;ll need to <a href="https://www.langapi.co/dashboard">sign up for an account</a>.</p>
+<p>Before you start translating, you&#39;ll need to <a href="https://www.langapi.co/signup">sign up for an account</a>.</p>
 <h2 id='install-the-cli-and-login'>Install the CLI and login</h2>
 <blockquote>
 <p>In the terminal, install the &quot;langapi&quot; node module globally.</p>
@@ -321,7 +321,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 </blockquote>
 <pre class="highlight json tab-json--all"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"originalLanguage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"targetLanguage"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"zh"</span><span class="p">]</span><span class="w">
+  </span><span class="s2">"targetLanguages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"zh"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>After running <strong>langapi ini</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.</p>
@@ -370,7 +370,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>After the command is finished, you&#39;ll receive a breakdown of your strings to be translated.</p>
 
 <p>Since we&#39;re using machine translations in this demo, the translations are done instantly! Thanks Google. To pull them back into your repo, run <strong>langapi pull</strong> in your <strong>root directory</strong>.</p>
-<h2 id='that-39-s-it'>That&#39;s it</h2>
+<h2 id='finish'>Finish</h2>
 <p>Congratulations! You&#39;ve just translated your first string using LangAPI. We hope it was easy enough, and we&#39;d love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!</p>
 <h1 id='interpolation'>Interpolation</h1>
 <p>Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. You must put param() calls inside of tr() calls.</p>
