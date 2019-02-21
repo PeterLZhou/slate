@@ -19,6 +19,8 @@ LangAPI exists to help developers rapidly translate and localize their apps for 
 
 Follow the steps below to translate your first string in under 3 minutes!
 
+**NOTE:** This guide works for apps that do NOT use server-side rendering (SSR). To translate your SSR app, see [the getting started guide for SSR](#getting-started-ssr)
+
 ## Sign Up
 
 Before you start translating, you'll need to [sign up for an account](https://www.langapi.co/signup).
@@ -54,7 +56,7 @@ cd sample_project
 
 We'll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don't have a project handy, you can create one with [Create React App (CRA)](https://facebook.github.io/create-react-app/).
 
-> To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag
+> To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you're using TypeScript.
 
 ```shell-all
 > langapi init --src src
@@ -88,7 +90,7 @@ First, we'll need to set some target languages. To do this, open **langapiconfig
 
 > We're using the App.js file in the src directory of our create-react-app
 
-```javascript
+```jsx
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
@@ -111,6 +113,184 @@ class App extends Component {
 ```
 
 To wrap a string for translation, import the **tr** function from the newly generated LangClient file in your source directory. We demonstrate this using the sample create-react-app project we created previously.
+
+## Push and Pull Translations
+
+> To push translation requests, use 'langapi push'
+
+```shell-all
+> langapi push
+```
+
+> To pull completed translations, use 'langapi pull'
+
+```shell-all
+> langapi pull
+```
+
+You're almost there! We've marked the string for translation, but we need to actually translate it. To push your un-translated strings to our server to be translated, run **langapi push** in your **root directory** (where langapiconfig.json is).
+
+After the command is finished, you'll receive a breakdown of your strings to be translated.
+
+Since we're using machine translations in this demo, the translations are done instantly! Thanks Google. To pull them back into your repo, run **langapi pull** in your **root directory**.
+
+## Finish
+
+Congratulations! You've just translated your first string using LangAPI. We hope it was easy enough, and we'd love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!
+
+# Getting Started (SSR)
+
+Follow the steps below to translate your first string in under 3 minutes!
+
+**NOTE:** This guide works for apps that use server-side rendering. Currently we **only support the NextJS framework.**
+
+If you're not using SSR, see [the getting started guide for client-rendered applications](#getting-started).
+
+## Sign Up
+
+Before you start translating, you'll need to [sign up for an account](https://www.langapi.co/signup).
+
+## Install the CLI and login
+
+> In the terminal, install the "langapi" node module globally.
+
+```shell--all
+#!/usr/bin/bash
+
+> npm install -g langapi
+> langapi login
+```
+
+To make it easy to translate apps via terminal, we've built our own command-line interface (CLI). Our CLI includes three main commands: **init, push, and pull**.
+
+- init - Initializes langapi in a project folder
+- push - Pushes translation requests to our server
+- pull - Fetches completed translations
+
+To get help on these commands, add the --help flag.
+
+## Initialization
+
+> To create a brand-new project, use Create Next App
+
+```shell-all
+npm install -g create-next-app
+create-next-app my-app
+cd my-app
+```
+
+We'll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don't have a project handy, you can create one with [Create Next App (CRA)](https://open.segment.com/create-next-app/).
+
+> To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you're using TypeScript.
+
+```shell-all
+> langapi init --src .
+```
+
+Run **langapi init --src <SOURCE_DIRECTORY>** inside the project's **root directory** and follow the instructions.
+
+**NOTE: The source directory should be where your actual code is. In the example we're using the sample create-next-app, so the source directory is the same as the root directory.**.
+
+We recommend using machine translations for testing out the workflow.
+
+## Configuring target languages
+
+> The langapiconfig.json contains your LangApi settings for the current project.
+> Here, we've added Chinese (zh) as a target language for demonstration.
+
+```json--all
+{
+  "originalLanguage": "en",
+  "targetLanguages": ["zh"]
+}
+```
+
+After running **langapi ini**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.
+
+First, we'll need to set some target languages. To do this, open **langapiconfig.json** in any code editor, and in the targetLanguages property, add a comma-separated list of language encodings you want to translate to. By default, the original language is set to English (en).
+
+[You can find a list of language encodings we support here](#language-codes).
+
+## Add withLang to components
+
+```jsx
+// in _app.js or _app.tsx
+import React from "react";
+import App, { Container } from "next/app";
+import { withLang } from "langapi-client";
+// If you're using TypeScript,
+// add "resolveJsonModule": true to your tsconfig
+import translations from "../langapi/translations.json";
+
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <Container>
+        <Component {...pageProps} />
+      </Container>
+    );
+  }
+}
+
+export default withLang(translations, "YOUR_PUBLIC_KEY")(MyApp);
+```
+
+To enable SSR translations, we provide a higher-order component (HOC) - **withLang** - that uses NextJS's **getInitialProps** function to load translations on the server.
+
+We highly recommend wrapping your custom \_app with withLang to expose the 'tr' function to all of your server-side rendered components.
+
+**NOTE:** Since we rely on getInitialProps, only components in the pages/ directory or other components that use getInitialProps will work with withLang. [See the NextJS documentation for details.](https://nextjs.org/docs/#imperatively-1)
+
+## Mark string for translation
+
+> withTranslation adds the tr function to components' props
+
+```jsx
+import * as React from "react";
+import { withTranslation, LangProps } from "langapi-client";
+
+interface Props extends LangProps {}
+
+const Sample = (props: Props) => {
+  const { tr } = props;
+  return (
+    <div>
+      <p>{tr("Hello world!")}</p>
+    </div>
+  );
+};
+
+export default withTranslation(Sample);
+```
+
+> You can also use React's new hook API.
+
+```jsx
+import * as React from "react";
+import { useLang } from "langapi-client";
+
+interface Props extends LangProps {}
+
+const Sample = (props: Props) => {
+  const { tr } = useLang();
+  return (
+    <div>
+      <p>{tr("Hello world!")}</p>
+    </div>
+  );
+};
+
+export default Sample;
+```
+
+To mark strings to be translated, we provide a **tr** function that you can wrap your strings with. The **tr** function automatically translates strings to the right language during runtime.
+
+To wrap a string for translation, you have two choices:
+
+- withTranslation higher-order component
+- useLang hook
 
 ## Push and Pull Translations
 
@@ -159,6 +339,10 @@ const translatedString = tr("Welcome to " + param(ESCAPED_SITE) + "!");
 
 // translatedString (es): ¡Bienvenido a Lang API!
 ```
+
+# TypeScript Support
+
+We love TypeScript at Lang! To use TypeScript, add the --ts flag when setting up LangAPI during `langapi init`.
 
 #Language Codes
 
