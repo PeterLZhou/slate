@@ -4,6 +4,7 @@ title: API Reference
 language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
   - typescript
+  - python
 
 toc_footers:
   - <a href='https://www.langapi.co'>Sign Up for Lang API</a>
@@ -80,7 +81,7 @@ We recommend using machine translations for testing out the workflow.
 }
 ```
 
-After running **langapi ini**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.
+After running **langapi init**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.
 
 First, we'll need to set some target languages. To do this, open **langapiconfig.json** in any code editor, and in the targetLanguages property, add a comma-separated list of language encodings you want to translate to. By default, the original language is set to English (en).
 
@@ -90,12 +91,12 @@ First, we'll need to set some target languages. To do this, open **langapiconfig
 
 > We're using the App.js file in the src directory of our create-react-app
 
-```jsx
+```javascript
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 // Make sure to import tr from your LangClient
-import { tr } from "./langapi/LangClient.js";
+import { tr } from "./langapi/LangClient";
 
 class App extends Component {
   render() {
@@ -103,7 +104,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          // Note the use of the tr function here
+          {/* Note the use of the tr function here */}
           <p>Watch us translate: {tr("Hello world!")}</p>
         </header>
       </div>
@@ -112,7 +113,47 @@ class App extends Component {
 }
 ```
 
+```typescript
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+// Make sure to import tr from your LangClient
+import { tr } from "./langapi/LangClient";
+
+type Props = {};
+type State = {};
+
+class App extends Component<Props, State> {
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          {/* Note the use of the tr function here */}
+          <p>Watch us translate: {tr("Hello world!")}</p>
+        </header>
+      </div>
+    );
+  }
+}
+```
+
+```python
+from LangClient import tr, param
+
+def some_function(original_string, language):
+    translated_string = tr(original_string, language)
+```
+
 To wrap a string for translation, import the **tr** function from the newly generated LangClient file in your source directory. We demonstrate this using the sample create-react-app project we created previously.
+
+## I Have a lot of legacy unwrapped code :( - Codegen (BETA)
+
+If you have a lot of code to wrap with tr's, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.
+
+```shell-all
+> langapi generate [directory]
+```
 
 ## Push and Pull Translations
 
@@ -205,7 +246,7 @@ We recommend using machine translations for testing out the workflow.
 }
 ```
 
-After running **langapi ini**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.
+After running **langapi init**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.
 
 First, we'll need to set some target languages. To do this, open **langapiconfig.json** in any code editor, and in the targetLanguages property, add a comma-separated list of language encodings you want to translate to. By default, the original language is set to English (en).
 
@@ -213,7 +254,7 @@ First, we'll need to set some target languages. To do this, open **langapiconfig
 
 ## Add withLang to components
 
-```jsx
+```javascript
 // in _app.js or _app.tsx
 import React from "react";
 import App, { Container } from "next/app";
@@ -237,6 +278,37 @@ class MyApp extends App {
 export default withLang(translations, "YOUR_PUBLIC_KEY")(MyApp);
 ```
 
+```typescript
+// in _app.js or _app.tsx
+import React from "react";
+import App, { Container } from "next/app";
+import { withLang, LangProps } from "langapi-client";
+// If you're using TypeScript,
+// add "resolveJsonModule": true to your tsconfig
+import translations from "../langapi/translations.json";
+
+type Props = {};
+type State = {};
+
+class MyApp extends App<Props, State> {
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <Container>
+        <Component {...pageProps} />
+      </Container>
+    );
+  }
+}
+
+export default withLang(translations, "YOUR_PUBLIC_KEY")(MyApp);
+```
+
+```python
+# We don't support an equivalent for python yet - contact us at support@langapi,co if you want to see a supported framework!
+```
+
 To enable SSR translations, we provide a higher-order component (HOC) - **withLang** - that uses NextJS's **getInitialProps** function to load translations on the server.
 
 We highly recommend wrapping your custom \_app with withLang to expose the 'tr' function to all of your server-side rendered components.
@@ -247,13 +319,11 @@ We highly recommend wrapping your custom \_app with withLang to expose the 'tr' 
 
 > withTranslation adds the tr function to components' props
 
-```jsx
+```javascript
 import * as React from "react";
-import { withTranslation, LangProps } from "langapi-client";
+import { withTranslation } from "langapi-client";
 
-interface Props extends LangProps {}
-
-const Sample = (props: Props) => {
+const Sample = props => {
   const { tr } = props;
   return (
     <div>
@@ -265,13 +335,52 @@ const Sample = (props: Props) => {
 export default withTranslation(Sample);
 ```
 
+```typescript
+import * as React from "react";
+import { withTranslation, LangProps } from "langapi-client";
+
+type InnerProps = {};
+type Props = InnerProps & LangProps;
+
+const Sample = (props: Props) => {
+  const { tr } = props;
+  return (
+    <div>
+      <p>{tr("Hello world!")}</p>
+    </div>
+  );
+};
+
+export default withTranslation<InnerProps>(Sample);
+```
+
+```python
+# Nothing to see here ¯\_(ツ)_/¯
+```
+
 > You can also use React's new hook API.
 
-```jsx
+```javascript
 import * as React from "react";
 import { useLang } from "langapi-client";
 
-interface Props extends LangProps {}
+const Sample = props => {
+  const { tr } = useLang();
+  return (
+    <div>
+      <p>{tr("Hello world!")}</p>
+    </div>
+  );
+};
+
+export default Sample;
+```
+
+```typescript
+import * as React from "react";
+import { useLang } from "langapi-client";
+
+type Props = {};
 
 const Sample = (props: Props) => {
   const { tr } = useLang();
@@ -283,6 +392,10 @@ const Sample = (props: Props) => {
 };
 
 export default Sample;
+```
+
+```python
+# I don't think there are React hooks in python.
 ```
 
 To mark strings to be translated, we provide a **tr** function that you can wrap your strings with. The **tr** function automatically translates strings to the right language during runtime.
@@ -340,9 +453,20 @@ const translatedString = tr("Welcome to " + param(ESCAPED_SITE) + "!");
 // translatedString (es): ¡Bienvenido a Lang API!
 ```
 
+```python
+# *.py
+from LangClient import tr, param
+
+ESCAPED_SITE = "Lang API";
+language = "es"
+translated_string = tr("Welcome to " + param(ESCAPED_SITE) + "!", language);
+
+# translated_string (es): ¡Bienvenido a Lang API!
+```
+
 # TypeScript Support
 
-We love TypeScript at Lang! To use TypeScript, add the --ts flag when setting up LangAPI during `langapi init`.
+We love TypeScript at Lang! To use TypeScript, add the --ts flag when setting up LangAPI during `langapi init`. All other commands are run the same for any code langauge.
 
 #Language Codes
 
