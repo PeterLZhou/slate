@@ -57,7 +57,7 @@ cd sample_project
 
 We'll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don't have a project handy, you can create one with [Create React App (CRA)](https://facebook.github.io/create-react-app/).
 
-> To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you're using TypeScript.
+> To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you're using TypeScript, or --python if you're using Python.
 
 ```shell-all
 > langapi init --src src
@@ -146,14 +146,6 @@ def some_function(original_string, language):
 ```
 
 To wrap a string for translation, import the **tr** function from the newly generated LangClient file in your source directory. We demonstrate this using the sample create-react-app project we created previously.
-
-## I Have a lot of legacy unwrapped code :( - Codegen (BETA)
-
-If you have a lot of code to wrap with tr's, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.
-
-```shell-all
-> langapi generate [directory]
-```
 
 ## Push and Pull Translations
 
@@ -429,6 +421,14 @@ Since we're using machine translations in this demo, the translations are done i
 
 Congratulations! You've just translated your first string using LangAPI. We hope it was easy enough, and we'd love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!
 
+# Lots of Legacy Code - Codegen (BETA)
+
+If you have a lot of code to wrap with tr's, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.
+
+```shell-all
+> langapi generate [directory]
+```
+
 # Interpolation
 
 Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. You must put param() calls inside of tr() calls.
@@ -463,10 +463,6 @@ translated_string = tr("Welcome to " + param(ESCAPED_SITE) + "!", language);
 
 # translated_string (es): ¡Bienvenido a Lang API!
 ```
-
-# TypeScript Support
-
-We love TypeScript at Lang! To use TypeScript, add the --ts flag when setting up LangAPI during `langapi init`. All other commands are run the same for any code langauge.
 
 #Language Codes
 
