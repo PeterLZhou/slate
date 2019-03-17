@@ -202,7 +202,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;javascript&quot;,&quot;typescript&quot;]">
+  <body class="index" data-languages="[&quot;javascript&quot;,&quot;typescript&quot;,&quot;python&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -218,6 +218,7 @@
         <div class="lang-selector">
               <a href="#" data-language-name="javascript">javascript</a>
               <a href="#" data-language-name="typescript">typescript</a>
+              <a href="#" data-language-name="python">python</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -283,10 +284,10 @@
               </ul>
           </li>
           <li>
-            <a href="#interpolation" class="toc-h1 toc-link" data-title="Interpolation">Interpolation</a>
+            <a href="#lots-of-legacy-code-codegen-beta" class="toc-h1 toc-link" data-title="Lots of Legacy Code - Codegen (BETA)">Lots of Legacy Code - Codegen (BETA)</a>
           </li>
           <li>
-            <a href="#typescript-support" class="toc-h1 toc-link" data-title="TypeScript Support">TypeScript Support</a>
+            <a href="#interpolation" class="toc-h1 toc-link" data-title="Interpolation">Interpolation</a>
           </li>
           <li>
             <a href="#language-codes" class="toc-h1 toc-link" data-title="Language Codes">Language Codes</a>
@@ -339,7 +340,7 @@ cd sample_project
 <p>We&#39;ll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don&#39;t have a project handy, you can create one with <a href="https://facebook.github.io/create-react-app/">Create React App (CRA)</a>.</p>
 
 <blockquote>
-<p>To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you&#39;re using TypeScript.</p>
+<p>To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you&#39;re using TypeScript, or --python if you&#39;re using Python.</p>
 </blockquote>
 <pre class="highlight plaintext"><code>&gt; langapi init --src src
 </code></pre>
@@ -358,7 +359,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
   </span><span class="s2">"targetLanguages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"zh"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>After running <strong>langapi ini</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.</p>
+<p>After running <strong>langapi init</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.</p>
 
 <p>First, we&#39;ll need to set some target languages. To do this, open <strong>langapiconfig.json</strong> in any code editor, and in the targetLanguages property, add a comma-separated list of language encodings you want to translate to. By default, the original language is set to English (en).</p>
 
@@ -367,25 +368,51 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <blockquote>
 <p>We&#39;re using the App.js file in the src directory of our create-react-app</p>
 </blockquote>
-<pre class="highlight jsx tab-jsx"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
 <span class="kr">import</span> <span class="nx">logo</span> <span class="nx">from</span> <span class="s2">"./logo.svg"</span><span class="p">;</span>
 <span class="kr">import</span> <span class="s2">"./App.css"</span><span class="p">;</span>
 <span class="c1">// Make sure to import tr from your LangClient</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./langapi/LangClient.js"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
 
 <span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"App"</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">header</span> <span class="na">className=</span><span class="s2">"App-header"</span><span class="p">&gt;</span>
-          <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src=</span><span class="si">{</span><span class="nx">logo</span><span class="si">}</span> <span class="na">className=</span><span class="s2">"App-logo"</span> <span class="na">alt=</span><span class="s2">"logo"</span> <span class="p">/&gt;</span>
-          // Note the use of the tr function here
-          <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Watch us translate: <span class="si">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-        <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
-      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-    <span class="p">);</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">header</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-header"</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">logo</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-logo"</span> <span class="nx">alt</span><span class="o">=</span><span class="s2">"logo"</span> <span class="o">/&gt;</span>
+          <span class="p">{</span><span class="cm">/* Note the use of the tr function here */</span><span class="p">}</span>
+          <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Watch</span> <span class="nx">us</span> <span class="nx">translate</span><span class="p">:</span> <span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/header</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">logo</span> <span class="k">from</span> <span class="s2">"./logo.svg"</span><span class="p">;</span>
+<span class="k">import</span> <span class="s2">"./App.css"</span><span class="p">;</span>
+<span class="c1">// Make sure to import tr from your LangClient</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">Props</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="kd">type</span> <span class="nx">State</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="kr">class</span> <span class="nx">App</span> <span class="k">extends</span> <span class="nx">Component</span><span class="o">&lt;</span><span class="nx">Props</span><span class="p">,</span> <span class="nx">State</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">header</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-header"</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">logo</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-logo"</span> <span class="nx">alt</span><span class="o">=</span><span class="s2">"logo"</span> <span class="o">/&gt;</span>
+          <span class="p">{</span><span class="cm">/* Note the use of the tr function here */</span><span class="p">}</span>
+          <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Watch</span> <span class="nx">us</span> <span class="na">translate</span><span class="p">:</span> <span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/header</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">LangClient</span> <span class="kn">import</span> <span class="n">tr</span><span class="p">,</span> <span class="n">param</span>
+
+<span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span><span class="n">original_string</span><span class="p">,</span> <span class="n">language</span><span class="p">):</span>
+    <span class="n">translated_string</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">original_string</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
 </code></pre>
 <p>To wrap a string for translation, import the <strong>tr</strong> function from the newly generated LangClient file in your source directory. We demonstrate this using the sample create-react-app project we created previously.</p>
 <h2 id='push-and-pull-translations'>Push and Pull Translations</h2>
@@ -462,12 +489,12 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
   </span><span class="s2">"targetLanguages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"zh"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>After running <strong>langapi ini</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.</p>
+<p>After running <strong>langapi init</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of LangAPI here, and you should check this file into your repository.</p>
 
 <p>First, we&#39;ll need to set some target languages. To do this, open <strong>langapiconfig.json</strong> in any code editor, and in the targetLanguages property, add a comma-separated list of language encodings you want to translate to. By default, the original language is set to English (en).</p>
 
 <p><a href="#language-codes">You can find a list of language encodings we support here</a>.</p>
-<h2 id='add-withlang-to-components'>Add withLang to components</h2><pre class="highlight jsx tab-jsx"><code><span class="c1">// in _app.js or _app.tsx</span>
+<h2 id='add-withlang-to-components'>Add withLang to components</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// in _app.js or _app.tsx</span>
 <span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
 <span class="kr">import</span> <span class="nx">App</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Container</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"next/app"</span><span class="p">;</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">withLang</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
@@ -480,14 +507,39 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
     <span class="kr">const</span> <span class="p">{</span> <span class="nx">Component</span><span class="p">,</span> <span class="nx">pageProps</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
 
     <span class="k">return</span> <span class="p">(</span>
-      <span class="p">&lt;</span><span class="nc">Container</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nc">Component</span> <span class="err">{</span><span class="p">...</span><span class="nt">pageProps</span><span class="err">}</span> <span class="p">/&gt;</span>
-      <span class="p">&lt;/</span><span class="nc">Container</span><span class="p">&gt;</span>
-    <span class="p">);</span>
+      <span class="o">&lt;</span><span class="nx">Container</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="nx">pageProps</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/Container</span><span class="err">&gt;
+</span>    <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">withLang</span><span class="p">(</span><span class="nx">translations</span><span class="p">,</span> <span class="s2">"YOUR_PUBLIC_KEY"</span><span class="p">)(</span><span class="nx">MyApp</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// in _app.js or _app.tsx</span>
+<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">App</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Container</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"next/app"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">withLang</span><span class="p">,</span> <span class="nx">LangProps</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+<span class="c1">// If you're using TypeScript,</span>
+<span class="c1">// add "resolveJsonModule": true to your tsconfig</span>
+<span class="k">import</span> <span class="nx">translations</span> <span class="k">from</span> <span class="s2">"../langapi/translations.json"</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">Props</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="kd">type</span> <span class="nx">State</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="kr">class</span> <span class="nx">MyApp</span> <span class="k">extends</span> <span class="nx">App</span><span class="o">&lt;</span><span class="nx">Props</span><span class="p">,</span> <span class="nx">State</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">Component</span><span class="p">,</span> <span class="nx">pageProps</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">Container</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="nx">pageProps</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/Container</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">withLang</span><span class="p">(</span><span class="nx">translations</span><span class="p">,</span> <span class="s2">"YOUR_PUBLIC_KEY"</span><span class="p">)(</span><span class="nx">MyApp</span><span class="p">);</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c"># We don't support an equivalent for python yet - contact us at support@langapi,co if you want to see a supported framework!</span>
 </code></pre>
 <p>To enable SSR translations, we provide a higher-order component (HOC) - <strong>withLang</strong> - that uses NextJS&#39;s <strong>getInitialProps</strong> function to load translations on the server.</p>
 
@@ -498,40 +550,69 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <blockquote>
 <p>withTranslation adds the tr function to components&#39; props</p>
 </blockquote>
-<pre class="highlight jsx tab-jsx"><code><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">withTranslation</span><span class="p">,</span> <span class="nx">LangProps</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">withTranslation</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
 
-<span class="kr">interface</span> <span class="nx">Props</span> <span class="kr">extends</span> <span class="nx">LangProps</span> <span class="p">{}</span>
-
-<span class="kr">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">:</span> <span class="nx">Props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="kr">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">props</span><span class="p">;</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
-      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-  <span class="p">);</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
 <span class="p">};</span>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">withTranslation</span><span class="p">(</span><span class="nx">Sample</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">React</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">withTranslation</span><span class="p">,</span> <span class="nx">LangProps</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">InnerProps</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="kd">type</span> <span class="nx">Props</span> <span class="o">=</span> <span class="nx">InnerProps</span> <span class="o">&amp;</span> <span class="nx">LangProps</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">:</span> <span class="nx">Props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">props</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">withTranslation</span><span class="o">&lt;</span><span class="nx">InnerProps</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">Sample</span><span class="p">);</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c"># Nothing to see here ¯\_(ツ)_/¯</span>
 </code></pre>
 <blockquote>
 <p>You can also use React&#39;s new hook API.</p>
 </blockquote>
-<pre class="highlight jsx tab-jsx"><code><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">useLang</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
 
-<span class="kr">interface</span> <span class="nx">Props</span> <span class="kr">extends</span> <span class="nx">LangProps</span> <span class="p">{}</span>
-
-<span class="kr">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">:</span> <span class="nx">Props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="kr">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">useLang</span><span class="p">();</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
-      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-  <span class="p">);</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
 <span class="p">};</span>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">Sample</span><span class="p">;</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">React</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useLang</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+
+<span class="kd">type</span> <span class="nx">Props</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="kd">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">:</span> <span class="nx">Props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">useLang</span><span class="p">();</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Sample</span><span class="p">;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c"># I don't think there are React hooks in python.</span>
 </code></pre>
 <p>To mark strings to be translated, we provide a <strong>tr</strong> function that you can wrap your strings with. The <strong>tr</strong> function automatically translates strings to the right language during runtime.</p>
 
@@ -559,7 +640,10 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>Since we&#39;re using machine translations in this demo, the translations are done instantly! Thanks Google. To pull them back into your repo, run <strong>langapi pull</strong> in your <strong>root directory</strong>.</p>
 <h2 id='finish-2'>Finish</h2>
 <p>Congratulations! You&#39;ve just translated your first string using LangAPI. We hope it was easy enough, and we&#39;d love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!</p>
-<h1 id='interpolation'>Interpolation</h1>
+<h1 id='lots-of-legacy-code-codegen-beta'>Lots of Legacy Code - Codegen (BETA)</h1>
+<p>If you have a lot of code to wrap with tr&#39;s, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.</p>
+<pre class="highlight plaintext"><code>&gt; langapi generate [directory]
+</code></pre><h1 id='interpolation'>Interpolation</h1>
 <p>Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. You must put param() calls inside of tr() calls.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span><span class="p">,</span> <span class="nx">param</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
@@ -575,9 +659,15 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Welcome to "</span> <span class="o">+</span> <span class="nx">param</span><span class="p">(</span><span class="nx">ESCAPED_SITE</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"!"</span><span class="p">);</span>
 
 <span class="c1">// translatedString (es): ¡Bienvenido a Lang API!</span>
-</code></pre><h1 id='typescript-support'>TypeScript Support</h1>
-<p>We love TypeScript at Lang! To use TypeScript, add the --ts flag when setting up LangAPI during <code>langapi init</code>.</p>
-<h1 id='language-codes'>Language Codes</h1>
+</code></pre><pre class="highlight python tab-python"><code><span class="c"># *.py</span>
+<span class="kn">from</span> <span class="nn">LangClient</span> <span class="kn">import</span> <span class="n">tr</span><span class="p">,</span> <span class="n">param</span>
+
+<span class="n">ESCAPED_SITE</span> <span class="o">=</span> <span class="s">"Lang API"</span><span class="p">;</span>
+<span class="n">language</span> <span class="o">=</span> <span class="s">"es"</span>
+<span class="n">translated_string</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="s">"Welcome to "</span> <span class="o">+</span> <span class="n">param</span><span class="p">(</span><span class="n">ESCAPED_SITE</span><span class="p">)</span> <span class="o">+</span> <span class="s">"!"</span><span class="p">,</span> <span class="n">language</span><span class="p">);</span>
+
+<span class="c"># translated_string (es): ¡Bienvenido a Lang API!</span>
+</code></pre><h1 id='language-codes'>Language Codes</h1>
 <p>Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.</p>
 
 <table><thead>
@@ -763,6 +853,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
           <div class="lang-selector">
                 <a href="#" data-language-name="javascript">javascript</a>
                 <a href="#" data-language-name="typescript">typescript</a>
+                <a href="#" data-language-name="python">python</a>
           </div>
       </div>
     </div>
