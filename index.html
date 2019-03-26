@@ -369,27 +369,20 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>We&#39;re using the App.js file in the src directory of our create-react-app</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">logo</span> <span class="nx">from</span> <span class="s2">"./logo.svg"</span><span class="p">;</span>
-<span class="kr">import</span> <span class="s2">"./App.css"</span><span class="p">;</span>
 <span class="c1">// Make sure to import tr from your LangClient</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
 
 <span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">header</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-header"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">logo</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-logo"</span> <span class="nx">alt</span><span class="o">=</span><span class="s2">"logo"</span> <span class="o">/&gt;</span>
-          <span class="p">{</span><span class="cm">/* Note the use of the tr function here */</span><span class="p">}</span>
-          <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Watch</span> <span class="nx">us</span> <span class="nx">translate</span><span class="p">:</span> <span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/header</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="cm">/* Note the use of the tr function here */</span><span class="p">}</span>
+        <span class="nx">Watch</span> <span class="nx">us</span> <span class="nx">translate</span><span class="p">:</span> <span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span>
+      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
 </span>    <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">logo</span> <span class="k">from</span> <span class="s2">"./logo.svg"</span><span class="p">;</span>
-<span class="k">import</span> <span class="s2">"./App.css"</span><span class="p">;</span>
 <span class="c1">// Make sure to import tr from your LangClient</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
 
@@ -399,13 +392,10 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <span class="kr">class</span> <span class="nx">App</span> <span class="k">extends</span> <span class="nx">Component</span><span class="o">&lt;</span><span class="nx">Props</span><span class="p">,</span> <span class="nx">State</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">header</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-header"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">logo</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App-logo"</span> <span class="nx">alt</span><span class="o">=</span><span class="s2">"logo"</span> <span class="o">/&gt;</span>
-          <span class="p">{</span><span class="cm">/* Note the use of the tr function here */</span><span class="p">}</span>
-          <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Watch</span> <span class="nx">us</span> <span class="na">translate</span><span class="p">:</span> <span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/header</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="cm">/* Note the use of the tr function here */</span><span class="p">}</span>
+        <span class="nx">Watch</span> <span class="nx">us</span> <span class="na">translate</span><span class="p">:</span> <span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span>
+      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
 </span>    <span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
