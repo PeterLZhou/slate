@@ -93,20 +93,15 @@ First, we'll need to set some target languages. To do this, open **langapiconfig
 
 ```javascript
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
 // Make sure to import tr from your LangClient
 import { tr } from "./langapi/LangClient";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          {/* Note the use of the tr function here */}
-          <p>Watch us translate: {tr("Hello world!")}</p>
-        </header>
+      <div>
+        {/* Note the use of the tr function here */}
+        Watch us translate: {tr("Hello world!")}
       </div>
     );
   }
@@ -115,8 +110,6 @@ class App extends Component {
 
 ```typescript
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
 // Make sure to import tr from your LangClient
 import { tr } from "./langapi/LangClient";
 
@@ -126,12 +119,9 @@ type State = {};
 class App extends Component<Props, State> {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          {/* Note the use of the tr function here */}
-          <p>Watch us translate: {tr("Hello world!")}</p>
-        </header>
+      <div>
+        {/* Note the use of the tr function here */}
+        Watch us translate: {tr("Hello world!")}
       </div>
     );
   }
