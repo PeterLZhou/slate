@@ -421,24 +421,23 @@ If you have a lot of code to wrap with tr's, we provide a code generation tool t
 
 # Interpolation
 
-Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. You must put param() calls inside of tr() calls.
+Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. Lang API follows the ICU (International Components for Unicode) standard for interpolation syntax.
 
 ```javascript
 // *.js, *.jsx
-import { tr, param } from "./LangClient";
+import { tr } from "./LangClient";
 
-var ESCAPED_SITE = "Lang API";
-var translatedString = tr("Welcome to " + param(ESCAPED_SITE) + "!");
+var translatedString = tr("Welcome to {sitename}!", { sitename: "Lang API" });
 
 // translatedString (es): ¡Bienvenido a Lang API!
 ```
 
 ```typescript
 // *.ts, *.tsx
-import { tr, param } from "./LangClient";
+import { tr } from "./LangClient";
 
 const ESCAPED_SITE = "Lang API";
-const translatedString = tr("Welcome to " + param(ESCAPED_SITE) + "!");
+const translatedString = tr("Welcome to {sitename}!", { sitename: "Lang API" });
 
 // translatedString (es): ¡Bienvenido a Lang API!
 ```
@@ -449,7 +448,96 @@ from LangClient import tr, param
 
 ESCAPED_SITE = "Lang API";
 language = "es"
-translated_string = tr("Welcome to " + param(ESCAPED_SITE) + "!", language);
+translated_string = tr("Welcome to {sitename}!", {sitename: "Lang API", targetLanguage: language });
+
+# translated_string (es): ¡Bienvenido a Lang API!
+```
+
+# Plurals
+
+Sometimes, you want to display differently formatted sentences based on a specific count. Using the ICU plurals syntax you can display different phrases of text based on the count of some number.
+
+**Other languages may have many different plural forms depending on the count. For example, here's the Czech translation of "I have {count} apples" with different counts:**
+
+(count = 1) Mám 1 jablko.
+
+(count = 3) Mám 3 jablka.
+
+(count = 10) Mám 10 jablek.
+
+**Lang API will request the different plural versions of the phrases you wrap so that you don't have to spend time figuring out plurality in other languages.**
+
+```javascript
+// *.js, *.jsx
+import { tr } from "./LangClient";
+
+var translatedString = tr(
+  "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
+  { count: 7 }
+);
+
+// translatedString (es): ¡Tengo 7 manzanas!
+```
+
+```typescript
+// *.ts, *.tsx
+import { tr } from "./LangClient";
+
+const translatedString = tr(
+  "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
+  { count: 7 }
+);
+
+// translatedString (es): ¡Tengo 7 manzanas!
+```
+
+```python
+# *.py
+from LangClient import tr
+
+import { tr } from "./LangClient";
+
+translatedString = tr(
+  "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
+  { count: 7, language: "es" }
+);
+
+// translatedString (es): ¡Tengo 7 manzanas!
+```
+
+# Select
+
+If you want to display different values based on a phrase (for example a passed gender parameter), Lang API allows you to use the select pattern from the ICU format.
+
+```javascript
+// *.js, *.jsx
+import { tr } from "./LangClient";
+
+var translatedString = tr(
+  "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
+  { count: 7 }
+);
+
+// translatedString (es): ¡Bienvenido a Lang API!
+```
+
+```typescript
+// *.ts, *.tsx
+import { tr } from "./LangClient";
+
+const ESCAPED_SITE = "Lang API";
+const translatedString = tr("Welcome to {sitename}!", { sitename: "Lang API" });
+
+// translatedString (es): ¡Bienvenido a Lang API!
+```
+
+```python
+# *.py
+from LangClient import tr, param
+
+ESCAPED_SITE = "Lang API";
+language = "es"
+translated_string = tr("Welcome to {sitename}!", {sitename: "Lang API"});
 
 # translated_string (es): ¡Bienvenido a Lang API!
 ```
