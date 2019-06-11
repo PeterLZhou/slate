@@ -411,33 +411,36 @@ Since we're using machine translations in this demo, the translations are done i
 
 Congratulations! You've just translated your first string using LangAPI. We hope it was easy enough, and we'd love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!
 
-# Lots of Legacy Code - Codegen (BETA)
+# Formatting Strings
 
-If you have a lot of code to wrap with tr's, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.
+We understand that most strings aren't just blocks of text. Here, we'll go through common examples of writing more complex strings, including ones that have variables and plural forms.
 
-```shell-all
-> langapi generate [directory]
-```
+Our formatting follows the [ICU (International Components for Unicode) Message syntax](http://userguide.icu-project.org/formatparse/messages), an international standard.
 
-# Interpolation
+Why do you need to format your strings? Not all languages have the same grammar, and it enables translators to easily understand all the components in your string and translate it to any language in the world.
 
-Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. Lang API follows the ICU (International Components for Unicode) standard for interpolation syntax.
+## Variables
+
+To mark the presence of a variable in a string, wrap the variable name with curly braces, and supply an object to the **tr** call that contains the variable's name and value.
+
+**NOTE:** Unless the variable is a string constant that has been wrapped with **tr**, it will appear in its original form in the string. In the example, although the rest of the sentence has been translated to Spanish, the variable will display in its raw value.
 
 ```javascript
 // *.js, *.jsx
 import { tr } from "./LangClient";
 
-var translatedString = tr("Welcome to {sitename}!", { sitename: "Lang API" });
+var context = { sitename: "Lang API" };
+var translatedString = tr("Welcome to {sitename}!", context);
 
-// translatedString (es): ¡Bienvenido a Lang API!
+// translatedString (Spanish): ¡Bienvenido a Lang API!
 ```
 
 ```typescript
 // *.ts, *.tsx
 import { tr } from "./LangClient";
 
-const ESCAPED_SITE = "Lang API";
-const translatedString = tr("Welcome to {sitename}!", { sitename: "Lang API" });
+var context = { sitename: "Lang API" };
+const translatedString = tr("Welcome to {sitename}!", context);
 
 // translatedString (es): ¡Bienvenido a Lang API!
 ```
@@ -448,54 +451,79 @@ from LangClient import tr, param
 
 ESCAPED_SITE = "Lang API";
 language = "es"
-translated_string = tr("Welcome to {sitename}!", {sitename: "Lang API", targetLanguage: language });
+context = {sitename: "Lang API", targetLanguage: language }
+translated_string = tr("Welcome to {sitename}!", context);
 
 # translated_string (es): ¡Bienvenido a Lang API!
 ```
 
-# Plurals
+## Plurals
 
-Sometimes, you want to display differently formatted sentences based on a specific count. Using the ICU plurals syntax you can display different phrases of text based on the count of some number.
+For strings that have plural forms, use the ICU pluralization syntax to ensure they are translated correctly in every plural form. With other libraries, you would write and translate multiple strings to account for all plural forms. With Lang, you can just write it once!
 
-**Other languages may have many different plural forms depending on the count. For example, here's the Czech translation of "I have {count} apples" with different counts:**
+**NOTE:** There are certain languages with more than one plural form. Czech has three. Here's an example:
 
-(count = 1) Mám 1 jablko.
+I have 1 apple => Mám 1 jablko.
 
-(count = 3) Mám 3 jablka.
+I have 3 apples => Mám 3 jablka.
 
-(count = 10) Mám 10 jablek.
+I have 10 apples => Mám 10 jablek.
 
-**Lang API will request the different plural versions of the phrases you wrap so that you don't have to spend time figuring out plurality in other languages.**
+**If you use the ICU syntax, there's nothing else you have to do. We'll handle all cases for you. Lang accounts for every plural form in every language.**
 
 ```javascript
 // *.js, *.jsx
 import { tr } from "./LangClient";
 
 var translatedString = tr(
-  "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
+  `I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`,
+  { count: 1 }
+);
+
+// translatedString (Spanish): Tengo 1 manzana.
+
+var translatedString = tr(
+  `I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`,
   { count: 7 }
 );
 
-// translatedString (es): ¡Tengo 7 manzanas!
+// translatedString (Spanish): Tengo 7 manzanas.
 ```
 
 ```typescript
 // *.ts, *.tsx
 import { tr } from "./LangClient";
 
-const translatedString = tr(
-  "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
+var translatedString = tr(
+  `I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`,
+  { count: 1 }
+);
+
+// translatedString (Spanish): Tengo 1 manzana.
+
+var translatedString = tr(
+  `I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`,
   { count: 7 }
 );
 
-// translatedString (es): ¡Tengo 7 manzanas!
+// translatedString (Spanish): Tengo 7 manzanas.
 ```
 
 ```python
 # *.py
 from LangClient import tr
-
-import { tr } from "./LangClient";
 
 translatedString = tr(
   "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
@@ -505,41 +533,63 @@ translatedString = tr(
 // translatedString (es): ¡Tengo 7 manzanas!
 ```
 
-# Select
+## Select
 
-If you want to display different values based on a phrase (for example a passed gender parameter), Lang API allows you to use the select pattern from the ICU format.
+Some sentences require different words depending on information like gender. You can show different phrases in a string that depend on the **value** of a variable by using "select".
 
 ```javascript
 // *.js, *.jsx
 import { tr } from "./LangClient";
 
+// For the sake of simplicity, we are not listing all genders in this example.
 var translatedString = tr(
-  "I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!",
-  { count: 7 }
+  `{gender, select, 
+    male {He likes} 
+    female {She likes} 
+    other {they like}} eating apples`,
+  { gender: "female" }
 );
 
-// translatedString (es): ¡Bienvenido a Lang API!
+// translatedString (Spanish): A ella le gusta comer manzanas.
 ```
 
 ```typescript
 // *.ts, *.tsx
 import { tr } from "./LangClient";
 
-const ESCAPED_SITE = "Lang API";
-const translatedString = tr("Welcome to {sitename}!", { sitename: "Lang API" });
+// For the sake of simplicity, we are not listing all genders in this example.
+var translatedString = tr(
+  `{gender, select, 
+    male {He likes} 
+    female {She likes} 
+    other {they like}} eating apples`,
+  { gender: "female" }
+);
 
-// translatedString (es): ¡Bienvenido a Lang API!
+// translatedString (Spanish): A ella le gusta comer manzanas.
 ```
 
 ```python
 # *.py
-from LangClient import tr, param
+from LangClient import tr
 
-ESCAPED_SITE = "Lang API";
-language = "es"
-translated_string = tr("Welcome to {sitename}!", {sitename: "Lang API"});
+translatedString = tr(
+  "{gender, select,\
+    male {He likes}\
+    female {She likes}\
+    other {they like}} eating apples",
+  { count: 7, language: "es" }
+);
 
-# translated_string (es): ¡Bienvenido a Lang API!
+// translatedString (Spanish): A ella le gusta comer manzanas.
+```
+
+## Codemod (EXPERIMENTAL)
+
+If you have a lot of code to wrap with tr's, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.
+
+```shell-all
+> langapi generate [directory]
 ```
 
 #Language Codes
