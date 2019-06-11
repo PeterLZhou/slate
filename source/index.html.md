@@ -165,7 +165,7 @@ Congratulations! You've just translated your first string using LangAPI. We hope
 
 Follow the steps below to translate your first string in under 3 minutes!
 
-**NOTE:** This guide works for apps that use server-side rendering. Currently we **only support the NextJS framework.**
+**NOTE:** This guide is for apps that use server-side rendering. Currently we **only support the NextJS framework.**
 
 If you're not using SSR, see [the getting started guide for client-rendered applications](#getting-started).
 
@@ -202,7 +202,7 @@ create-next-app my-app
 cd my-app
 ```
 
-We'll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don't have a project handy, you can create one with [Create Next App (CRA)](https://open.segment.com/create-next-app/).
+We'll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don't have a project handy, you can create one with [Create Next App](https://open.segment.com/create-next-app/).
 
 > To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you're using TypeScript.
 
@@ -240,7 +240,7 @@ First, we'll need to set some target languages. To do this, open **langapiconfig
 // in _app.js or _app.tsx
 import React from "react";
 import App, { Container } from "next/app";
-import { withLang } from "langapi-client";
+import { withLang } from "langapi-next";
 // If you're using TypeScript,
 // add "resolveJsonModule": true to your tsconfig
 import translations from "../langapi/translations.json";
@@ -257,7 +257,7 @@ class MyApp extends App {
   }
 }
 
-export default withLang(translations, "YOUR_PUBLIC_KEY")(MyApp);
+export default withLang("YOUR_PUBLIC_KEY", translations)(MyApp);
 ```
 
 ```typescript
@@ -284,7 +284,7 @@ class MyApp extends App<Props, State> {
   }
 }
 
-export default withLang(translations, "YOUR_PUBLIC_KEY")(MyApp);
+export default withLang("YOUR_PUBLIC_KEY", translations)(MyApp);
 ```
 
 ```python
@@ -303,7 +303,7 @@ We highly recommend wrapping your custom \_app with withLang to expose the 'tr' 
 
 ```javascript
 import * as React from "react";
-import { withTranslation } from "langapi-client";
+import { withTranslation } from "langapi-next";
 
 const Sample = props => {
   const { tr } = props;
@@ -319,7 +319,7 @@ export default withTranslation(Sample);
 
 ```typescript
 import * as React from "react";
-import { withTranslation, LangProps } from "langapi-client";
+import { withTranslation, LangProps } from "langapi-next";
 
 type InnerProps = {};
 type Props = InnerProps & LangProps;
@@ -344,7 +344,7 @@ export default withTranslation<InnerProps>(Sample);
 
 ```javascript
 import * as React from "react";
-import { useLang } from "langapi-client";
+import { useLang } from "langapi-next";
 
 const Sample = props => {
   const { tr } = useLang();
