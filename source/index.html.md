@@ -161,7 +161,7 @@ Since we're using machine translations in this demo, the translations are done i
 
 Congratulations! You've just translated your first string using LangAPI. We hope it was easy enough, and we'd love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!
 
-# Getting Started (SSR)
+# Getting Started (SSR, NextJS only)
 
 Follow the steps below to translate your first string in under 3 minutes!
 
@@ -210,7 +210,7 @@ We'll need an existing codebase to translate in this step. Feel free to use your
 > langapi init --src .
 ```
 
-Run **langapi init --src <SOURCE_DIRECTORY>** inside the project's **root directory** and follow the instructions.
+Run **langapi init --src <SOURCE_DIRECTORY>** inside the project's **root directory** and follow the instructions. Then, run **yarn add langapi-next** or **npm install --save langapi-next**. We need a special library to enable support for loading translations in the Next.js server.
 
 **NOTE: The source directory should be where your actual code is. In the example we're using the sample create-next-app, so the source directory is the same as the root directory.**.
 
