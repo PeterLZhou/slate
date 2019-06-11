@@ -255,7 +255,7 @@
               </ul>
           </li>
           <li>
-            <a href="#getting-started-ssr" class="toc-h1 toc-link" data-title="Getting Started (SSR)">Getting Started (SSR)</a>
+            <a href="#getting-started-ssr-nextjs-only" class="toc-h1 toc-link" data-title="Getting Started (SSR, NextJS only)">Getting Started (SSR, NextJS only)</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#sign-up-2" class="toc-h2 toc-link" data-title="Sign Up">Sign Up</a>
@@ -284,16 +284,21 @@
               </ul>
           </li>
           <li>
-            <a href="#lots-of-legacy-code-codegen-beta" class="toc-h1 toc-link" data-title="Lots of Legacy Code - Codegen (BETA)">Lots of Legacy Code - Codegen (BETA)</a>
-          </li>
-          <li>
-            <a href="#interpolation" class="toc-h1 toc-link" data-title="Interpolation">Interpolation</a>
-          </li>
-          <li>
-            <a href="#plurals" class="toc-h1 toc-link" data-title="Plurals">Plurals</a>
-          </li>
-          <li>
-            <a href="#select" class="toc-h1 toc-link" data-title="Select">Select</a>
+            <a href="#formatting-strings" class="toc-h1 toc-link" data-title="Formatting Strings">Formatting Strings</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#variables" class="toc-h2 toc-link" data-title="Variables">Variables</a>
+                  </li>
+                  <li>
+                    <a href="#plurals" class="toc-h2 toc-link" data-title="Plurals">Plurals</a>
+                  </li>
+                  <li>
+                    <a href="#select" class="toc-h2 toc-link" data-title="Select">Select</a>
+                  </li>
+                  <li>
+                    <a href="#codemod-experimental" class="toc-h2 toc-link" data-title="Codemod (EXPERIMENTAL)">Codemod (EXPERIMENTAL)</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#language-codes" class="toc-h1 toc-link" data-title="Language Codes">Language Codes</a>
@@ -429,10 +434,10 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>Since we&#39;re using machine translations in this demo, the translations are done instantly! Thanks Google. To pull them back into your repo, run <strong>langapi pull</strong> in your <strong>root directory</strong>.</p>
 <h2 id='finish'>Finish</h2>
 <p>Congratulations! You&#39;ve just translated your first string using LangAPI. We hope it was easy enough, and we&#39;d love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!</p>
-<h1 id='getting-started-ssr'>Getting Started (SSR)</h1>
+<h1 id='getting-started-ssr-nextjs-only'>Getting Started (SSR, NextJS only)</h1>
 <p>Follow the steps below to translate your first string in under 3 minutes!</p>
 
-<p><strong>NOTE:</strong> This guide works for apps that use server-side rendering. Currently we <strong>only support the NextJS framework.</strong></p>
+<p><strong>NOTE:</strong> This guide is for apps that use server-side rendering. Currently we <strong>only support the NextJS framework.</strong></p>
 
 <p>If you&#39;re not using SSR, see <a href="#getting-started">the getting started guide for client-rendered applications</a>.</p>
 <h2 id='sign-up-2'>Sign Up</h2>
@@ -463,14 +468,14 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 create-next-app my-app
 cd my-app
 </code></pre>
-<p>We&#39;ll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don&#39;t have a project handy, you can create one with <a href="https://open.segment.com/create-next-app/">Create Next App (CRA)</a>.</p>
+<p>We&#39;ll need an existing codebase to translate in this step. Feel free to use your personal blog or sideproject repo. If you don&#39;t have a project handy, you can create one with <a href="https://open.segment.com/create-next-app/">Create Next App</a>.</p>
 
 <blockquote>
 <p>To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you&#39;re using TypeScript.</p>
 </blockquote>
 <pre class="highlight plaintext"><code>&gt; langapi init --src .
 </code></pre>
-<p>Run <strong>langapi init --src <SOURCE_DIRECTORY></strong> inside the project&#39;s <strong>root directory</strong> and follow the instructions.</p>
+<p>Run <strong>langapi init --src <SOURCE_DIRECTORY></strong> inside the project&#39;s <strong>root directory</strong> and follow the instructions. Then, run <strong>yarn add langapi-next</strong> or <strong>npm install --save langapi-next</strong>. We need a special library to enable support for loading translations in the Next.js server.</p>
 
 <p><strong>NOTE: The source directory should be where your actual code is. In the example we&#39;re using the sample create-next-app, so the source directory is the same as the root directory.</strong>.</p>
 
@@ -493,7 +498,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <h2 id='add-withlang-to-components'>Add withLang to components</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// in _app.js or _app.tsx</span>
 <span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
 <span class="kr">import</span> <span class="nx">App</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Container</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"next/app"</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">withLang</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">withLang</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-next"</span><span class="p">;</span>
 <span class="c1">// If you're using TypeScript,</span>
 <span class="c1">// add "resolveJsonModule": true to your tsconfig</span>
 <span class="kr">import</span> <span class="nx">translations</span> <span class="nx">from</span> <span class="s2">"../langapi/translations.json"</span><span class="p">;</span>
@@ -510,7 +515,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
   <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">withLang</span><span class="p">(</span><span class="nx">translations</span><span class="p">,</span> <span class="s2">"YOUR_PUBLIC_KEY"</span><span class="p">)(</span><span class="nx">MyApp</span><span class="p">);</span>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">withLang</span><span class="p">(</span><span class="s2">"YOUR_PUBLIC_KEY"</span><span class="p">,</span> <span class="nx">translations</span><span class="p">)(</span><span class="nx">MyApp</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// in _app.js or _app.tsx</span>
 <span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">App</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Container</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"next/app"</span><span class="p">;</span>
@@ -534,7 +539,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
   <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">export</span> <span class="k">default</span> <span class="nx">withLang</span><span class="p">(</span><span class="nx">translations</span><span class="p">,</span> <span class="s2">"YOUR_PUBLIC_KEY"</span><span class="p">)(</span><span class="nx">MyApp</span><span class="p">);</span>
+<span class="k">export</span> <span class="k">default</span> <span class="nx">withLang</span><span class="p">(</span><span class="s2">"YOUR_PUBLIC_KEY"</span><span class="p">,</span> <span class="nx">translations</span><span class="p">)(</span><span class="nx">MyApp</span><span class="p">);</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="c"># We don't support an equivalent for python yet - contact us at support@langapi,co if you want to see a supported framework!</span>
 </code></pre>
 <p>To enable SSR translations, we provide a higher-order component (HOC) - <strong>withLang</strong> - that uses NextJS&#39;s <strong>getInitialProps</strong> function to load translations on the server.</p>
@@ -547,7 +552,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>withTranslation adds the tr function to components&#39; props</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">withTranslation</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">withTranslation</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-next"</span><span class="p">;</span>
 
 <span class="kr">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">props</span><span class="p">;</span>
@@ -560,7 +565,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">withTranslation</span><span class="p">(</span><span class="nx">Sample</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">React</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">withTranslation</span><span class="p">,</span> <span class="nx">LangProps</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">withTranslation</span><span class="p">,</span> <span class="nx">LangProps</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"langapi-next"</span><span class="p">;</span>
 
 <span class="kd">type</span> <span class="nx">InnerProps</span> <span class="o">=</span> <span class="p">{};</span>
 <span class="kd">type</span> <span class="nx">Props</span> <span class="o">=</span> <span class="nx">InnerProps</span> <span class="o">&amp;</span> <span class="nx">LangProps</span><span class="p">;</span>
@@ -581,7 +586,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>You can also use React&#39;s new hook API.</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">useLang</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-client"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">useLang</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"langapi-next"</span><span class="p">;</span>
 
 <span class="kr">const</span> <span class="nx">Sample</span> <span class="o">=</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">useLang</span><span class="p">();</span>
@@ -636,22 +641,28 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>Since we&#39;re using machine translations in this demo, the translations are done instantly! Thanks Google. To pull them back into your repo, run <strong>langapi pull</strong> in your <strong>root directory</strong>.</p>
 <h2 id='finish-2'>Finish</h2>
 <p>Congratulations! You&#39;ve just translated your first string using LangAPI. We hope it was easy enough, and we&#39;d love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!</p>
-<h1 id='lots-of-legacy-code-codegen-beta'>Lots of Legacy Code - Codegen (BETA)</h1>
-<p>If you have a lot of code to wrap with tr&#39;s, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.</p>
-<pre class="highlight plaintext"><code>&gt; langapi mod [directory]
-</code></pre><h1 id='interpolation'>Interpolation</h1>
-<p>Interpolation allows you to add dynamic values to your translations, and will be escaped during the translation. Lang API follows the ICU (International Components for Unicode) standard for interpolation syntax.</p>
+<h1 id='formatting-strings'>Formatting Strings</h1>
+<p>We understand that most strings aren&#39;t just blocks of text. Here, we&#39;ll go through common examples of writing more complex strings, including ones that have variables and plural forms.</p>
+
+<p>Our formatting follows the <a href="http://userguide.icu-project.org/formatparse/messages">ICU (International Components for Unicode) Message syntax</a>, an international standard.</p>
+
+<p>Why do you need to format your strings? Not all languages have the same grammar, and it enables translators to easily understand all the components in your string and translate it to any language in the world.</p>
+<h2 id='variables'>Variables</h2>
+<p>To mark the presence of a variable in a string, wrap the variable name with curly braces, and supply an object to the <strong>tr</strong> call that contains the variable&#39;s name and value.</p>
+
+<p><strong>NOTE:</strong> Unless the variable is a string constant that has been wrapped with <strong>tr</strong>, it will appear in its original form in the string. In the example, although the rest of the sentence has been translated to Spanish, the variable will display in its raw value.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
 
-<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="p">{</span> <span class="na">sitename</span><span class="p">:</span> <span class="s2">"Lang API"</span> <span class="p">});</span>
+<span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="p">{</span> <span class="na">sitename</span><span class="p">:</span> <span class="s2">"Lang API"</span> <span class="p">};</span>
+<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
 
-<span class="c1">// translatedString (es): ¡Bienvenido a Lang API!</span>
+<span class="c1">// translatedString (Spanish): ¡Bienvenido a Lang API!</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
 
-<span class="kd">const</span> <span class="nx">ESCAPED_SITE</span> <span class="o">=</span> <span class="s2">"Lang API"</span><span class="p">;</span>
-<span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="p">{</span> <span class="na">sitename</span><span class="p">:</span> <span class="s2">"Lang API"</span> <span class="p">});</span>
+<span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="p">{</span> <span class="na">sitename</span><span class="p">:</span> <span class="s2">"Lang API"</span> <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
 
 <span class="c1">// translatedString (es): ¡Bienvenido a Lang API!</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="c"># *.py</span>
@@ -659,43 +670,68 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 
 <span class="n">ESCAPED_SITE</span> <span class="o">=</span> <span class="s">"Lang API"</span><span class="p">;</span>
 <span class="n">language</span> <span class="o">=</span> <span class="s">"es"</span>
-<span class="n">translated_string</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="s">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="p">{</span><span class="n">sitename</span><span class="p">:</span> <span class="s">"Lang API"</span><span class="p">,</span> <span class="n">targetLanguage</span><span class="p">:</span> <span class="n">language</span> <span class="p">});</span>
+<span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="n">sitename</span><span class="p">:</span> <span class="s">"Lang API"</span><span class="p">,</span> <span class="n">targetLanguage</span><span class="p">:</span> <span class="n">language</span> <span class="p">}</span>
+<span class="n">translated_string</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="s">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="n">context</span><span class="p">);</span>
 
 <span class="c"># translated_string (es): ¡Bienvenido a Lang API!</span>
-</code></pre><h1 id='plurals'>Plurals</h1>
-<p>Sometimes, you want to display differently formatted sentences based on a specific count. Using the ICU plurals syntax you can display different phrases of text based on the count of some number.</p>
+</code></pre><h2 id='plurals'>Plurals</h2>
+<p>For strings that have plural forms, use the ICU pluralization syntax to ensure they are translated correctly in every plural form. With other libraries, you would write and translate multiple strings to account for all plural forms. With Lang, you can just write it once!</p>
 
-<p><strong>Other languages may have many different plural forms depending on the count. For example, here&#39;s the Czech translation of &quot;I have {count} apples&quot; with different counts:</strong></p>
+<p><strong>NOTE:</strong> There are certain languages with more than one plural form. Czech has three. Here&#39;s an example:</p>
 
-<p>(count = 1) Mám 1 jablko.</p>
+<p>I have 1 apple =&gt; Mám 1 jablko.</p>
 
-<p>(count = 3) Mám 3 jablka.</p>
+<p>I have 3 apples =&gt; Mám 3 jablka.</p>
 
-<p>(count = 10) Mám 10 jablek.</p>
+<p>I have 10 apples =&gt; Mám 10 jablek.</p>
 
-<p><strong>Lang API will request the different plural versions of the phrases you wrap so that you don&#39;t have to spend time figuring out plurality in other languages.</strong></p>
+<p><strong>If you use the ICU syntax, there&#39;s nothing else you have to do. We&#39;ll handle all cases for you. Lang accounts for every plural form in every language.</strong></p>
 <pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
 
 <span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span>
-  <span class="s2">"I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!"</span><span class="p">,</span>
+  <span class="s2">`I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`</span><span class="p">,</span>
+  <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="c1">// translatedString (Spanish): Tengo 1 manzana.</span>
+
+<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span>
+  <span class="s2">`I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`</span><span class="p">,</span>
   <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="mi">7</span> <span class="p">}</span>
 <span class="p">);</span>
 
-<span class="c1">// translatedString (es): ¡Tengo 7 manzanas!</span>
+<span class="c1">// translatedString (Spanish): Tengo 7 manzanas.</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
 
-<span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span>
-  <span class="s2">"I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!"</span><span class="p">,</span>
+<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span>
+  <span class="s2">`I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`</span><span class="p">,</span>
+  <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="mi">1</span> <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="c1">// translatedString (Spanish): Tengo 1 manzana.</span>
+
+<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span>
+  <span class="s2">`I have {count, plural, 
+    =0 {no apples} 
+    =1 {1 apple} 
+    other {{count} apples}}.`</span><span class="p">,</span>
   <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="mi">7</span> <span class="p">}</span>
 <span class="p">);</span>
 
-<span class="c1">// translatedString (es): ¡Tengo 7 manzanas!</span>
+<span class="c1">// translatedString (Spanish): Tengo 7 manzanas.</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="c"># *.py</span>
 <span class="kn">from</span> <span class="nn">LangClient</span> <span class="kn">import</span> <span class="n">tr</span>
-
-<span class="k">import</span> <span class="p">{</span> <span class="n">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s">"./LangClient"</span><span class="p">;</span>
 
 <span class="n">translatedString</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span>
   <span class="s">"I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!"</span><span class="p">,</span>
@@ -703,32 +739,49 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <span class="p">);</span>
 
 <span class="o">//</span> <span class="n">translatedString</span> <span class="p">(</span><span class="n">es</span><span class="p">):</span> <span class="err">¡</span><span class="n">Tengo</span> <span class="mi">7</span> <span class="n">manzanas</span><span class="err">!</span>
-</code></pre><h1 id='select'>Select</h1>
-<p>If you want to display different values based on a phrase (for example a passed gender parameter), Lang API allows you to use the select pattern from the ICU format.</p>
+</code></pre><h2 id='select'>Select</h2>
+<p>Some sentences require different words depending on information like gender. You can show different phrases in a string that depend on the <strong>value</strong> of a variable by using &quot;select&quot;.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
 
+<span class="c1">// For the sake of simplicity, we are not listing all genders in this example.</span>
 <span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span>
-  <span class="s2">"I have {count, plural, =0 {no apples} =1 {1 apple} other {{count} apples}}.!"</span><span class="p">,</span>
-  <span class="p">{</span> <span class="na">count</span><span class="p">:</span> <span class="mi">7</span> <span class="p">}</span>
+  <span class="s2">`{gender, select, 
+    male {He likes} 
+    female {She likes} 
+    other {they like}} eating apples`</span><span class="p">,</span>
+  <span class="p">{</span> <span class="na">gender</span><span class="p">:</span> <span class="s2">"female"</span> <span class="p">}</span>
 <span class="p">);</span>
 
-<span class="c1">// translatedString (es): ¡Bienvenido a Lang API!</span>
+<span class="c1">// translatedString (Spanish): A ella le gusta comer manzanas.</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./LangClient"</span><span class="p">;</span>
 
-<span class="kd">const</span> <span class="nx">ESCAPED_SITE</span> <span class="o">=</span> <span class="s2">"Lang API"</span><span class="p">;</span>
-<span class="kd">const</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span><span class="s2">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="p">{</span> <span class="na">sitename</span><span class="p">:</span> <span class="s2">"Lang API"</span> <span class="p">});</span>
+<span class="c1">// For the sake of simplicity, we are not listing all genders in this example.</span>
+<span class="kd">var</span> <span class="nx">translatedString</span> <span class="o">=</span> <span class="nx">tr</span><span class="p">(</span>
+  <span class="s2">`{gender, select, 
+    male {He likes} 
+    female {She likes} 
+    other {they like}} eating apples`</span><span class="p">,</span>
+  <span class="p">{</span> <span class="na">gender</span><span class="p">:</span> <span class="s2">"female"</span> <span class="p">}</span>
+<span class="p">);</span>
 
-<span class="c1">// translatedString (es): ¡Bienvenido a Lang API!</span>
+<span class="c1">// translatedString (Spanish): A ella le gusta comer manzanas.</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="c"># *.py</span>
-<span class="kn">from</span> <span class="nn">LangClient</span> <span class="kn">import</span> <span class="n">tr</span><span class="p">,</span> <span class="n">param</span>
+<span class="kn">from</span> <span class="nn">LangClient</span> <span class="kn">import</span> <span class="n">tr</span>
 
-<span class="n">ESCAPED_SITE</span> <span class="o">=</span> <span class="s">"Lang API"</span><span class="p">;</span>
-<span class="n">language</span> <span class="o">=</span> <span class="s">"es"</span>
-<span class="n">translated_string</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="s">"Welcome to {sitename}!"</span><span class="p">,</span> <span class="p">{</span><span class="n">sitename</span><span class="p">:</span> <span class="s">"Lang API"</span><span class="p">});</span>
+<span class="n">translatedString</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span>
+  <span class="s">"{gender, select,</span><span class="se">\
+</span><span class="s">    male {He likes}</span><span class="se">\
+</span><span class="s">    female {She likes}</span><span class="se">\
+</span><span class="s">    other {they like}} eating apples"</span><span class="p">,</span>
+  <span class="p">{</span> <span class="n">count</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="s">"es"</span> <span class="p">}</span>
+<span class="p">);</span>
 
-<span class="c"># translated_string (es): ¡Bienvenido a Lang API!</span>
+<span class="o">//</span> <span class="n">translatedString</span> <span class="p">(</span><span class="n">Spanish</span><span class="p">):</span> <span class="n">A</span> <span class="n">ella</span> <span class="n">le</span> <span class="n">gusta</span> <span class="n">comer</span> <span class="n">manzanas</span><span class="o">.</span>
+</code></pre><h2 id='codemod-experimental'>Codemod (EXPERIMENTAL)</h2>
+<p>If you have a lot of code to wrap with tr&#39;s, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.</p>
+<pre class="highlight plaintext"><code>&gt; langapi generate [directory]
 </code></pre><h1 id='language-codes'>Language Codes</h1>
 <p>Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.</p>
 
