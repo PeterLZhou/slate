@@ -165,7 +165,7 @@ Congratulations! You've just translated your first string using LangAPI. We hope
 
 Follow the steps below to translate your first string in under 3 minutes!
 
-**NOTE:** This guide is for apps that use server-side rendering. Currently we **only support the NextJS framework.**
+**NOTE:** This guide is for apps that use server-side rendering. **Currently we only support the NextJS framework.**
 
 If you're not using SSR, see [the getting started guide for client-rendered applications](#getting-started).
 
@@ -411,6 +411,112 @@ Since we're using machine translations in this demo, the translations are done i
 
 Congratulations! You've just translated your first string using LangAPI. We hope it was easy enough, and we'd love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!
 
+# LangClient
+
+LangClient is the core module of Lang. It gets automatically installed during **langapi init**, and we generate some files for you so you don't have to configure it and can get started immediately. However, you can interact with its APIs directly, and we list them here:
+
+## Initializing LangClient
+
+```javascript
+// *.js, *.jsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+```
+
+```typescript
+// *.ts, *.tsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+```
+
+To initialize LangClient, we simply require() it and pass in the required arguments. The first argument is your Lang publishable key. The second argument is the JSON object from your translations.json file, which should be in your auto-generated langapi directory.
+
+By default, LangClient attempts to detect the user's language automatically and translate to that language. This can be overridden, [see setLanguage.](##setLanguage)
+
+## tr
+
+```javascript
+// *.js, *.jsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+
+// Tries to translate "Hello world!" into currently set language.
+LangClient.tr("Hello world!")
+
+// The second argument contains context variables for the string
+LangClient.tr("Hello world, {name}!", {name: "Eric"});
+
+// The third argument is a force language override
+// Here, LangClient will try to translate to Spanish
+LangClient.tr("Hello world, {name}!", {name: "Eric"}, "es");
+```
+
+```typescript
+// *.ts, *.tsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+
+// Tries to translate "Hello world!" into currently set language.
+LangClient.tr("Hello world!")
+
+// The second argument contains context variables for the string
+LangClient.tr("Hello world, {name}!", {name: "Eric"});
+
+// The third argument is a force language override
+// Here, LangClient will try to translate to Spanish
+LangClient.tr("Hello world, {name}!", {name: "Eric"}, "es");
+```
+
+**tr** is the bread-and-butter of LangClient. It takes a string and two optional arguments, and attempts to translate the string using translations loaded in via translations.json. See the code sample for all argument possibilities.
+
+## setForceLanguage
+
+```javascript
+// *.js, *.jsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("es");
+```
+
+```typescript
+// *.ts, *.tsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("es");
+```
+
+**setForceLanguage** explictly tells LangClient to use a specific language code, overriding the default language LangClient detects from the user's browser. This is useful when you have options on your app to change a user's language settings and want to override the default.
+
+## getLanguage
+
+```javascript
+// *.js, *.jsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("es");
+// Returns "es"
+LangClient.getLanguage();
+```
+
+```typescript
+// *.ts, *.tsx
+
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("es");
+// Returns "es"
+LangClient.getLanguage();
+```
+
+**getLanguage** fetches the current language LangClient is translating to. This is useful if you want to display the current language to users, or save it into your state/backend.
+
 # Formatting Strings
 
 We understand that most strings aren't just blocks of text. Here, we'll go through common examples of writing more complex strings, including ones that have variables and plural forms.
@@ -591,6 +697,88 @@ If you have a lot of code to wrap with tr's, we provide a code generation tool t
 ```shell-all
 > langapi generate [directory]
 ```
+
+# React + Lang
+
+At Lang, we love and use React :)
+
+Here we show the components we've built to make using Lang even easier. To use these components, run the command below in your project root:
+
+**npm install --save react-langapi**
+
+[Here's a link to the source code for the components.](https://github.com/cyrieu/react-langapi)
+
+## LangProvider
+
+```javascript
+// Remember to run "npm install --save react-langapi"
+// *.js, *.jsx
+
+// At your top-level component (Usually App.js)
+
+import { LangProvider } from "react-langapi";
+// Relative path to auto-generated LangClient.js file
+import { LangClient } from "./langapi/LangClient";
+
+class RootApp extends React.Component {
+  state = {
+    currentLanguage: "en" // default
+  };
+
+  render() {
+    // currentLanguage could be from any state
+    const { currentLanguage } = this.state;
+    return (
+      <LangProvider client={LangClient} currentLanguage={currentLanguage}>
+        <App /> {/* App will re-render when currentLanguage changes */}
+      </LangProvider>
+    );
+  }
+}
+
+// On re-render, tr() will update to the newest currentLanguage
+import { tr } from "./langapi/LangClient";
+const App = () => <div>{tr("Hello world!")}</div>;
+```
+
+```typescript
+// Remember to run "npm install --save react-langapi"
+// *.ts, *.tsx
+
+// At your top-level component (Usually App.js)
+
+import { LangProvider } from "react-langapi";
+// Relative path to auto-generated LangClient.js file
+import { LangClient } from "./langapi/LangClient";
+
+class RootApp extends React.Component {
+  state = {
+    currentLanguage: "en" // default
+  };
+
+  render() {
+    // currentLanguage could be from any state
+    const { currentLanguage } = this.state;
+    return (
+      <LangProvider client={LangClient} currentLanguage={currentLanguage}>
+        <App /> {/* App will re-render when currentLanguage changes */}
+      </LangProvider>
+    );
+  }
+}
+
+// On re-render, tr() will update to the newest currentLanguage
+import { tr } from "./langapi/LangClient";
+const App = () => <div>{tr("Hello world!")}</div>;
+```
+
+If a user decides to change their preferred language on the frontend, **LangClient** and **tr** won't know the new language unless you notify it. The React app also won 't re-render, because Lang is a standalone module and not connected to React's state. To solve these problems, we've built **LangProvider**, which let's you connect Lang with your app's state.
+
+In our code example, we show a sample App component using LangProvider. We use React's basic State API to show how a change to currentLanguage will re-render the entire component tree, but you can pass in a stateful variable from your Redux or MobX stores as well.
+
+## Tr
+
+Coming soon...
 
 #Language Codes
 
