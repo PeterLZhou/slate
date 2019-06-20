@@ -284,6 +284,23 @@
               </ul>
           </li>
           <li>
+            <a href="#langclient" class="toc-h1 toc-link" data-title="LangClient">LangClient</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#initializing-langclient" class="toc-h2 toc-link" data-title="Initializing LangClient">Initializing LangClient</a>
+                  </li>
+                  <li>
+                    <a href="#tr" class="toc-h2 toc-link" data-title="tr">tr</a>
+                  </li>
+                  <li>
+                    <a href="#setforcelanguage" class="toc-h2 toc-link" data-title="setForceLanguage">setForceLanguage</a>
+                  </li>
+                  <li>
+                    <a href="#getlanguage" class="toc-h2 toc-link" data-title="getLanguage">getLanguage</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#formatting-strings" class="toc-h1 toc-link" data-title="Formatting Strings">Formatting Strings</a>
               <ul class="toc-list-h2">
                   <li>
@@ -297,6 +314,17 @@
                   </li>
                   <li>
                     <a href="#codemod-experimental" class="toc-h2 toc-link" data-title="Codemod (EXPERIMENTAL)">Codemod (EXPERIMENTAL)</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#react-lang" class="toc-h1 toc-link" data-title="React + Lang">React + Lang</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#langprovider" class="toc-h2 toc-link" data-title="LangProvider">LangProvider</a>
+                  </li>
+                  <li>
+                    <a href="#tr-2" class="toc-h2 toc-link" data-title="Tr">Tr</a>
                   </li>
               </ul>
           </li>
@@ -437,7 +465,7 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <h1 id='getting-started-ssr-nextjs-only'>Getting Started (SSR, NextJS only)</h1>
 <p>Follow the steps below to translate your first string in under 3 minutes!</p>
 
-<p><strong>NOTE:</strong> This guide is for apps that use server-side rendering. Currently we <strong>only support the NextJS framework.</strong></p>
+<p><strong>NOTE:</strong> This guide is for apps that use server-side rendering. <strong>Currently we only support the NextJS framework.</strong></p>
 
 <p>If you&#39;re not using SSR, see <a href="#getting-started">the getting started guide for client-rendered applications</a>.</p>
 <h2 id='sign-up-2'>Sign Up</h2>
@@ -641,6 +669,78 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>Since we&#39;re using machine translations in this demo, the translations are done instantly! Thanks Google. To pull them back into your repo, run <strong>langapi pull</strong> in your <strong>root directory</strong>.</p>
 <h2 id='finish-2'>Finish</h2>
 <p>Congratulations! You&#39;ve just translated your first string using LangAPI. We hope it was easy enough, and we&#39;d love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!</p>
+<h1 id='langclient'>LangClient</h1>
+<p>LangClient is the core module of Lang. It gets automatically installed during <strong>langapi init</strong>, and we generate some files for you so you don&#39;t have to configure it and can get started immediately. However, you can interact with its APIs directly, and we list them here:</p>
+<h2 id='initializing-langclient'>Initializing LangClient</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
+
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="err">"</span><span class="p">.</span><span class="o">/</span><span class="nx">translations</span><span class="p">.</span><span class="nx">json</span><span class="p">));</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
+
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="err">"</span><span class="p">.</span><span class="o">/</span><span class="nx">translations</span><span class="p">.</span><span class="nx">json</span><span class="p">));</span>
+</code></pre>
+<p>To initialize LangClient, we simply require() it and pass in the required arguments. The first argument is your Lang publishable key. The second argument is the JSON object from your translations.json file, which should be in your auto-generated langapi directory.</p>
+
+<p>By default, LangClient attempts to detect the user&#39;s language automatically and translate to that language. This can be overridden, <a href="##setLanguage">see setLanguage.</a></p>
+<h2 id='tr'>tr</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
+
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+
+// Tries to translate "</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">" into currently set language.
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">")
+
+// The second argument contains context variables for the string
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"});
+
+// The third argument is a force language override
+// Here, LangClient will try to translate to Spanish
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"}, "</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
+
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+
+// Tries to translate "</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">" into currently set language.
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">")
+
+// The second argument contains context variables for the string
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"});
+
+// The third argument is a force language override
+// Here, LangClient will try to translate to Spanish
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"}, "</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+</code></pre>
+<p><strong>tr</strong> is the bread-and-butter of LangClient. It takes a string and two optional arguments, and attempts to translate the string using translations loaded in via translations.json. See the code sample for all argument possibilities.</p>
+<h2 id='setforcelanguage'>setForceLanguage</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
+
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
+
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+</code></pre>
+<p><strong>setForceLanguage</strong> explictly tells LangClient to use a specific language code, overriding the default language LangClient detects from the user&#39;s browser. This is useful when you have options on your app to change a user&#39;s language settings and want to override the default.</p>
+<h2 id='getlanguage'>getLanguage</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
+
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">");
+// Returns "</span><span class="nx">es</span><span class="err">"</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">getLanguage</span><span class="p">();</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
+
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+
+// Forces the language to Spanish
+LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">");
+// Returns "</span><span class="nx">es</span><span class="err">"</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">getLanguage</span><span class="p">();</span>
+</code></pre>
+<p><strong>getLanguage</strong> fetches the current language LangClient is translating to. This is useful if you want to display the current language to users, or save it into your state/backend.</p>
 <h1 id='formatting-strings'>Formatting Strings</h1>
 <p>We understand that most strings aren&#39;t just blocks of text. Here, we&#39;ll go through common examples of writing more complex strings, including ones that have variables and plural forms.</p>
 
@@ -782,7 +882,77 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 </code></pre><h2 id='codemod-experimental'>Codemod (EXPERIMENTAL)</h2>
 <p>If you have a lot of code to wrap with tr&#39;s, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.</p>
 <pre class="highlight plaintext"><code>&gt; langapi generate [directory]
-</code></pre><h1 id='language-codes'>Language Codes</h1>
+</code></pre><h1 id='react-lang'>React + Lang</h1>
+<p>At Lang, we love and use React :)</p>
+
+<p>Here we show the components we&#39;ve built to make using Lang even easier. To use these components, run the command below in your project root:</p>
+
+<p><strong>npm install --save react-langapi</strong></p>
+
+<p><a href="https://github.com/cyrieu/react-langapi">Here&#39;s a link to the source code for the components.</a></p>
+<h2 id='langprovider'>LangProvider</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// Remember to run "npm install --save react-langapi"</span>
+<span class="c1">// *.js, *.jsx</span>
+
+<span class="c1">// At your top-level component (Usually App.js)</span>
+
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">LangProvider</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-langapi"</span><span class="p">;</span>
+<span class="c1">// Relative path to auto-generated LangClient.js file</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">LangClient</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">RootApp</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">currentLanguage</span><span class="p">:</span> <span class="s2">"en"</span> <span class="c1">// default</span>
+  <span class="p">};</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// currentLanguage could be from any state</span>
+    <span class="kr">const</span> <span class="p">{</span> <span class="nx">currentLanguage</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">LangProvider</span> <span class="nx">client</span><span class="o">=</span><span class="p">{</span><span class="nx">LangClient</span><span class="p">}</span> <span class="nx">currentLanguage</span><span class="o">=</span><span class="p">{</span><span class="nx">currentLanguage</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span> <span class="p">{</span><span class="cm">/* App will re-render when currentLanguage changes */</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="sr">/LangProvider</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// On re-render, tr() will update to the newest currentLanguage</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">App</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">;
+</span></code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// Remember to run "npm install --save react-langapi"</span>
+<span class="c1">// *.ts, *.tsx</span>
+
+<span class="c1">// At your top-level component (Usually App.js)</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">LangProvider</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"react-langapi"</span><span class="p">;</span>
+<span class="c1">// Relative path to auto-generated LangClient.js file</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">LangClient</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">RootApp</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">currentLanguage</span><span class="p">:</span> <span class="s2">"en"</span> <span class="c1">// default</span>
+  <span class="p">};</span>
+
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// currentLanguage could be from any state</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">currentLanguage</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">LangProvider</span> <span class="nx">client</span><span class="o">=</span><span class="p">{</span><span class="nx">LangClient</span><span class="p">}</span> <span class="nx">currentLanguage</span><span class="o">=</span><span class="p">{</span><span class="nx">currentLanguage</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span> <span class="p">{</span><span class="cm">/* App will re-render when currentLanguage changes */</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="sr">/LangProvider</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// On re-render, tr() will update to the newest currentLanguage</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">App</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">;
+</span></code></pre>
+<p>If a user decides to change their preferred language on the frontend, <strong>LangClient</strong> and <strong>tr</strong> won&#39;t know the new language unless you notify it. The React app also won &#39;t re-render, because Lang is a standalone module and not connected to React&#39;s state. To solve these problems, we&#39;ve built <strong>LangProvider</strong>, which let&#39;s you connect Lang with your app&#39;s state.</p>
+
+<p>In our code example, we show a sample App component using LangProvider. We use React&#39;s basic State API to show how a change to currentLanguage will re-render the entire component tree, but you can pass in a stateful variable from your Redux or MobX stores as well.</p>
+<h2 id='tr-2'>Tr</h2>
+<p>Coming soon...</p>
+<h1 id='language-codes'>Language Codes</h1>
 <p>Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.</p>
 
 <table><thead>
