@@ -698,7 +698,7 @@ If you have a lot of code to wrap with tr's, we provide a code generation tool t
 > langapi generate [directory]
 ```
 
-# React + Lang
+# React
 
 At Lang, we love and use React :)
 
@@ -779,6 +779,206 @@ In our code example, we show a sample App component using LangProvider. We use R
 ## Tr
 
 Coming soon...
+
+# GatsbyJS
+
+We've built a custom plugin for Gatsby, one of the most popular React-based static site generators, to make it easy to localize your app, personal page, or blog.
+
+In this section, we assume you've created your own Gatsby project (if you haven't, [you can use the Gatsby CLI](https://www.gatsbyjs.org/docs/gatsby-cli/)).
+
+## Install the CLI
+
+> In the terminal, install the "langapi" node module globally.
+
+```shell--all
+#!/usr/bin/bash
+
+> npm install -g langapi
+# Run "langapi login" if you have an account.
+> langapi login
+# Run "langapi signup" if you don't.
+> langapi signup
+```
+
+To start, you'll need to install the Lang command-line interface tool. See the docs on the CLI to understand the various commands and options.
+
+## Run init
+
+> To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you're using TypeScript.
+
+```shell-all
+#!/usr/bin/bash
+
+# This command initializes lang, with "src" as the source directory
+> langapi init src
+```
+
+Run **langapi init <YOUR_SOURCE_DIRECTORY>** inside the project's **root directory** and follow the instructions. The source directory should be where all of your code is stored. The root directory contains your package.json and other configuration files.
+
+## Add your first language
+
+> The langapiconfig.json contains your LangApi settings for the current project.
+> Here, we've added Spanish (es) as a target language.
+
+```json--all
+{
+  "src": "src",
+  "originalLanguage": "en",
+  "targetLanguages": ["es"]
+}
+```
+
+After running **langapi init**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into your repository.
+
+We'll add Spanish as an example. [You can find a list of language encodings we support here](#language-codes).
+
+## Install gatsby-plugin-lang
+
+```shell--all
+#!/usr/bin/bash
+
+> npm install --save gatsby-plugin-lang
+```
+
+Next, we'll need to install the Lang plugin for Gatsby in your project.
+
+## Configure gatsy-config.js
+
+```javascript
+// *.js
+
+module.exports = {
+  siteMetadata: {
+    title: `Gatsby Lang Demo`,
+    description: `Get started with Lang!`,
+    author: `@cyrieu`
+  },
+  plugins: [
+    // .... Your existing plugins
+    {
+      resolve: `gatsby-plugin-lang`,
+      options: {
+        // The path to your generated langapi folder in your source directory
+        path: `${__dirname}/src/langapi`,
+        // Your targetLanguages, as defined in langapiconfig.json
+        languages: ["es"],
+        // Your originalLanguage, as defined in langapiconfig.json
+        defaultLanguage: "en",
+        // Set this to true if you want to automatically redirect
+        // visitors to pages in their preferred language on your app
+        redirect: true
+      }
+    }
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.dev/offline
+    // `gatsby-plugin-offline`,
+  ]
+};
+```
+
+To get the plugin working, we need to add it to our gatsy-config.js. An example is shown here with all the options available.
+
+**IMPORTANT** The "languages" option should be the same as the targetLanguages you've set in langapiconfig.json
+
+## Wrap your first string
+
+```javascript
+// *.js, *.jsx
+import React from "react";
+
+import Layout from "../components/layout";
+import { tr } from "../langapi/LangClient";
+import { Tr, Link } from "gatsby-plugin-lang";
+
+const IndexPage = props => {
+  return (
+    <Layout>
+      <Tr>
+        <h1>Your first translated string!</h1>
+      </Tr>
+      <Link to="/page-2/">Go to page 2</Link>
+    </Layout>
+  );
+};
+
+export default IndexPage;
+```
+
+That's it for configuration! Open up any component/page, and import { Tr } from "gatsby-plugin-lang". All of our React components are included with the Gatsby plugin. [You can read the React docs here.](#React)
+
+**NOTE**: Notice the Link component we're using here is from the Lang plugin. We can't use the default Gatsby Link, because Lang automatically sets up separate subdomains for your different languages. For example, Spanish pages are located at "yourdomain.com/es". See [Routing for more details](##Routing).
+
+## Finish
+
+> To push translation requests, use 'langapi push'
+
+```shell-all
+> langapi push
+```
+
+> To pull completed translations, use 'langapi pull'
+
+```shell-all
+> langapi pull
+```
+
+> Then, run "gatsby develop" and navigate to localhost:8000/targetLanguageCode
+
+```shell-all
+> gatsby develop
+```
+
+Now, in your root directory, run "langapi push". Our CLI will find all the translation calls in your code and automatically request machine translations for them. Since they're machine translations, they're done immediately! Run "langapi pull" to store your translations inside your translations.json file. Finally, run "gatsby develop", navigate to localhost:8000/es or localhost:8000/ja, and check out your newly translated app!
+
+## Routing
+
+```javascript
+// *.js, *.jsx
+import React from "react";
+
+import Layout from "../components/layout";
+import { Link } from "gatsby-plugin-lang";
+
+const IndexPage = props => {
+  return (
+    <Layout>
+      {/* Our <Link /> component preserves the language routing in your app */}
+      <Link to="/page-2/">Go to page 2</Link>
+    </Layout>
+  );
+};
+
+export default IndexPage;
+```
+
+Gatsby is a static site generator, and we hook into Gatsby's build process to automatically generate separate pages for each language you use in your app. If your target languages are Spanish (es) and Japanese (ja), we'll automatically create yourdomain.com/es and yourdomain.com/ja, which are the translated versions of your site in Spanish and Japanese respectively.
+
+**IMPORTANT** You must use the Link component in "gatsby-plugin-lang" to perform navigation, otherwise a user will be sent from a Japanese version of the site (e.g. yourdomain.com/ja/home) to the English version (e.g. yourdomain.com/home).
+
+## Hot Reloading
+
+```javascript
+// *.js, *.jsx
+/**
+ * Implement Gatsby's Browser APIs in this file.
+ *
+ * See: https://www.gatsbyjs.org/docs/browser-apis/
+ */
+const React = require("react");
+const client = require("langapi-client")(
+  "sk_prod_4505fd24-7157-4e06-b473-52481db18f6d", // Your publishable key. See https://www.langapi.co/dashboard
+  require("./src/langapi/translations.json")
+);
+const { LangProvider } = require("gatsby-plugin-lang");
+
+exports.wrapRootElement = ({ element }) => {
+  return <LangProvider client={client}>{element}</LangProvider>;
+};
+```
+
+Since our plugin builds the translated version of your app during the "gatsby-node.js" phase, your browser won't show the newest translations even if you "langapi pull" during "gatsby develop", since Gatsby only re-runs the code in "gatsby-ssr.js" and "gatsby-browser.js". We're still working on this, but here's a quick way to force your browser to reload your translations without re-running "gatsby develop" or "gatsby build".
+
+Add the snippet of code to your "gatsby-browser.js" file. This will force Gatsby to re-inject your translation data into the app each time translations.json is updated. Now you can pull in new translations and your browser will automatically show them!
 
 # Continuous Translation
 
