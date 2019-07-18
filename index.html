@@ -318,13 +318,45 @@
               </ul>
           </li>
           <li>
-            <a href="#react-lang" class="toc-h1 toc-link" data-title="React + Lang">React + Lang</a>
+            <a href="#react" class="toc-h1 toc-link" data-title="React">React</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#langprovider" class="toc-h2 toc-link" data-title="LangProvider">LangProvider</a>
                   </li>
                   <li>
                     <a href="#tr-2" class="toc-h2 toc-link" data-title="Tr">Tr</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#gatsbyjs" class="toc-h1 toc-link" data-title="GatsbyJS">GatsbyJS</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#install-the-cli" class="toc-h2 toc-link" data-title="Install the CLI">Install the CLI</a>
+                  </li>
+                  <li>
+                    <a href="#run-init" class="toc-h2 toc-link" data-title="Run init">Run init</a>
+                  </li>
+                  <li>
+                    <a href="#add-your-first-language" class="toc-h2 toc-link" data-title="Add your first language">Add your first language</a>
+                  </li>
+                  <li>
+                    <a href="#install-gatsby-plugin-lang" class="toc-h2 toc-link" data-title="Install gatsby-plugin-lang">Install gatsby-plugin-lang</a>
+                  </li>
+                  <li>
+                    <a href="#configure-gatsy-config-js" class="toc-h2 toc-link" data-title="Configure gatsy-config.js">Configure gatsy-config.js</a>
+                  </li>
+                  <li>
+                    <a href="#wrap-your-first-string" class="toc-h2 toc-link" data-title="Wrap your first string">Wrap your first string</a>
+                  </li>
+                  <li>
+                    <a href="#finish-3" class="toc-h2 toc-link" data-title="Finish">Finish</a>
+                  </li>
+                  <li>
+                    <a href="#routing" class="toc-h2 toc-link" data-title="Routing">Routing</a>
+                  </li>
+                  <li>
+                    <a href="#hot-reloading" class="toc-h2 toc-link" data-title="Hot Reloading">Hot Reloading</a>
                   </li>
               </ul>
           </li>
@@ -893,7 +925,7 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
 </code></pre><h2 id='codemod-experimental'>Codemod (EXPERIMENTAL)</h2>
 <p>If you have a lot of code to wrap with tr&#39;s, we provide a code generation tool that will run through your files and wrap all inferred front-facing strings. We currently support React only - ping us if you want a similar tool for your framework at support@langapi.co.</p>
 <pre class="highlight plaintext"><code>&gt; langapi generate [directory]
-</code></pre><h1 id='react-lang'>React + Lang</h1>
+</code></pre><h1 id='react'>React</h1>
 <p>At Lang, we love and use React :)</p>
 
 <p>Here we show the components we&#39;ve built to make using Lang even easier. To use these components, run the command below in your project root:</p>
@@ -963,6 +995,165 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
 <p>In our code example, we show a sample App component using LangProvider. We use React&#39;s basic State API to show how a change to currentLanguage will re-render the entire component tree, but you can pass in a stateful variable from your Redux or MobX stores as well.</p>
 <h2 id='tr-2'>Tr</h2>
 <p>Coming soon...</p>
+<h1 id='gatsbyjs'>GatsbyJS</h1>
+<p>We&#39;ve built a custom plugin for Gatsby, one of the most popular React-based static site generators, to make it easy to localize your app, personal page, or blog.</p>
+
+<p>In this section, we assume you&#39;ve created your own Gatsby project (if you haven&#39;t, <a href="https://www.gatsbyjs.org/docs/gatsby-cli/">you can use the Gatsby CLI</a>).</p>
+<h2 id='install-the-cli'>Install the CLI</h2>
+<blockquote>
+<p>In the terminal, install the &quot;langapi&quot; node module globally.</p>
+</blockquote>
+<pre class="highlight shell tab-shell--all"><code><span class="c">#!/usr/bin/bash</span>
+
+<span class="gp">&gt; </span>npm install -g langapi
+<span class="c"># Run "langapi login" if you have an account.</span>
+<span class="gp">&gt; </span>langapi login
+<span class="c"># Run "langapi signup" if you don't.</span>
+<span class="gp">&gt; </span>langapi signup
+</code></pre>
+<p>To start, you&#39;ll need to install the Lang command-line interface tool. See the docs on the CLI to understand the various commands and options.</p>
+<h2 id='run-init'>Run init</h2>
+<blockquote>
+<p>To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you&#39;re using TypeScript.</p>
+</blockquote>
+<pre class="highlight plaintext"><code>#!/usr/bin/bash
+
+# This command initializes lang, with "src" as the source directory
+&gt; langapi init src
+</code></pre>
+<p>Run <strong>langapi init <YOUR_SOURCE_DIRECTORY></strong> inside the project&#39;s <strong>root directory</strong> and follow the instructions. The source directory should be where all of your code is stored. The root directory contains your package.json and other configuration files.</p>
+<h2 id='add-your-first-language'>Add your first language</h2>
+<blockquote>
+<p>The langapiconfig.json contains your LangApi settings for the current project.
+Here, we&#39;ve added Spanish (es) as a target language.</p>
+</blockquote>
+<pre class="highlight json tab-json--all"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"originalLanguage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"targetLanguages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"es"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>After running <strong>langapi init</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into your repository.</p>
+
+<p>We&#39;ll add Spanish as an example. <a href="#language-codes">You can find a list of language encodings we support here</a>.</p>
+<h2 id='install-gatsby-plugin-lang'>Install gatsby-plugin-lang</h2><pre class="highlight shell tab-shell--all"><code><span class="c">#!/usr/bin/bash</span>
+
+<span class="gp">&gt; </span>npm install --save gatsby-plugin-lang
+</code></pre>
+<p>Next, we&#39;ll need to install the Lang plugin for Gatsby in your project.</p>
+<h2 id='configure-gatsy-config-js'>Configure gatsy-config.js</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">siteMetadata</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">title</span><span class="p">:</span> <span class="s2">`Gatsby Lang Demo`</span><span class="p">,</span>
+    <span class="na">description</span><span class="p">:</span> <span class="s2">`Get started with Lang!`</span><span class="p">,</span>
+    <span class="na">author</span><span class="p">:</span> <span class="s2">`@cyrieu`</span>
+  <span class="p">},</span>
+  <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+    <span class="c1">// .... Your existing plugins</span>
+    <span class="p">{</span>
+      <span class="na">resolve</span><span class="p">:</span> <span class="s2">`gatsby-plugin-lang`</span><span class="p">,</span>
+      <span class="na">options</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1">// The path to your generated langapi folder in your source directory</span>
+        <span class="na">path</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">__dirname</span><span class="p">}</span><span class="s2">/src/langapi`</span><span class="p">,</span>
+        <span class="c1">// Your targetLanguages, as defined in langapiconfig.json</span>
+        <span class="na">languages</span><span class="p">:</span> <span class="p">[</span><span class="s2">"es"</span><span class="p">],</span>
+        <span class="c1">// Your originalLanguage, as defined in langapiconfig.json</span>
+        <span class="na">defaultLanguage</span><span class="p">:</span> <span class="s2">"en"</span><span class="p">,</span>
+        <span class="c1">// Set this to true if you want to automatically redirect</span>
+        <span class="c1">// visitors to pages in their preferred language on your app</span>
+        <span class="na">redirect</span><span class="p">:</span> <span class="kc">true</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// this (optional) plugin enables Progressive Web App + Offline functionality</span>
+    <span class="c1">// To learn more, visit: https://gatsby.dev/offline</span>
+    <span class="c1">// `gatsby-plugin-offline`,</span>
+  <span class="p">]</span>
+<span class="p">};</span>
+</code></pre>
+<p>To get the plugin working, we need to add it to our gatsy-config.js. An example is shown here with all the options available.</p>
+
+<p><strong>IMPORTANT</strong> The &quot;languages&quot; option should be the same as the targetLanguages you&#39;ve set in langapiconfig.json</p>
+<h2 id='wrap-your-first-string'>Wrap your first string</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
+<span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">Layout</span> <span class="nx">from</span> <span class="s2">"../components/layout"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"../langapi/LangClient"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Tr</span><span class="p">,</span> <span class="nx">Link</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"gatsby-plugin-lang"</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">IndexPage</span> <span class="o">=</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Layout</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Tr</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Your</span> <span class="nx">first</span> <span class="nx">translated</span> <span class="nx">string</span><span class="o">!&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/Tr</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/page-2/"</span><span class="o">&gt;</span><span class="nx">Go</span> <span class="nx">to</span> <span class="nx">page</span> <span class="mi">2</span><span class="o">&lt;</span><span class="sr">/Link</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/Layout</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">IndexPage</span><span class="p">;</span>
+</code></pre>
+<p>That&#39;s it for configuration! Open up any component/page, and import { Tr } from &quot;gatsby-plugin-lang&quot;. All of our React components are included with the Gatsby plugin. <a href="#React">You can read the React docs here.</a></p>
+
+<p><strong>NOTE</strong>: Notice the Link component we&#39;re using here is from the Lang plugin. We can&#39;t use the default Gatsby Link, because Lang automatically sets up separate subdomains for your different languages. For example, Spanish pages are located at &quot;yourdomain.com/es&quot;. See <a href="##Routing">Routing for more details</a>.</p>
+<h2 id='finish-3'>Finish</h2>
+<blockquote>
+<p>To push translation requests, use &#39;langapi push&#39;</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&gt; langapi push
+</code></pre>
+<blockquote>
+<p>To pull completed translations, use &#39;langapi pull&#39;</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&gt; langapi pull
+</code></pre>
+<blockquote>
+<p>Then, run &quot;gatsby develop&quot; and navigate to localhost:8000/targetLanguageCode</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&gt; gatsby develop
+</code></pre>
+<p>Now, in your root directory, run &quot;langapi push&quot;. Our CLI will find all the translation calls in your code and automatically request machine translations for them. Since they&#39;re machine translations, they&#39;re done immediately! Run &quot;langapi pull&quot; to store your translations inside your translations.json file. Finally, run &quot;gatsby develop&quot;, navigate to localhost:8000/es or localhost:8000/ja, and check out your newly translated app!</p>
+<h2 id='routing'>Routing</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
+<span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">Layout</span> <span class="nx">from</span> <span class="s2">"../components/layout"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Link</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"gatsby-plugin-lang"</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">IndexPage</span> <span class="o">=</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Layout</span><span class="o">&gt;</span>
+      <span class="p">{</span><span class="cm">/* Our &lt;Link /&gt; component preserves the language routing in your app */</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/page-2/"</span><span class="o">&gt;</span><span class="nx">Go</span> <span class="nx">to</span> <span class="nx">page</span> <span class="mi">2</span><span class="o">&lt;</span><span class="sr">/Link</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/Layout</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">IndexPage</span><span class="p">;</span>
+</code></pre>
+<p>Gatsby is a static site generator, and we hook into Gatsby&#39;s build process to automatically generate separate pages for each language you use in your app. If your target languages are Spanish (es) and Japanese (ja), we&#39;ll automatically create yourdomain.com/es and yourdomain.com/ja, which are the translated versions of your site in Spanish and Japanese respectively.</p>
+
+<p><strong>IMPORTANT</strong> You must use the Link component in &quot;gatsby-plugin-lang&quot; to perform navigation, otherwise a user will be sent from a Japanese version of the site (e.g. yourdomain.com/ja/home) to the English version (e.g. yourdomain.com/home).</p>
+<h2 id='hot-reloading'>Hot Reloading</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
+<span class="cm">/**
+ * Implement Gatsby's Browser APIs in this file.
+ *
+ * See: https://www.gatsbyjs.org/docs/browser-apis/
+ */</span>
+<span class="kr">const</span> <span class="nx">React</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"react"</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
+  <span class="s2">"sk_prod_4505fd24-7157-4e06-b473-52481db18f6d"</span><span class="p">,</span> <span class="c1">// Your publishable key. See https://www.langapi.co/dashboard</span>
+  <span class="nx">require</span><span class="p">(</span><span class="s2">"./src/langapi/translations.json"</span><span class="p">)</span>
+<span class="p">);</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">LangProvider</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"gatsby-plugin-lang"</span><span class="p">);</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">wrapRootElement</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">element</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">LangProvider</span> <span class="nx">client</span><span class="o">=</span><span class="p">{</span><span class="nx">client</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/LangProvider&gt;</span><span class="err">;
+</span><span class="p">};</span>
+</code></pre>
+<p>Since our plugin builds the translated version of your app during the &quot;gatsby-node.js&quot; phase, your browser won&#39;t show the newest translations even if you &quot;langapi pull&quot; during &quot;gatsby develop&quot;, since Gatsby only re-runs the code in &quot;gatsby-ssr.js&quot; and &quot;gatsby-browser.js&quot;. We&#39;re still working on this, but here&#39;s a quick way to force your browser to reload your translations without re-running &quot;gatsby develop&quot; or &quot;gatsby build&quot;.</p>
+
+<p>Add the snippet of code to your &quot;gatsby-browser.js&quot; file. This will force Gatsby to re-inject your translation data into the app each time translations.json is updated. Now you can pull in new translations and your browser will automatically show them!</p>
 <h1 id='continuous-translation'>Continuous Translation</h1>
 <p>Sites that have continuously generated content, like forums or user-generated content, need a way to translate on the fly. Lang has tools that make continuous translation super easy.</p>
 <h2 id='request'>Request</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// Relative path to auto-generated LangClient.js file</span>
