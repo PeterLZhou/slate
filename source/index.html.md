@@ -780,6 +780,101 @@ In our code example, we show a sample App component using LangProvider. We use R
 
 Coming soon...
 
+# Android
+
+We have built a Gradle plugin for Android which makes it very simple to localize your app. Currently, the only requirement is that strings in the native language be located in a 'strings.xml' file.
+
+## Install the Plugin
+
+Using the Groovy plugins DSL:
+
+```groovy--all
+plugins {
+  id "co.langapi.langplugin" version "1.0"
+}
+```
+
+Using Groovy legacy plugin applications:
+
+```groovy--all
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.co.langapi:cli:1.0"
+  }
+}
+
+apply plugin: "co.langapi.langplugin"
+```
+
+If you're build files are in kotlin, visit [here](https://plugins.gradle.org/plugin/co.langapi.langplugin) for more details.
+
+## Run init
+
+First, sync gradle if your IDE hasn't already autosynced. Then in the root directory use the gradle wrapper to run the initialization task.
+
+```shell--all
+#!/usr/bin/bash
+
+> gradlew init
+```
+
+langapiconfig.json declares the path of the original strings.xml file and the new strings.xml files for each language.  
+
+```json--all
+{
+  "originalLanguage": "en",
+  "originalSourceFile": "path/to/strings.xml",
+  "apiKey": "YOUR_API_KEY",
+  "languages": [
+    {
+      "targetLanguage": "es",
+      "targetSourceFile": "path/to/target/language/strings.xml"
+    }
+  ]
+}
+```
+
+After running **gradlew initialize**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into your repository.
+
+We'll add Spanish as an example. You can find a list of language encodings we support [here](#language-codes). 
+You can find your API Key on the dashboard if you click on your project in the 'Projects' tab. If you haven't signed up for an account check out [getting started](#getting-started)
+
+## Request translations
+
+Now we're all set to request translations! Simply run **gradlew push** in your root directory. This will request **machine translations** so this will be available to pull instantly.
+
+```shell-all
+#!usr/bin/bash
+
+> gradlew push
+```
+
+## Receive translations
+
+To receive the translations, run **gradlew pull** in your root directory. Lang will save the translated xml files to the paths specified in your langapiconfig.json. 
+
+```shell-all
+#!usr/bin/bash
+
+> gradlew pull
+```
+
+Lang will pull the machine translation for phrases with no complete human translations. Translations are marked as 'Human' or 'Machine' as a comment in the translated strings.xml file.
+
+```xml--all
+<resources>
+    <!--Translation type: Machine-->
+    <string name="app_name">Mi aplicación</string>
+    <!--Translation type: Human-->
+    <string name="landing_text">Hola amigos</string>
+</resources>
+```
+
 # GatsbyJS
 
 We've built a custom plugin for Gatsby, one of the most popular React-based static site generators, to make it easy to localize your app, personal page, or blog.
