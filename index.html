@@ -329,13 +329,30 @@
               </ul>
           </li>
           <li>
+            <a href="#android" class="toc-h1 toc-link" data-title="Android">Android</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#install-the-plugin" class="toc-h2 toc-link" data-title="Install the Plugin">Install the Plugin</a>
+                  </li>
+                  <li>
+                    <a href="#run-init" class="toc-h2 toc-link" data-title="Run init">Run init</a>
+                  </li>
+                  <li>
+                    <a href="#request-translations" class="toc-h2 toc-link" data-title="Request translations">Request translations</a>
+                  </li>
+                  <li>
+                    <a href="#receive-translations" class="toc-h2 toc-link" data-title="Receive translations">Receive translations</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#gatsbyjs" class="toc-h1 toc-link" data-title="GatsbyJS">GatsbyJS</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#install-the-cli" class="toc-h2 toc-link" data-title="Install the CLI">Install the CLI</a>
                   </li>
                   <li>
-                    <a href="#run-init" class="toc-h2 toc-link" data-title="Run init">Run init</a>
+                    <a href="#run-init-2" class="toc-h2 toc-link" data-title="Run init">Run init</a>
                   </li>
                   <li>
                     <a href="#add-your-first-language" class="toc-h2 toc-link" data-title="Add your first language">Add your first language</a>
@@ -995,7 +1012,75 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
 <p>In our code example, we show a sample App component using LangProvider. We use React&#39;s basic State API to show how a change to currentLanguage will re-render the entire component tree, but you can pass in a stateful variable from your Redux or MobX stores as well.</p>
 <h2 id='tr-2'>Tr</h2>
 <p>Coming soon...</p>
-<h1 id='gatsbyjs'>GatsbyJS</h1>
+<h1 id='android'>Android</h1>
+<p>We have built a Gradle plugin for Android which makes it very simple to localize your app. Currently, the only requirement is that strings in the native language be located in a &#39;strings.xml&#39; file.</p>
+<h2 id='install-the-plugin'>Install the Plugin</h2>
+<blockquote>
+<p>Using the Groovy plugins DSL:</p>
+</blockquote>
+<pre class="highlight groovy tab-groovy--all"><code><span class="n">plugins</span> <span class="o">{</span>
+  <span class="n">id</span> <span class="s2">"co.langapi.langplugin"</span> <span class="n">version</span> <span class="s2">"1.0"</span>
+<span class="o">}</span>
+</code></pre>
+<blockquote>
+<p>Using Groovy legacy plugin applications:</p>
+</blockquote>
+<pre class="highlight groovy tab-groovy--all"><code><span class="n">buildscript</span> <span class="o">{</span>
+  <span class="n">repositories</span> <span class="o">{</span>
+    <span class="n">maven</span> <span class="o">{</span>
+      <span class="n">url</span> <span class="s2">"https://plugins.gradle.org/m2/"</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+  <span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">classpath</span> <span class="s2">"gradle.plugin.co.langapi:cli:1.0"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s2">"co.langapi.langplugin"</span>
+</code></pre>
+<p>You can add the plugin by making a small modification to your build.gradle file. If your build files are in Kotlin, visit <a href="https://plugins.gradle.org/plugin/co.langapi.langplugin">official instructions</a> for more details.</p>
+<h2 id='run-init'>Run init</h2>
+<p>First, sync gradle if your IDE hasn&#39;t already autosynced. Then in the root directory use the gradle wrapper to run the initialization task.</p>
+
+<p>langapiconfig.json declares the path of the original strings.xml file and the new strings.xml files for each language.</p>
+<pre class="highlight shell tab-shell--all"><code><span class="c">#!/usr/bin/bash</span>
+
+<span class="gp">&gt; </span>gradlew init
+</code></pre><pre class="highlight json tab-json--all"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"originalLanguage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"originalSourceFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/strings.xml"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_API_KEY"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"languages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"targetLanguage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"targetSourceFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/target/language/strings.xml"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>After running <strong>gradlew initialize</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into your repository.</p>
+
+<p>We&#39;ll add Spanish as an example. You can find a list of language encodings we support <a href="#language-codes">here</a>.
+You can find your API Key on the dashboard if you click on your project in the &#39;Projects&#39; tab. If you haven&#39;t signed up for an account check out <a href="#getting-started">getting started</a></p>
+<h2 id='request-translations'>Request translations</h2>
+<p>Now we&#39;re all set to request translations! Simply run <strong>gradlew push</strong> in your root directory. This will request <strong>machine translations</strong> so this will be available to pull instantly.</p>
+<pre class="highlight shell tab-shell--all"><code><span class="c">#!usr/bin/bash</span>
+
+<span class="gp">&gt; </span>gradlew push
+</code></pre><h2 id='receive-translations'>Receive translations</h2>
+<p>To receive the translations, run <strong>gradlew pull</strong> in your root directory. Lang will save the translated xml files to the paths specified in your langapiconfig.json.</p>
+<pre class="highlight shell tab-shell--all"><code><span class="c">#!usr/bin/bash</span>
+
+<span class="gp">&gt; </span>gradlew pull
+</code></pre>
+<p>Lang will pull the machine translation for phrases with no complete human translations. Translations are marked as &#39;Human&#39; or &#39;Machine&#39; as a comment in the translated strings.xml file.</p>
+<pre class="highlight xml tab-xml--all"><code><span class="nt">&lt;resources&gt;</span>
+    <span class="c">&lt;!--Translation type: Machine--&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"app_name"</span><span class="nt">&gt;</span>Mi aplicación<span class="nt">&lt;/string&gt;</span>
+    <span class="c">&lt;!--Translation type: Human--&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"landing_text"</span><span class="nt">&gt;</span>Hola amigos<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre><h1 id='gatsbyjs'>GatsbyJS</h1>
 <p>We&#39;ve built a custom plugin for Gatsby, one of the most popular React-based static site generators, to make it easy to localize your app, personal page, or blog.</p>
 
 <p>In this section, we assume you&#39;ve created your own Gatsby project (if you haven&#39;t, <a href="https://www.gatsbyjs.org/docs/gatsby-cli/">you can use the Gatsby CLI</a>).</p>
@@ -1012,7 +1097,7 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
 <span class="gp">&gt; </span>langapi signup
 </code></pre>
 <p>To start, you&#39;ll need to install the Lang command-line interface tool. See the docs on the CLI to understand the various commands and options.</p>
-<h2 id='run-init'>Run init</h2>
+<h2 id='run-init-2'>Run init</h2>
 <blockquote>
 <p>To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you&#39;re using TypeScript.</p>
 </blockquote>
