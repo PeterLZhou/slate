@@ -811,7 +811,7 @@ buildscript {
 apply plugin: "co.langapi.langplugin"
 ```
 
-If your build files are in Kotlin, visit [here](https://plugins.gradle.org/plugin/co.langapi.langplugin) for more details.
+You can add the plugin by making a small modification to your build.gradle file. If your build files are in Kotlin, visit [official instructions](https://plugins.gradle.org/plugin/co.langapi.langplugin) for more details.
 
 ## Run init
 
