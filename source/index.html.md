@@ -786,7 +786,7 @@ We have built a Gradle plugin for Android which makes it very simple to localize
 
 ## Install the Plugin
 
-Using the Groovy plugins DSL:
+> Using the Groovy plugins DSL:
 
 ```groovy--all
 plugins {
@@ -794,7 +794,7 @@ plugins {
 }
 ```
 
-Using Groovy legacy plugin applications:
+> Using Groovy legacy plugin applications:
 
 ```groovy--all
 buildscript {
@@ -811,19 +811,19 @@ buildscript {
 apply plugin: "co.langapi.langplugin"
 ```
 
-If you're build files are in kotlin, visit [here](https://plugins.gradle.org/plugin/co.langapi.langplugin) for more details.
+If your build files are in Kotlin, visit [here](https://plugins.gradle.org/plugin/co.langapi.langplugin) for more details.
 
 ## Run init
 
 First, sync gradle if your IDE hasn't already autosynced. Then in the root directory use the gradle wrapper to run the initialization task.
+
+langapiconfig.json declares the path of the original strings.xml file and the new strings.xml files for each language.
 
 ```shell--all
 #!/usr/bin/bash
 
 > gradlew init
 ```
-
-langapiconfig.json declares the path of the original strings.xml file and the new strings.xml files for each language.  
 
 ```json--all
 {
@@ -841,14 +841,14 @@ langapiconfig.json declares the path of the original strings.xml file and the ne
 
 After running **gradlew initialize**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into your repository.
 
-We'll add Spanish as an example. You can find a list of language encodings we support [here](#language-codes). 
+We'll add Spanish as an example. You can find a list of language encodings we support [here](#language-codes).
 You can find your API Key on the dashboard if you click on your project in the 'Projects' tab. If you haven't signed up for an account check out [getting started](#getting-started)
 
 ## Request translations
 
 Now we're all set to request translations! Simply run **gradlew push** in your root directory. This will request **machine translations** so this will be available to pull instantly.
 
-```shell-all
+```shell--all
 #!usr/bin/bash
 
 > gradlew push
@@ -856,9 +856,9 @@ Now we're all set to request translations! Simply run **gradlew push** in your r
 
 ## Receive translations
 
-To receive the translations, run **gradlew pull** in your root directory. Lang will save the translated xml files to the paths specified in your langapiconfig.json. 
+To receive the translations, run **gradlew pull** in your root directory. Lang will save the translated xml files to the paths specified in your langapiconfig.json.
 
-```shell-all
+```shell--all
 #!usr/bin/bash
 
 > gradlew pull
