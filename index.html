@@ -383,6 +383,9 @@
                   <li>
                     <a href="#livetr" class="toc-h2 toc-link" data-title="LiveTr">LiveTr</a>
                   </li>
+                  <li>
+                    <a href="#api" class="toc-h2 toc-link" data-title="API">API</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -1007,8 +1010,42 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
 <p>If a user decides to change their preferred language on the frontend, <strong>LangClient</strong> and <strong>tr</strong> won&#39;t know the new language unless you notify it. The React app also won &#39;t re-render, because Lang is a standalone module and not connected to React&#39;s state. To solve these problems, we&#39;ve built <strong>LangProvider</strong>, which let&#39;s you connect Lang with your app&#39;s state.</p>
 
 <p>In our code example, we show a sample App component using LangProvider. We use React&#39;s basic State API to show how a change to currentLanguage will re-render the entire component tree, but you can pass in a stateful variable from your Redux or MobX stores as well.</p>
-<h2 id='tr-2'>Tr</h2>
-<p>Coming soon...</p>
+<h2 id='tr-2'>Tr</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// Remember to run "npm install --save react-langapi"</span>
+<span class="c1">// *.js, *.jsx</span>
+
+<span class="c1">// Inside a component wrapped by &lt;LangProvider /&gt;</span>
+<span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Tr</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-langapi"</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">ChildComponent</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Tr</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!&lt;</span><span class="sr">/Tr</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">Tr</span> <span class="nx">variables</span><span class="o">=</span><span class="p">{{</span> <span class="na">count</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}}</span><span class="o">&gt;</span><span class="nx">I</span> <span class="nx">have</span> <span class="p">{</span><span class="s2">"{count}"</span><span class="p">}</span> <span class="nx">apples</span><span class="o">&lt;</span><span class="sr">/Tr</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// Remember to run "npm install --save react-langapi"</span>
+<span class="c1">// *.js, *.jsx</span>
+
+<span class="c1">// Inside a component wrapped by &lt;LangProvider /&gt;</span>
+<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Tr</span> <span class="p">}</span> <span class="k">from</span> <span class="s2">"react-langapi"</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">ChildComponent</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Tr</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!&lt;</span><span class="sr">/Tr</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">Tr</span> <span class="nx">variables</span><span class="o">=</span><span class="p">{{</span> <span class="na">count</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}}</span><span class="o">&gt;</span><span class="nx">I</span> <span class="nx">have</span> <span class="p">{</span><span class="s2">"{count}"</span><span class="p">}</span> <span class="nx">apples</span><span class="o">&lt;</span><span class="sr">/Tr</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>The Tr React component functions exactly like the tr function. Make sure to format the phrase inside in ICU format - to pass escaped variables in, supply them as a dictionary using the <code>variables</code> prop.</p>
 <h1 id='android'>Android</h1>
 <p>We have built a Gradle plugin for Android which makes it very simple to localize your app. Currently, the only requirement is that strings in the native language be located in a &#39;strings.xml&#39; file.</p>
 <h2 id='install-the-plugin'>Install the Plugin</h2>
@@ -1373,6 +1410,44 @@ Here, we&#39;ve added Spanish (es) as a target language.</p>
 <p>By default, all of our dynamic translations are hosted on our CDN. We have solutions for self-hosting as well as integrations with your own database instrastructure - <a href="mailto:sales@langapi.co">Contact sales</a> for more information.</p>
 
 <p>To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client. Optionally, you can run <code>langapi pull --live</code> on the CLI to cache all continuous translations into your translations.json.</p>
+<h2 id='api'>API</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
+
+cURL -X POST "https://lang-backend.herokuapp.com/api/v1/livetr" <span class="err">\</span>
+ -H 'Authorization: Token <span class="nt">&lt;Your</span> <span class="na">API_KEY</span><span class="nt">&gt;</span>' <span class="err">\</span>
+ -d phrase='I want this translated' <span class="err">\</span>
+ -d original_language='en' <span class="err">\</span>
+ -d request_target_language='es' <span class="err">\</span>
+ -d request_target_language='zh' <span class="err">\</span>
+ -d lookup_target_language='es' <span class="err">\</span>
+ -d pipeline='p0' <span class="err">\</span>
+ -d project='test-project' <span class="err">\</span>
+ -d request_machine=false <span class="err">\</span>
+ -d description='This is a description of the phrase'
+</code></pre>
+<blockquote>
+<p>The above request returns a response like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"translation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quiero esto traducido"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"original_language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"target_language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>We offer an API endpoint that functions the same way as the liveTr function.</p>
+
+<p>The arguments should have the following form:</p>
+
+<ul>
+<li><code>phrase</code>: the string representing the phrase being translated.</li>
+<li><code>originalLanguage</code>: a string representing the language code of the original language.</li>
+<li><code>requestTargetLanguage</code>: a string representing the language code of the requested translated language. One argument should be provided for each requested language.</li>
+<li><code>lookupTargetLanguage</code>: a string representing the langauge code of the requested translation</li>
+<li><code>project</code> (optional): a string containing the project name you want to request and receive translations for. If you only own one project, this is optional. Otherwise, you must supply a project name.</li>
+<li><code>description</code> (optional): A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.</li>
+<li><code>requestMachine</code> (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.</li>
+<li><code>pipeline</code> (optional): A string value representing what workflow you want your translations to go through. <a href="mailto:sales@langapi.co">Contact sales</a> for information on how to customize translation workflows.</li>
+</ul>
 <h1 id='language-codes'>Language Codes</h1>
 <p>Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.</p>
 
