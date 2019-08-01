@@ -778,7 +778,47 @@ In our code example, we show a sample App component using LangProvider. We use R
 
 ## Tr
 
-Coming soon...
+```javascript
+// Remember to run "npm install --save react-langapi"
+// *.js, *.jsx
+
+// Inside a component wrapped by <LangProvider />
+import React from "react";
+import { Tr } from "react-langapi";
+
+class ChildComponent extends React.Component {
+  render() {
+    return (
+      <div>
+        <Tr>Hello world!</Tr>
+        <Tr variables={{ count: 5 }}>I have {"{count}"} apples</Tr>
+      </div>
+    );
+  }
+}
+```
+
+```typescript
+// Remember to run "npm install --save react-langapi"
+// *.js, *.jsx
+
+// Inside a component wrapped by <LangProvider />
+import React from "react";
+import { Tr } from "react-langapi";
+
+class ChildComponent extends React.Component {
+  render() {
+    return (
+      <div>
+        <Tr>Hello world!</Tr>
+        <Tr variables={{ count: 5 }}>I have {"{count}"} apples</Tr>
+      </div>
+    );
+  }
+}
+```
+
+The Tr React component functions exactly like the tr function. Make sure to format the phrase inside in ICU format - to pass escaped variables in, supply them as a dictionary using the `variables` prop.
 
 # Android
 
@@ -1219,6 +1259,48 @@ The arguments should have the following form:
 By default, all of our dynamic translations are hosted on our CDN. We have solutions for self-hosting as well as integrations with your own database instrastructure - [Contact sales](mailto:sales@langapi.co) for more information.
 
 To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client. Optionally, you can run `langapi pull --live` on the CLI to cache all continuous translations into your translations.json.
+
+## API
+
+```markdown
+# cURL
+
+cURL -X POST "https://lang-backend.herokuapp.com/api/v1/livetr" \
+ -H 'Authorization: Token <Your API_KEY>' \
+ -d phrase='I want this translated' \
+ -d original_language='en' \
+ -d request_target_language='es' \
+ -d request_target_language='zh' \
+ -d lookup_target_language='es' \
+ -d pipeline='p0' \
+ -d project='test-project' \
+ -d request_machine=false \
+ -d description='This is a description of the phrase'
+```
+
+> The above request returns a response like this:
+
+```json
+{
+  "translation": "Quiero esto traducido",
+  "status": "complete",
+  "original_language": "en",
+  "target_language": "es"
+}
+```
+
+We offer an API endpoint that functions the same way as the liveTr function.
+
+The arguments should have the following form:
+
+- `phrase`: the string representing the phrase being translated.
+- `originalLanguage`: a string representing the language code of the original language.
+- `requestTargetLanguage`: a string representing the language code of the requested translated language. One argument should be provided for each requested language.
+- `lookupTargetLanguage`: a string representing the langauge code of the requested translation
+- `project` (optional): a string containing the project name you want to request and receive translations for. If you only own one project, this is optional. Otherwise, you must supply a project name.
+- `description` (optional): A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.
+- `requestMachine` (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.
+- `pipeline` (optional): A string value representing what workflow you want your translations to go through. [Contact sales](mailto:sales@langapi.co) for information on how to customize translation workflows.
 
 #Language Codes
 
