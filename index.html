@@ -326,6 +326,9 @@
                   <li>
                     <a href="#tr-2" class="toc-h2 toc-link" data-title="Tr">Tr</a>
                   </li>
+                  <li>
+                    <a href="#legacy-support" class="toc-h2 toc-link" data-title="Legacy Support">Legacy Support</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -335,13 +338,19 @@
                     <a href="#install-the-plugin" class="toc-h2 toc-link" data-title="Install the Plugin">Install the Plugin</a>
                   </li>
                   <li>
-                    <a href="#run-init" class="toc-h2 toc-link" data-title="Run init">Run init</a>
+                    <a href="#run-initialize" class="toc-h2 toc-link" data-title="Run initialize">Run initialize</a>
                   </li>
                   <li>
                     <a href="#request-translations" class="toc-h2 toc-link" data-title="Request translations">Request translations</a>
                   </li>
                   <li>
                     <a href="#receive-translations" class="toc-h2 toc-link" data-title="Receive translations">Receive translations</a>
+                  </li>
+                  <li>
+                    <a href="#mark-string-for-no-translation" class="toc-h2 toc-link" data-title="Mark string for no translation">Mark string for no translation</a>
+                  </li>
+                  <li>
+                    <a href="#upload-existing-translations" class="toc-h2 toc-link" data-title="Upload existing translations">Upload existing translations</a>
                   </li>
               </ul>
           </li>
@@ -352,7 +361,7 @@
                     <a href="#install-the-cli" class="toc-h2 toc-link" data-title="Install the CLI">Install the CLI</a>
                   </li>
                   <li>
-                    <a href="#run-init-2" class="toc-h2 toc-link" data-title="Run init">Run init</a>
+                    <a href="#run-init" class="toc-h2 toc-link" data-title="Run init">Run init</a>
                   </li>
                   <li>
                     <a href="#add-your-first-language" class="toc-h2 toc-link" data-title="Add your first language">Add your first language</a>
@@ -733,72 +742,54 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>LangClient is the core module of Lang. It gets automatically installed during <strong>langapi init</strong>, and we generate some files for you so you don&#39;t have to configure it and can get started immediately. However, you can interact with its APIs directly, and we list them here:</p>
 <h2 id='initializing-langclient'>Initializing LangClient</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 
-<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
-  <span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">)</span>
-<span class="p">);</span>
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="err">"</span><span class="p">.</span><span class="o">/</span><span class="nx">translations</span><span class="p">.</span><span class="nx">json</span><span class="p">));</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
-  <span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">)</span>
-<span class="p">);</span>
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="err">"</span><span class="p">.</span><span class="o">/</span><span class="nx">translations</span><span class="p">.</span><span class="nx">json</span><span class="p">));</span>
 </code></pre>
 <p>To initialize LangClient, we simply require() it and pass in the required arguments. The first argument is your Lang publishable key. The second argument is the JSON object from your translations.json file, which should be in your auto-generated langapi directory.</p>
 
 <p>By default, LangClient attempts to detect the user&#39;s language automatically and translate to that language. This can be overridden, <a href="##setLanguage">see setLanguage.</a></p>
 <h2 id='tr'>tr</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 
-<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
-  <span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">)</span>
-<span class="p">);</span>
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
 
-<span class="c1">// Tries to translate "Hello world!" into currently set language.</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">);</span>
+// Tries to translate "</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">" into currently set language.
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">")
 
-<span class="c1">// The second argument contains context variables for the string</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span> <span class="p">});</span>
+// The second argument contains context variables for the string
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"});
 
-<span class="c1">// The third argument is a force language override</span>
-<span class="c1">// Here, LangClient will try to translate to Spanish</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span> <span class="p">},</span> <span class="s2">"es"</span><span class="p">);</span>
+// The third argument is a force language override
+// Here, LangClient will try to translate to Spanish
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"}, "</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
-  <span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">)</span>
-<span class="p">);</span>
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
 
-<span class="c1">// Tries to translate "Hello world!" into currently set language.</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">);</span>
+// Tries to translate "</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">" into currently set language.
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">")
 
-<span class="c1">// The second argument contains context variables for the string</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span> <span class="p">});</span>
+// The second argument contains context variables for the string
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"});
 
-<span class="c1">// The third argument is a force language override</span>
-<span class="c1">// Here, LangClient will try to translate to Spanish</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span> <span class="p">},</span> <span class="s2">"es"</span><span class="p">);</span>
+// The third argument is a force language override
+// Here, LangClient will try to translate to Spanish
+LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"}, "</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
 </code></pre>
 <p><strong>tr</strong> is the bread-and-butter of LangClient. It takes a string and two optional arguments, and attempts to translate the string using translations loaded in via translations.json. See the code sample for all argument possibilities.</p>
 <h2 id='setforcelanguage'>setForceLanguage</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 
-<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
-  <span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">)</span>
-<span class="p">);</span>
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
 
-<span class="c1">// Forces the language to Spanish</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">setForceLanguage</span><span class="p">(</span><span class="s2">"es"</span><span class="p">);</span>
+// Forces the language to Spanish
+LangClient.setForceLanguage("</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"langapi-client"</span><span class="p">)(</span>
-  <span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span>
-  <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">)</span>
-<span class="p">);</span>
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
 
-<span class="c1">// Forces the language to Spanish</span>
-<span class="nx">LangClient</span><span class="p">.</span><span class="nx">setForceLanguage</span><span class="p">(</span><span class="s2">"es"</span><span class="p">);</span>
+// Forces the language to Spanish
+LangClient.setForceLanguage("</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
 </code></pre>
 <p><strong>setForceLanguage</strong> explictly tells LangClient to use a specific language code, overriding the default language LangClient detects from the user&#39;s browser. This is useful when you have options on your app to change a user&#39;s language settings and want to override the default.</p>
 <h2 id='getlanguage'>getLanguage</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
@@ -1064,14 +1055,28 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
 <span class="p">}</span>
 </code></pre>
 <p>The Tr React component functions exactly like the tr function. Make sure to format the phrase inside in ICU format - to pass escaped variables in, supply them as a dictionary using the <code>variables</code> prop.</p>
-<h1 id='android'>Android</h1>
+<h2 id='legacy-support'>Legacy Support</h2>
+<p>For versions of React that do not support the Context API (introduced in 16.3.0), you can still make use of the React bindings!</p>
+
+<p>Just copy the code-snippet into LangClient and you can now import the Tr component througout your application.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Add into LangClient.js</span>
+<span class="kr">import</span> <span class="p">{</span><span class="nx">TrLegacy</span><span class="p">,</span> <span class="nx">withLang</span><span class="p">}</span> <span class="nx">from</span> <span class="s1">'react-langapi'</span><span class="p">;</span>
+
+<span class="c1">// named export </span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">Tr</span> <span class="o">=</span> <span class="nx">withLang</span><span class="p">(</span><span class="nx">TrLegacy</span><span class="p">,</span> <span class="nx">LangClient</span><span class="p">);</span>
+</code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// Add into LangClient.ts</span>
+<span class="k">import</span> <span class="p">{</span><span class="nx">TrLegacy</span><span class="p">,</span> <span class="nx">withLang</span><span class="p">}</span> <span class="k">from</span> <span class="s1">'react-langapi'</span><span class="p">;</span>
+
+<span class="c1">// named export </span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">Tr</span> <span class="o">=</span> <span class="nx">withLang</span><span class="p">(</span><span class="nx">TrLegacy</span><span class="p">,</span> <span class="nx">LangClient</span><span class="p">);</span>
+</code></pre><h1 id='android'>Android</h1>
 <p>We have built a Gradle plugin for Android which makes it very simple to localize your app. Currently, the only requirement is that strings in the native language be located in a &#39;strings.xml&#39; file.</p>
 <h2 id='install-the-plugin'>Install the Plugin</h2>
 <blockquote>
 <p>Using the Groovy plugins DSL:</p>
 </blockquote>
 <pre class="highlight groovy tab-groovy--all"><code><span class="n">plugins</span> <span class="o">{</span>
-  <span class="n">id</span> <span class="s2">"co.langapi.langplugin"</span> <span class="n">version</span> <span class="s2">"1.0"</span>
+  <span class="n">id</span> <span class="s2">"co.langapi.langplugin"</span> <span class="n">version</span> <span class="s2">"1.3"</span>
 <span class="o">}</span>
 </code></pre>
 <blockquote>
@@ -1084,20 +1089,18 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
     <span class="o">}</span>
   <span class="o">}</span>
   <span class="n">dependencies</span> <span class="o">{</span>
-    <span class="n">classpath</span> <span class="s2">"gradle.plugin.co.langapi:cli:1.0"</span>
+    <span class="n">classpath</span> <span class="s2">"gradle.plugin.co.langapi:cli:1.3"</span>
   <span class="o">}</span>
 <span class="o">}</span>
 
 <span class="n">apply</span> <span class="nl">plugin:</span> <span class="s2">"co.langapi.langplugin"</span>
 </code></pre>
 <p>You can add the plugin by making a small modification to your build.gradle file. If your build files are in Kotlin, visit <a href="https://plugins.gradle.org/plugin/co.langapi.langplugin">official instructions</a> for more details.</p>
-<h2 id='run-init'>Run init</h2>
-<p>First, sync gradle if your IDE hasn&#39;t already autosynced. Then in the root directory use the gradle wrapper to run the initialization task.</p>
-
-<p>langapiconfig.json declares the path of the original strings.xml file and the new strings.xml files for each language.</p>
+<h2 id='run-initialize'>Run initialize</h2>
+<p>First, sync gradle if your IDE hasn&#39;t already autosynced. Then in the root directory use the gradle wrapper to run the initialization task. </p>
 <pre class="highlight shell tab-shell--all"><code><span class="c">#!/usr/bin/bash</span>
 
-<span class="gp">&gt; </span>gradlew init
+<span class="gp">&gt; </span>gradlew initialize
 </code></pre><pre class="highlight json tab-json--all"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"originalLanguage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"originalSourceFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path/to/strings.xml"</span><span class="p">,</span><span class="w">
@@ -1110,7 +1113,9 @@ LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">"
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>After running <strong>gradlew initialize</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into your repository.</p>
+<p>After running <strong>gradlew initialize</strong>, a new file <strong>langapiconfig.json</strong> will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into version control.</p>
+
+<p>The configuration file, langapiconfig.json, declares the path of the original strings.xml file and the new strings.xml files for each language.</p>
 
 <p>We&#39;ll add Spanish as an example. You can find a list of language encodings we support <a href="#language-codes">here</a>.
 You can find your API Key on the dashboard if you click on your project in the &#39;Projects&#39; tab. If you haven&#39;t signed up for an account check out <a href="#getting-started">getting started</a></p>
@@ -1132,6 +1137,19 @@ You can find your API Key on the dashboard if you click on your project in the &
     <span class="c">&lt;!--Translation type: Human--&gt;</span>
     <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"landing_text"</span><span class="nt">&gt;</span>Hola amigos<span class="nt">&lt;/string&gt;</span>
 <span class="nt">&lt;/resources&gt;</span>
+</code></pre><h2 id='mark-string-for-no-translation'>Mark string for no translation</h2>
+<p>If you don&#39;t want a string to be translated, simply set a translatable attribute to false.</p>
+<pre class="highlight xml tab-xml--all"><code><span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"foo"</span> <span class="na">translatable=</span><span class="s">"false"</span><span class="nt">&gt;</span>Don't translate this string element<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string-array</span> <span class="na">name=</span><span class="s">"things"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"bar"</span> <span class="na">translatable=</span><span class="s">"false"</span><span class="nt">&gt;</span>Don't translate this array element<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;/string-array&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+</code></pre><h2 id='upload-existing-translations'>Upload existing translations</h2>
+<p>If you have existing translations in string.xml files then add them to the config as explained <a href="#run-initialize">here</a>. Then simply run <strong>gradlew upload</strong>. Be careful to only upload files with professional translations because all uploaded translations will be marked as &#39;Human&#39;.</p>
+<pre class="highlight shell tab-shell--all"><code><span class="c">#!usr/bin/bash</span>
+
+<span class="gp">&gt; </span>gradlew upload
 </code></pre><h1 id='gatsbyjs'>GatsbyJS</h1>
 <p>We&#39;ve built a custom plugin for Gatsby, one of the most popular React-based static site generators, to make it easy to localize your app, personal page, or blog.</p>
 
@@ -1149,7 +1167,7 @@ You can find your API Key on the dashboard if you click on your project in the &
 <span class="gp">&gt; </span>langapi signup
 </code></pre>
 <p>To start, you&#39;ll need to install the Lang command-line interface tool. See the docs on the CLI to understand the various commands and options.</p>
-<h2 id='run-init-2'>Run init</h2>
+<h2 id='run-init'>Run init</h2>
 <blockquote>
 <p>To initialize langapi, run langapi init in the root directory and specify your source directory with the --src flag. Add --ts if you&#39;re using TypeScript.</p>
 </blockquote>
