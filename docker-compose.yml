@@ -1,0 +1,6 @@
+app:
+  build: .
+  ports:
+    - 4567:4567
+  volumes:
+    - C:/Users/abhi/Documents/lang/slate/source:/usr/src/app/source
