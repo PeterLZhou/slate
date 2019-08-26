@@ -852,7 +852,7 @@ We have built a Gradle plugin for Android which makes it very simple to localize
 
 ```groovy--all
 plugins {
-  id "co.langapi.langplugin" version "1.0"
+  id "co.langapi.langplugin" version "1.3"
 }
 ```
 
@@ -866,7 +866,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.co.langapi:cli:1.0"
+    classpath "gradle.plugin.co.langapi:cli:1.3"
   }
 }
 
@@ -875,16 +875,14 @@ apply plugin: "co.langapi.langplugin"
 
 You can add the plugin by making a small modification to your build.gradle file. If your build files are in Kotlin, visit [official instructions](https://plugins.gradle.org/plugin/co.langapi.langplugin) for more details.
 
-## Run init
+## Run initialize
 
-First, sync gradle if your IDE hasn't already autosynced. Then in the root directory use the gradle wrapper to run the initialization task.
-
-langapiconfig.json declares the path of the original strings.xml file and the new strings.xml files for each language.
+First, sync gradle if your IDE hasn't already autosynced. Then in the root directory use the gradle wrapper to run the initialization task. 
 
 ```shell--all
 #!/usr/bin/bash
 
-> gradlew init
+> gradlew initialize
 ```
 
 ```json--all
@@ -901,7 +899,9 @@ langapiconfig.json declares the path of the original strings.xml file and the ne
 }
 ```
 
-After running **gradlew initialize**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into your repository.
+After running **gradlew initialize**, a new file **langapiconfig.json** will appear in your root directory. You can configure the behavior of Lang here, and you should check this file into version control.
+
+The configuration file, langapiconfig.json, declares the path of the original strings.xml file and the new strings.xml files for each language.
 
 We'll add Spanish as an example. You can find a list of language encodings we support [here](#language-codes).
 You can find your API Key on the dashboard if you click on your project in the 'Projects' tab. If you haven't signed up for an account check out [getting started](#getting-started)
@@ -935,6 +935,28 @@ Lang will pull the machine translation for phrases with no complete human transl
     <!--Translation type: Human-->
     <string name="landing_text">Hola amigos</string>
 </resources>
+```
+
+## Mark string for no translation
+If you don't want a string to be translated, simply set a translatable attribute to false.
+
+```xml--all
+<resources>
+    <string name="foo" translatable="false">Don't translate this string element</string>
+    <string-array name="things">
+        <string name="bar" translatable="false">Don't translate this array element</string>
+    </string-array>
+<resources>
+```
+
+## Upload existing translations
+
+If you have existing translations in string.xml files then add them to the config as explained [here](#run-initialize). Then simply run **gradlew upload**. Be careful to only upload files with professional translations because all uploaded translations will be marked as 'Human'.
+
+```shell--all
+#!usr/bin/bash
+
+> gradlew upload
 ```
 
 # GatsbyJS
