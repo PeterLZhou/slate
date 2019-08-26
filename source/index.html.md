@@ -820,6 +820,28 @@ class ChildComponent extends React.Component {
 
 The Tr React component functions exactly like the tr function. Make sure to format the phrase inside in ICU format - to pass escaped variables in, supply them as a dictionary using the `variables` prop.
 
+## Legacy Support
+
+For versions of React that do not support the Context API (introduced in 16.3.0), you can still make use of the React bindings!
+
+Just copy the code-snippet into LangClient and you can now import the Tr component througout your application.
+
+```javascript
+// Add into LangClient.js
+import {TrLegacy, withLang} from 'react-langapi';
+
+// named export 
+export const Tr = withLang(TrLegacy, LangClient);
+```
+
+```typescript
+// Add into LangClient.ts
+import {TrLegacy, withLang} from 'react-langapi';
+
+// named export 
+export const Tr = withLang(TrLegacy, LangClient);
+```
+
 # Android
 
 We have built a Gradle plugin for Android which makes it very simple to localize your app. Currently, the only requirement is that strings in the native language be located in a 'strings.xml' file.
