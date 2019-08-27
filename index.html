@@ -403,6 +403,35 @@
           <li>
             <a href="#changelog" class="toc-h1 toc-link" data-title="Changelog">Changelog</a>
           </li>
+          <li>
+            <a href="#ios" class="toc-h1 toc-link" data-title="IOS">IOS</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#sign-up" class="toc-h2 toc-link" data-title="Sign Up">Sign Up</a>
+                  </li>
+                  <li>
+                    <a href="#install-the-cli-and-login" class="toc-h2 toc-link" data-title="Install the CLI and login">Install the CLI and login</a>
+                  </li>
+                  <li>
+                    <a href="#initialize" class="toc-h2 toc-link" data-title="Initialize">Initialize</a>
+                  </li>
+                  <li>
+                    <a href="#mark-localizable-files" class="toc-h2 toc-link" data-title="Mark Localizable files">Mark Localizable files</a>
+                  </li>
+                  <li>
+                    <a href="#update-langapiconfig-json" class="toc-h2 toc-link" data-title="Update langapiconfig.json">Update langapiconfig.json</a>
+                  </li>
+                  <li>
+                    <a href="#request-translations" class="toc-h2 toc-link" data-title="Request translations">Request translations</a>
+                  </li>
+                  <li>
+                    <a href="#receive-completed-translations" class="toc-h2 toc-link" data-title="Receive completed translations">Receive completed translations</a>
+                  </li>
+                  <li>
+                    <a href="#finish" class="toc-h2 toc-link" data-title="Finish">Finish</a>
+                  </li>
+              </ul>
+          </li>
       </ul>
         <ul class="toc-footer">
             <li><a href='https://www.langapi.co'>Sign Up for Lang API</a></li>
@@ -1665,7 +1694,87 @@ cURL -X POST "https://lang-backend.herokuapp.com/api/v1/livetr" <span class="err
 
 <p>If you want support for a language we don&#39;t have yet, reach out to us at support@langapi.co. We&#39;re always on call and happy to help!</p>
 <h1 id='changelog'>Changelog</h1><pre class="highlight plaintext"><code>
+</code></pre><h1 id='ios'>IOS</h1>
+<p>We currently support translating iOS apps, which store translations in .strings and .stringsdict files.</p>
+<h2 id='sign-up'>Sign Up</h2>
+<p>Before you start translating, you&#39;ll need to <a href="https://www.langapi.co/signup">sign up for an account</a>.</p>
+<h2 id='install-the-cli-and-login'>Install the CLI and login</h2>
+<blockquote>
+<p>In the terminal, install the &quot;langapi&quot; node module globally.</p>
+</blockquote>
+<pre class="highlight shell tab-shell--all"><code><span class="c">#!/usr/bin/bash</span>
+
+<span class="gp">&gt; </span>npm install -g langapi
+<span class="gp">&gt; </span>langapi login
 </code></pre>
+<p>To make it easy to translate apps via terminal, we&#39;ve built our own command-line interface (CLI). Our CLI includes three main commands: <strong>init, push, and pull</strong>.</p>
+
+<ul>
+<li>init - Initializes langapi in a project folder</li>
+<li>push - Pushes translation requests to our server</li>
+<li>pull - Fetches completed translations</li>
+</ul>
+
+<p>To get help on these commands, add the --help flag.</p>
+<h2 id='initialize'>Initialize</h2>
+<blockquote>
+<p>To initialize langapi, run langapi init in the root directory of your ios repository</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&gt; langapi init
+</code></pre>
+<p>Run <strong>langapi init</strong> in your project&#39;s root directory. We will automatically detect your platform as iOS, and auto-generate some files, including a langapiconfig.json configuration file.</p>
+
+<p>The <strong>init</strong> command may detect existing translations if you&#39;ve already localized some files. Please only choose to load these into Lang if they are high-quality translations. We will internally mark them as human translations, and won&#39;t request any new translations unless the English strings change.</p>
+<h2 id='mark-localizable-files'>Mark Localizable files</h2>
+<p>Before Lang can detect which strings to translate and which languages to translate to, you&#39;ll need to localize your project in Xcode.</p>
+
+<ol>
+<li>Turn on Base Internationalization:</li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_base_internationalization.png" title="Logo Title Text 1" alt="alt text" /></p>
+
+<ol>
+<li>Add target languages to Xcode</li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_add_language.png" title="Logo Title Text 1" alt="alt text" /></p>
+
+<ol>
+<li>Localize your .strings and .stringsdict files for each language</li>
+</ol>
+
+<p>Lang can only detected files explicitly for localization. For each .strings/.stringsdict file, open the right sidebar and click &quot;Localize...&quot;, and check all the languages you want to translate to.</p>
+
+<p><img src="https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_localize_strings.png" title="Logo Title Text 1" alt="alt text" /></p>
+<h2 id='update-langapiconfig-json'>Update langapiconfig.json</h2>
+<blockquote>
+<p>The langapiconfig.json contains your LangApi settings for the current project.
+Here, we&#39;ve added Chinese (zh-Hans) as a target language for demonstration.</p>
+</blockquote>
+<pre class="highlight json tab-json--all"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"originalLanguage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"targetLanguages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"zh-Hans"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Now that you&#39;ve added localization languages in Xcode, we need to add their language codes to the auto-generated <strong>langapiconfig.json</strong> file. To see what language codes to add, run &quot;ls&quot; in the root directory, and you should see &quot;.lproj&quot; directories generated by Xcode. Use the language code associated with each .lproj. For example, if you see &quot;zh-Hans.lproj&quot;, add &quot;zh-Hans&quot; to langapiconfig.json.</p>
+<h2 id='request-translations'>Request translations</h2>
+<blockquote>
+<p>To push translation requests, use &#39;langapi push&#39;</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&gt; langapi push
+</code></pre>
+<p>Run <strong>langapi push</strong>, and we&#39;ll parse all your .strings/.stringsdict files for untranslated content, and request machine translations for them. To request human translations, run <strong>langapi push --human</strong>.</p>
+<h2 id='receive-completed-translations'>Receive completed translations</h2>
+<blockquote>
+<p>To pull in translation requests, use &#39;langapi pull&#39;</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&gt; langapi pull
+</code></pre>
+<p>Run <strong>langapi pull</strong>, and we&#39;ll gather all of your finished translations and inject them into your .strings/.stringsdict files.</p>
+<h2 id='finish'>Finish</h2>
+<p>That&#39;s it! To test and see the the translations, edit your build scheme, and change the language/region settings to your localized language. If you have any questions or if any of the steps above aren&#39;t working, please just email eric@langapi.co and we&#39;ll respond quickly :)</p>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
