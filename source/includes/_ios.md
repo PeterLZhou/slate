@@ -41,15 +41,19 @@ The **init** command may detect existing translations if you've already localize
 
 Before Lang can detect which strings to translate and which languages to translate to, you'll need to localize your project in Xcode.
 
-1. Turn on Base Internationalization:
+**Turn on Base Internationalization**
+
+Go to your project settings and check "Use Base Internationalization"
 
 ![alt text](https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_base_internationalization.png "Logo Title Text 1")
 
-2. Add target languages to Xcode
+**Add target languages to Xcode**
+
+Click the "+" icon under "Localizations", and add your target languages
 
 ![alt text](https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_add_language.png "Logo Title Text 1")
 
-3. Localize your .strings and .stringsdict files for each language
+**Localize your .strings and .stringsdict files for each language**
 
 Lang can only detected files explicitly for localization. For each .strings/.stringsdict file, open the right sidebar and click "Localize...", and check all the languages you want to translate to.
 
