@@ -65,7 +65,7 @@ Lang can only detected files explicitly for localization. For each .strings/.str
 
 Run **langapi push**, and we'll parse all your .strings/.stringsdict files for untranslated content, and request machine translations for them. To request human translations, run **langapi push --human**.
 
-## Receive completed transaltions
+## Receive completed translations
 
 > To pull in translation requests, use 'langapi pull'
 
