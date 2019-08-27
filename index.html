@@ -1728,21 +1728,19 @@ cURL -X POST "https://lang-backend.herokuapp.com/api/v1/livetr" <span class="err
 <h2 id='mark-localizable-files'>Mark Localizable files</h2>
 <p>Before Lang can detect which strings to translate and which languages to translate to, you&#39;ll need to localize your project in Xcode.</p>
 
-<ol>
-<li>Turn on Base Internationalization:</li>
-</ol>
+<p><strong>Turn on Base Internationalization</strong></p>
+
+<p>Go to your project settings and check &quot;Use Base Internationalization&quot;</p>
 
 <p><img src="https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_base_internationalization.png" title="Logo Title Text 1" alt="alt text" /></p>
 
-<ol>
-<li>Add target languages to Xcode</li>
-</ol>
+<p><strong>Add target languages to Xcode</strong></p>
+
+<p>Click the &quot;+&quot; icon under &quot;Localizations&quot;, and add your target languages</p>
 
 <p><img src="https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_add_language.png" title="Logo Title Text 1" alt="alt text" /></p>
 
-<ol>
-<li>Localize your .strings and .stringsdict files for each language</li>
-</ol>
+<p><strong>Localize your .strings and .stringsdict files for each language</strong></p>
 
 <p>Lang can only detected files explicitly for localization. For each .strings/.stringsdict file, open the right sidebar and click &quot;Localize...&quot;, and check all the languages you want to translate to.</p>
 
