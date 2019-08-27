@@ -43,17 +43,17 @@ Before Lang can detect which strings to translate and which languages to transla
 
 1. Turn on Base Internationalization:
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_base_internationalization.png "Logo Title Text 1")
 
 2. Add target languages to Xcode
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_add_language.png "Logo Title Text 1")
 
 3. Localize your .strings and .stringsdict files for each language
 
 Lang can only detected files explicitly for localization. For each .strings/.stringsdict file, open the right sidebar and click "Localize...", and check all the languages you want to translate to.
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://raw.githubusercontent.com/PeterLZhou/slate/master/source/images/ios_localize_strings.png "Logo Title Text 1")
 
 ## Request translations
 
@@ -77,4 +77,4 @@ Run **langapi pull**, and we'll gather all of your finished translations and inj
 
 ## Finish
 
-That's it! To test and see the the translations, edit your build scheme, and change the language/region settings to your localized language.
+That's it! To test and see the the translations, edit your build scheme, and change the language/region settings to your localized language. If you have any questions or if any of the steps above aren't working, please just email eric@langapi.co and we'll respond quickly :)
