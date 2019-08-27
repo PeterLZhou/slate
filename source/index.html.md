@@ -10,6 +10,9 @@ toc_footers:
   - <a href='https://www.langapi.co'>Sign Up for Lang API</a>
 
 search: true
+
+includes:
+  - ios
 ---
 
 # Introduction
