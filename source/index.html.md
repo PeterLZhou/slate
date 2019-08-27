@@ -944,10 +944,11 @@ Lang will pull the machine translation for phrases with no complete human transl
 If you don't want a string to be translated, simply set a translatable attribute to false.
 
 ```xml--all
+<!-- strings.xml-->
 <resources>
-    <string name="foo" translatable="false">Don't translate this string element</string>
-    <string-array name="things">
-        <string name="bar" translatable="false">Don't translate this array element</string>
+    <string name="string-element" translatable="false">Don't translate this string element</string>
+    <string-array name="array">
+        <string name="array-element" translatable="false">Don't translate this array element</string>
     </string-array>
 <resources>
 ```
@@ -1348,6 +1349,120 @@ The arguments should have the following form:
 - `description` (optional): A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.
 - `requestMachine` (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.
 - `pipeline` (optional): A string value representing what workflow you want your translations to go through. [Contact sales](mailto:sales@langapi.co) for information on how to customize translation workflows.
+
+# Rest API
+
+## GET /translations
+
+```markdown
+# cURL
+
+curl -X GET \
+  "https://lang-backend.herokuapp.com/api/v1/translations" \
+  -H 'authorization: <YOUR API_KEY>' \
+```
+
+> The above request returns a response like this:
+
+```json
+{
+  "status": "200",
+  "message": "OK",  
+  "translations": [
+      {
+          "original_text": "My name is Abhi!",
+          "translation": "Me llamo Abhi!",
+          "description": "welcome message on landing page",
+          "original_language": "en",
+          "target_language": "es",
+          "is_test": true,
+          "status": "pending",
+          "parameters": [],
+      },
+      {
+          "original_text": "I have {0} apples",
+          "translation": "Tengo {0} manzanas",
+          "description": null,
+          "original_language": "en",
+          "target_language": "es",
+          "is_test": true,
+          "status": "approved",
+          "parameters": [
+            {
+              "index": 0,
+              "type": "argument",
+              "plural": null
+            }
+          ],
+      },
+  ]
+}
+```
+
+All translations can be fetched through this endpoint. Using the test API key will return all the machine translations and the prod API key will return all the human translations.
+
+Headers: 
+
+- `authorization`: API key
+
+Response:
+
+- `status`: status code 
+- `message`: status message
+- `translations`: All the 'production' or 'development' translations depending on the API key.
+  - `original_text`: string. A string in original language containing text to be translated.
+  - `translation`: string. A string containing the project name you want to request and receive translations for. If you only own one project, this is optional. Otherwise, you must supply a project name.
+  - `description`: string. A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.
+  - `original_language`: string. Language code of target language.
+  - `target_language`: string. Language code of target language.
+  - `is_test`: boolean. Indicates whether the translation was done by machines or humans.
+  - `status`: string. Possible values include "queued", "pending", "available", "approved"
+  - `parameters`: If the original text contained variables then each parameter's type is documented
+      - `index`: integer. placeholder of parameter in the original string.
+      - `type`: string. Possible values include "argument", "select", or "plural".
+      - `plural`: string or null. If it's a plural parameter then it denotes a plural bucket, otherwise it's null.
+
+## POST /translations
+
+```markdown
+# cURL
+
+curl -X POST \
+  "https://lang-backend.herokuapp.com/api/v1/translations" \
+  -H 'authorization: <YOUR API_KEY>' \
+  -H 'content-type: application/json' \
+  -d '{
+  "requests": [
+    {
+      "original_text": "Welcome to Lang",
+      "original_language": "en",
+      "description": "header text on landing page",
+      "languages": ["es"]
+    }
+  ]
+}'
+```
+
+> The above request returns a response like this:
+
+```json
+{
+    "status": "200",
+    "message": "OK",
+    "job_id": "cjzufipb2009h0708wtcp1rw1"
+}
+```
+
+Headers: 
+
+- `authorization`: API key
+
+Response: 
+
+- `status`: status code 
+- `message`: status message
+- `job_id`: string or null. If at least one translation is new, the job ID for the created job is returned. Otherwise, the job ID is null. The job ID corresponds to the ID in the jobs dashboard.
+
 
 #Language Codes
 
