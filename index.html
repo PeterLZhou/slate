@@ -398,6 +398,17 @@
               </ul>
           </li>
           <li>
+            <a href="#rest-api" class="toc-h1 toc-link" data-title="Rest API">Rest API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-translations" class="toc-h2 toc-link" data-title="GET /translations">GET /translations</a>
+                  </li>
+                  <li>
+                    <a href="#post-translations" class="toc-h2 toc-link" data-title="POST /translations">POST /translations</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#language-codes" class="toc-h1 toc-link" data-title="Language Codes">Language Codes</a>
           </li>
           <li>
@@ -1168,10 +1179,11 @@ You can find your API Key on the dashboard if you click on your project in the &
 <span class="nt">&lt;/resources&gt;</span>
 </code></pre><h2 id='mark-string-for-no-translation'>Mark string for no translation</h2>
 <p>If you don&#39;t want a string to be translated, simply set a translatable attribute to false.</p>
-<pre class="highlight xml tab-xml--all"><code><span class="nt">&lt;resources&gt;</span>
-    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"foo"</span> <span class="na">translatable=</span><span class="s">"false"</span><span class="nt">&gt;</span>Don't translate this string element<span class="nt">&lt;/string&gt;</span>
-    <span class="nt">&lt;string-array</span> <span class="na">name=</span><span class="s">"things"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"bar"</span> <span class="na">translatable=</span><span class="s">"false"</span><span class="nt">&gt;</span>Don't translate this array element<span class="nt">&lt;/string&gt;</span>
+<pre class="highlight xml tab-xml--all"><code><span class="c">&lt;!-- strings.xml--&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"string-element"</span> <span class="na">translatable=</span><span class="s">"false"</span><span class="nt">&gt;</span>Don't translate this string element<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string-array</span> <span class="na">name=</span><span class="s">"array"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"array-element"</span> <span class="na">translatable=</span><span class="s">"false"</span><span class="nt">&gt;</span>Don't translate this array element<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;/string-array&gt;</span>
 <span class="nt">&lt;resources&gt;</span>
 </code></pre><h2 id='upload-existing-translations'>Upload existing translations</h2>
@@ -1512,6 +1524,119 @@ cURL -X POST "https://lang-backend.herokuapp.com/api/v1/livetr" <span class="err
 <li><code>description</code> (optional): A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.</li>
 <li><code>requestMachine</code> (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.</li>
 <li><code>pipeline</code> (optional): A string value representing what workflow you want your translations to go through. <a href="mailto:sales@langapi.co">Contact sales</a> for information on how to customize translation workflows.</li>
+</ul>
+<h1 id='rest-api'>Rest API</h1><h2 id='get-translations'>GET /translations</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
+
+curl -X GET <span class="err">\</span>
+  "https://lang-backend.herokuapp.com/api/v1/translations" <span class="err">\</span>
+  -H 'authorization: <span class="nt">&lt;YOUR</span> <span class="na">API_KEY</span><span class="nt">&gt;</span>' <span class="err">\</span>
+</code></pre>
+<blockquote>
+<p>The above request returns a response like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"200"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">  
+  </span><span class="s2">"translations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"original_text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My name is Abhi!"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"translation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Me llamo Abhi!"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"welcome message on landing page"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"original_language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"target_language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"is_test"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"original_text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I have {0} apples"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"translation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tengo {0} manzanas"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"original_language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"target_language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"es"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"is_test"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"approved"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"index"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"argument"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"plural"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">],</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>All translations can be fetched through this endpoint. Using the test API key will return all the machine translations and the prod API key will return all the human translations.</p>
+
+<p>Headers: </p>
+
+<ul>
+<li><code>authorization</code>: API key</li>
+</ul>
+
+<p>Response:</p>
+
+<ul>
+<li><code>status</code>: status code </li>
+<li><code>message</code>: status message</li>
+<li><code>translations</code>: All the &#39;production&#39; or &#39;development&#39; translations depending on the API key.
+
+<ul>
+<li><code>original_text</code>: string. A string in original language containing text to be translated.</li>
+<li><code>translation</code>: string. A string containing the project name you want to request and receive translations for. If you only own one project, this is optional. Otherwise, you must supply a project name.</li>
+<li><code>description</code>: string. A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.</li>
+<li><code>original_language</code>: string. Language code of target language.</li>
+<li><code>target_language</code>: string. Language code of target language.</li>
+<li><code>is_test</code>: boolean. Indicates whether the translation was done by machines or humans.</li>
+<li><code>status</code>: string. Possible values include &quot;queued&quot;, &quot;pending&quot;, &quot;available&quot;, &quot;approved&quot;</li>
+<li><code>parameters</code>: If the original text contained variables then each parameter&#39;s type is documented
+
+<ul>
+<li><code>index</code>: integer. placeholder of parameter in the original string.</li>
+<li><code>type</code>: string. Possible values include &quot;argument&quot;, &quot;select&quot;, or &quot;plural&quot;.</li>
+<li><code>plural</code>: string or null. If it&#39;s a plural parameter then it denotes a plural bucket, otherwise it&#39;s null.</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id='post-translations'>POST /translations</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
+
+curl -X POST <span class="err">\</span>
+  "https://lang-backend.herokuapp.com/api/v1/translations" <span class="err">\</span>
+  -H 'authorization: <span class="nt">&lt;YOUR</span> <span class="na">API_KEY</span><span class="nt">&gt;</span>' <span class="err">\</span>
+  -H 'content-type: application/json' <span class="err">\</span>
+  -d '{
+  "requests": <span class="err">[</span>
+    {
+      "original_text": "Welcome to Lang",
+      "original_language": "en",
+      "description": "header text on landing page",
+      "languages": <span class="p">[</span><span class="nv">"es"</span><span class="p">]</span>
+    }
+  ]
+}'
+</code></pre>
+<blockquote>
+<p>The above request returns a response like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"200"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"job_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cjzufipb2009h0708wtcp1rw1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Headers: </p>
+
+<ul>
+<li><code>authorization</code>: API key</li>
+</ul>
+
+<p>Response: </p>
+
+<ul>
+<li><code>status</code>: status code </li>
+<li><code>message</code>: status message</li>
+<li><code>job_id</code>: string or null. If at least one translation is new, the job ID for the created job is returned. Otherwise, the job ID is null. The job ID corresponds to the ID in the jobs dashboard.</li>
 </ul>
 <h1 id='language-codes'>Language Codes</h1>
 <p>Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.</p>
