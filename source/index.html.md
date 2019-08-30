@@ -423,13 +423,13 @@ LangClient is the core module of Lang. It gets automatically installed during **
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 ```
 
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 ```
 
 To initialize LangClient, we simply require() it and pass in the required arguments. The first argument is your Lang publishable key. The second argument is the JSON object from your translations.json file, which should be in your auto-generated langapi directory.
@@ -441,7 +441,7 @@ By default, LangClient attempts to detect the user's language automatically and 
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 
 // Tries to translate "Hello world!" into currently set language.
 LangClient.tr("Hello world!")
@@ -457,7 +457,7 @@ LangClient.tr("Hello world, {name}!", {name: "Eric"}, "es");
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 
 // Tries to translate "Hello world!" into currently set language.
 LangClient.tr("Hello world!")
@@ -477,7 +477,7 @@ LangClient.tr("Hello world, {name}!", {name: "Eric"}, "es");
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
@@ -486,7 +486,7 @@ LangClient.setForceLanguage("es");
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
@@ -499,7 +499,7 @@ LangClient.setForceLanguage("es");
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
@@ -510,7 +510,7 @@ LangClient.getLanguage();
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json));
+const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
