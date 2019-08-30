@@ -164,7 +164,7 @@ Since we're using machine translations in this demo, the translations are done i
 
 Congratulations! You've just translated your first string using LangAPI. We hope it was easy enough, and we'd love to hear your feedback. Shoot one of us an email at eric@langapi.co or peter@langapi.co and let us know what you think!
 
-# Getting Started (SSR, NextJS only)
+# Getting Started SSR
 
 Follow the steps below to translate your first string in under 3 minutes!
 
