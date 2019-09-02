@@ -782,71 +782,71 @@ Here, we&#39;ve added Chinese (zh) as a target language for demonstration.</p>
 <p>LangClient is the core module of Lang. It gets automatically installed during <strong>langapi init</strong>, and we generate some files for you so you don&#39;t have to configure it and can get started immediately. However, you can interact with its APIs directly, and we list them here:</p>
 <h2 id='initializing-langclient'>Initializing LangClient</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 
-<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="err">"</span><span class="p">.</span><span class="o">/</span><span class="nx">translations</span><span class="p">.</span><span class="nx">json</span><span class="p">));</span>
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="err">"</span><span class="p">.</span><span class="o">/</span><span class="nx">translations</span><span class="p">.</span><span class="nx">json</span><span class="p">));</span>
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 </code></pre>
 <p>To initialize LangClient, we simply require() it and pass in the required arguments. The first argument is your Lang publishable key. The second argument is the JSON object from your translations.json file, which should be in your auto-generated langapi directory.</p>
 
 <p>By default, LangClient attempts to detect the user&#39;s language automatically and translate to that language. This can be overridden, <a href="##setLanguage">see setLanguage.</a></p>
 <h2 id='tr'>tr</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 
-<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 
-// Tries to translate "</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">" into currently set language.
-LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">")
+<span class="c1">// Tries to translate "Hello world!" into currently set language.</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span>
 
-// The second argument contains context variables for the string
-LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"});
+<span class="c1">// The second argument contains context variables for the string</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span><span class="p">});</span>
 
-// The third argument is a force language override
-// Here, LangClient will try to translate to Spanish
-LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"}, "</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+<span class="c1">// The third argument is a force language override</span>
+<span class="c1">// Here, LangClient will try to translate to Spanish</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span><span class="p">},</span> <span class="s2">"es"</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 
-// Tries to translate "</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">" into currently set language.
-LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="o">!</span><span class="s2">")
+<span class="c1">// Tries to translate "Hello world!" into currently set language.</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span>
 
-// The second argument contains context variables for the string
-LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"});
+<span class="c1">// The second argument contains context variables for the string</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span><span class="p">});</span>
 
-// The third argument is a force language override
-// Here, LangClient will try to translate to Spanish
-LangClient.tr("</span><span class="nx">Hello</span> <span class="nx">world</span><span class="p">,</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="s2">", {name: "</span><span class="nx">Eric</span><span class="s2">"}, "</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+<span class="c1">// The third argument is a force language override</span>
+<span class="c1">// Here, LangClient will try to translate to Spanish</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">tr</span><span class="p">(</span><span class="s2">"Hello world, {name}!"</span><span class="p">,</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"Eric"</span><span class="p">},</span> <span class="s2">"es"</span><span class="p">);</span>
 </code></pre>
 <p><strong>tr</strong> is the bread-and-butter of LangClient. It takes a string and two optional arguments, and attempts to translate the string using translations loaded in via translations.json. See the code sample for all argument possibilities.</p>
 <h2 id='setforcelanguage'>setForceLanguage</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 
-<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 
-// Forces the language to Spanish
-LangClient.setForceLanguage("</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+<span class="c1">// Forces the language to Spanish</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">setForceLanguage</span><span class="p">(</span><span class="s2">"es"</span><span class="p">);</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 
-// Forces the language to Spanish
-LangClient.setForceLanguage("</span><span class="nx">es</span><span class="err">"</span><span class="p">);</span>
+<span class="c1">// Forces the language to Spanish</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">setForceLanguage</span><span class="p">(</span><span class="s2">"es"</span><span class="p">);</span>
 </code></pre>
 <p><strong>setForceLanguage</strong> explictly tells LangClient to use a specific language code, overriding the default language LangClient detects from the user&#39;s browser. This is useful when you have options on your app to change a user&#39;s language settings and want to override the default.</p>
 <h2 id='getlanguage'>getLanguage</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// *.js, *.jsx</span>
 
-<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+<span class="kr">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 
-// Forces the language to Spanish
-LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">");
-// Returns "</span><span class="nx">es</span><span class="err">"</span>
+<span class="c1">// Forces the language to Spanish</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">setForceLanguage</span><span class="p">(</span><span class="s2">"es"</span><span class="p">);</span>
+<span class="c1">// Returns "es"</span>
 <span class="nx">LangClient</span><span class="p">.</span><span class="nx">getLanguage</span><span class="p">();</span>
 </code></pre><pre class="highlight typescript tab-typescript"><code><span class="c1">// *.ts, *.tsx</span>
 
-<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json));
+<span class="kd">const</span> <span class="nx">LangClient</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'langapi-client'</span><span class="p">)(</span><span class="s2">"YOUR_PUBLISHABLE_KEY"</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"./translations.json"</span><span class="p">));</span>
 
-// Forces the language to Spanish
-LangClient.setForceLanguage("</span><span class="nx">es</span><span class="s2">");
-// Returns "</span><span class="nx">es</span><span class="err">"</span>
+<span class="c1">// Forces the language to Spanish</span>
+<span class="nx">LangClient</span><span class="p">.</span><span class="nx">setForceLanguage</span><span class="p">(</span><span class="s2">"es"</span><span class="p">);</span>
+<span class="c1">// Returns "es"</span>
 <span class="nx">LangClient</span><span class="p">.</span><span class="nx">getLanguage</span><span class="p">();</span>
 </code></pre>
 <p><strong>getLanguage</strong> fetches the current language LangClient is translating to. This is useful if you want to display the current language to users, or save it into your state/backend.</p>
@@ -1876,6 +1876,8 @@ curl -X POST <span class="err">\</span>
 Here, we&#39;ve added Chinese (zh-Hans) as a target language for demonstration.</p>
 </blockquote>
 <pre class="highlight json tab-json--all"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"src"</span><span class="p">:</span><span class="w"> </span><span class="s2">"."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PROJECT_NAME"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"originalLanguage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"targetLanguages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"zh-Hans"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
