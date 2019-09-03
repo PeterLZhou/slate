@@ -66,6 +66,8 @@ Lang can only detected files explicitly for localization. For each .strings/.str
 
 ```json--all
 {
+  "src": ".",
+  "name": "PROJECT_NAME",
   "originalLanguage": "en",
   "targetLanguages": ["zh-Hans"]
 }
