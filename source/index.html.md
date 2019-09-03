@@ -1512,6 +1512,15 @@ Here are the supported language codes you can use as originalLanguage and target
 | ru    | Russian                 |
 | tr    | Turkish                 |
 | en    | English                 |
+| bn    | Bengali                 |
+| gu    | Gujarati                |
+| kn    | Kannada                 |
+| ml    | Malayalam               |
+| mr    | Marathi                 |
+| pa    | Punjabi                 |
+| ta    | Tamil                   |
+| te    | Telugu                  |
+| ur    | Urdu                    |
 
 If you want support for a language we don't have yet, reach out to us at support@langapi.co. We're always on call and happy to help!
 
