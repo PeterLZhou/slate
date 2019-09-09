@@ -423,13 +423,19 @@ LangClient is the core module of Lang. It gets automatically installed during **
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 ```
 
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 ```
 
 To initialize LangClient, we simply require() it and pass in the required arguments. The first argument is your Lang publishable key. The second argument is the JSON object from your translations.json file, which should be in your auto-generated langapi directory.
@@ -441,33 +447,39 @@ By default, LangClient attempts to detect the user's language automatically and 
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 
 // Tries to translate "Hello world!" into currently set language.
-LangClient.tr("Hello world!")
+LangClient.tr("Hello world!");
 
 // The second argument contains context variables for the string
-LangClient.tr("Hello world, {name}!", {name: "Eric"});
+LangClient.tr("Hello world, {name}!", { name: "Eric" });
 
 // The third argument is a force language override
 // Here, LangClient will try to translate to Spanish
-LangClient.tr("Hello world, {name}!", {name: "Eric"}, "es");
+LangClient.tr("Hello world, {name}!", { name: "Eric" }, "es");
 ```
 
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 
 // Tries to translate "Hello world!" into currently set language.
-LangClient.tr("Hello world!")
+LangClient.tr("Hello world!");
 
 // The second argument contains context variables for the string
-LangClient.tr("Hello world, {name}!", {name: "Eric"});
+LangClient.tr("Hello world, {name}!", { name: "Eric" });
 
 // The third argument is a force language override
 // Here, LangClient will try to translate to Spanish
-LangClient.tr("Hello world, {name}!", {name: "Eric"}, "es");
+LangClient.tr("Hello world, {name}!", { name: "Eric" }, "es");
 ```
 
 **tr** is the bread-and-butter of LangClient. It takes a string and two optional arguments, and attempts to translate the string using translations loaded in via translations.json. See the code sample for all argument possibilities.
@@ -477,7 +489,10 @@ LangClient.tr("Hello world, {name}!", {name: "Eric"}, "es");
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
@@ -486,7 +501,10 @@ LangClient.setForceLanguage("es");
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
@@ -499,7 +517,10 @@ LangClient.setForceLanguage("es");
 ```javascript
 // *.js, *.jsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
@@ -510,7 +531,10 @@ LangClient.getLanguage();
 ```typescript
 // *.ts, *.tsx
 
-const LangClient = require('langapi-client')("YOUR_PUBLISHABLE_KEY", require("./translations.json"));
+const LangClient = require("langapi-client")(
+  "YOUR_PUBLISHABLE_KEY",
+  require("./translations.json")
+);
 
 // Forces the language to Spanish
 LangClient.setForceLanguage("es");
@@ -831,17 +855,17 @@ Just copy the code-snippet into LangClient and you can now import the Tr compone
 
 ```javascript
 // Add into LangClient.js
-import {TrLegacy, withLang} from 'react-langapi';
+import { TrLegacy, withLang } from "react-langapi";
 
-// named export 
+// named export
 export const Tr = withLang(TrLegacy, LangClient);
 ```
 
 ```typescript
 // Add into LangClient.ts
-import {TrLegacy, withLang} from 'react-langapi';
+import { TrLegacy, withLang } from "react-langapi";
 
-// named export 
+// named export
 export const Tr = withLang(TrLegacy, LangClient);
 ```
 
@@ -880,7 +904,7 @@ You can add the plugin by making a small modification to your build.gradle file.
 
 ## Run initialize
 
-First, sync gradle if your IDE hasn't already autosynced. Then in the root directory use the gradle wrapper to run the initialization task. 
+First, sync gradle if your IDE hasn't already autosynced. Then in the root directory use the gradle wrapper to run the initialization task.
 
 ```shell--all
 #!/usr/bin/bash
@@ -941,6 +965,7 @@ Lang will pull the machine translation for phrases with no complete human transl
 ```
 
 ## Mark string for no translation
+
 If you don't want a string to be translated, simply set a translatable attribute to false.
 
 ```xml--all
@@ -1308,6 +1333,134 @@ By default, all of our dynamic translations are hosted on our CDN. We have solut
 
 To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client. Optionally, you can run `langapi pull --live` on the CLI to cache all continuous translations into your translations.json.
 
+## LiveTrObject
+
+```javascript
+// Relative path to auto-generated LangClient.js file
+import { liveTrObject } from "./langapi/LangClient";
+
+const data = [
+  {
+    id: "123",
+    name: "Product one",
+    subtitle: "This is product one"
+  },
+  {
+    id: "456",
+    name: "Product two",
+    subtitle: "This is product two"
+  }
+];
+
+const output = liveTrObject(
+  data,
+  [
+    {
+      name: "name",
+      description: "This is a product name"
+    },
+    {
+      name: "subtitle",
+      description: "This is a product subtitle"
+    }
+  ],
+  {
+    requestTargetLanguages: ["es"],
+    lookupTargetLanguage: "es",
+    originalLanguage: "en",
+    projects: ["test-project"],
+    tags: ["live-translations"],
+    requestMachine: false
+  }
+);
+
+/* 
+Returns [{
+    id: "123",
+    name: "Producto uno",
+    subtitle: "Este es el producto uno",
+  },{
+    id: "456",
+    name: "Producto dos",
+    subtitle: "Este es el producto dos",
+  }]
+*/
+```
+
+```typescript
+// Relative path to auto-generated LangClient.js file
+import { liveTrObject } from "./langapi/LangClient";
+
+const data = [
+  {
+    id: "123",
+    name: "Product one",
+    subtitle: "This is product one"
+  },
+  {
+    id: "456",
+    name: "Product two",
+    subtitle: "This is product two"
+  }
+];
+
+const output = liveTrObject(
+  data,
+  [
+    {
+      name: "name",
+      description: "This is a product name"
+    },
+    {
+      name: "subtitle",
+      description: "This is a product subtitle"
+    }
+  ],
+  {
+    requestTargetLanguages: ["es"],
+    lookupTargetLanguage: "es",
+    originalLanguage: "en",
+    projects: ["test-project"],
+    tags: ["live-translations"],
+    requestMachine: false
+  }
+);
+
+/* 
+Returns [{
+    id: "123",
+    name: "Producto uno",
+    subtitle: "Este es el producto uno",
+  },{
+    id: "456",
+    name: "Producto dos",
+    subtitle: "Este es el producto dos",
+  }]
+*/
+```
+
+**usage: liveTrObject(OBJECTS, KEYS, CONFIG)**
+
+The liveTrObject function is exposed in the autogenerated LangClient. It functions similarly to liveTr but is used on repeatable objects of the same structure.
+
+A common use case is to put the liveTr function inside of the pipeline where you are continuously sending phrases out to your users.
+
+The arguments should have the following form:
+
+- `objects`: A list of objects that have fields that need to be translated.
+- `keys`: A list of objects containing the fields "name" (the name of the key whose value should be translated) and "description" (the descriptor of what that key represents in the translatable objects).
+- `config`: an object that should have the following keys:
+  - `originalLanguage`: a string representing the language code of the original language.
+  - `requestTargetLanguages`: an array of string language codes representing the target languages you want to translate the phrase into.
+  - `lookupTargetLanguage`: a string representing the langauge code of the requested translation
+  - `projects` (optional): an array of strings containing the project names you want to request and receive translations for. If you only own one project, this is optional. Otherwise, you must supply a project name.
+  - `tags` (optional): an array of strings containing the tags you want to attach to your translations. If no tag is supplied, it defaults to the project name appended with "-live"
+  - `requestMachine` (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.
+
+By default, all of our dynamic translations are hosted on our CDN. We have solutions for self-hosting as well as integrations with your own database instrastructure - [Contact sales](mailto:sales@langapi.co) for more information.
+
+To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client. Optionally, you can run `langapi pull --live` on the CLI to cache all continuous translations into your translations.json.
+
 ## API
 
 ```markdown
@@ -1358,8 +1511,8 @@ The arguments should have the following form:
 # cURL
 
 curl -X GET \
-  "https://lang-backend.herokuapp.com/api/v1/translations" \
-  -H 'authorization: <YOUR API_KEY>' \
+ "https://lang-backend.herokuapp.com/api/v1/translations" \
+ -H 'authorization: <YOUR API_KEY>' \
 ```
 
 > The above request returns a response like this:
@@ -1367,47 +1520,47 @@ curl -X GET \
 ```json
 {
   "status": "200",
-  "message": "OK",  
+  "message": "OK",
   "translations": [
-      {
-          "original_text": "My name is Abhi!",
-          "translation": "Me llamo Abhi!",
-          "description": "welcome message on landing page",
-          "original_language": "en",
-          "target_language": "es",
-          "is_test": true,
-          "status": "pending",
-          "parameters": [],
-      },
-      {
-          "original_text": "I have {0} apples",
-          "translation": "Tengo {0} manzanas",
-          "description": null,
-          "original_language": "en",
-          "target_language": "es",
-          "is_test": true,
-          "status": "approved",
-          "parameters": [
-            {
-              "index": 0,
-              "type": "argument",
-              "plural": null
-            }
-          ],
-      },
+    {
+      "original_text": "My name is Abhi!",
+      "translation": "Me llamo Abhi!",
+      "description": "welcome message on landing page",
+      "original_language": "en",
+      "target_language": "es",
+      "is_test": true,
+      "status": "pending",
+      "parameters": []
+    },
+    {
+      "original_text": "I have {0} apples",
+      "translation": "Tengo {0} manzanas",
+      "description": null,
+      "original_language": "en",
+      "target_language": "es",
+      "is_test": true,
+      "status": "approved",
+      "parameters": [
+        {
+          "index": 0,
+          "type": "argument",
+          "plural": null
+        }
+      ]
+    }
   ]
 }
 ```
 
 All translations can be fetched through this endpoint. Using the test API key will return all the machine translations and the prod API key will return all the human translations.
 
-Headers: 
+Headers:
 
 - `authorization`: API key
 
 Response:
 
-- `status`: status code 
+- `status`: status code
 - `message`: status message
 - `translations`: All the 'production' or 'development' translations depending on the API key.
   - `original_text`: string. A string in original language containing text to be translated.
@@ -1418,9 +1571,9 @@ Response:
   - `is_test`: boolean. Indicates whether the translation was done by machines or humans.
   - `status`: string. Possible values include "queued", "pending", "available", "approved"
   - `parameters`: If the original text contained variables then each parameter's type is documented
-      - `index`: integer. placeholder of parameter in the original string.
-      - `type`: string. Possible values include "argument", "select", or "plural".
-      - `plural`: string or null. If it's a plural parameter then it denotes a plural bucket, otherwise it's null.
+    - `index`: integer. placeholder of parameter in the original string.
+    - `type`: string. Possible values include "argument", "select", or "plural".
+    - `plural`: string or null. If it's a plural parameter then it denotes a plural bucket, otherwise it's null.
 
 ## POST /translations
 
@@ -1428,18 +1581,18 @@ Response:
 # cURL
 
 curl -X POST \
-  "https://lang-backend.herokuapp.com/api/v1/translations" \
-  -H 'authorization: <YOUR API_KEY>' \
-  -H 'content-type: application/json' \
-  -d '{
-  "requests": [
-    {
-      "original_text": "Welcome to Lang",
-      "original_language": "en",
-      "description": "header text on landing page",
-      "languages": ["es"]
-    }
-  ]
+ "https://lang-backend.herokuapp.com/api/v1/translations" \
+ -H 'authorization: <YOUR API_KEY>' \
+ -H 'content-type: application/json' \
+ -d '{
+"requests": [
+{
+"original_text": "Welcome to Lang",
+"original_language": "en",
+"description": "header text on landing page",
+"languages": ["es"]
+}
+]
 }'
 ```
 
@@ -1447,22 +1600,21 @@ curl -X POST \
 
 ```json
 {
-    "status": "200",
-    "message": "OK",
-    "job_id": "cjzufipb2009h0708wtcp1rw1"
+  "status": "200",
+  "message": "OK",
+  "job_id": "cjzufipb2009h0708wtcp1rw1"
 }
 ```
 
-Headers: 
+Headers:
 
 - `authorization`: API key
 
-Response: 
+Response:
 
-- `status`: status code 
+- `status`: status code
 - `message`: status message
 - `job_id`: string or null. If at least one translation is new, the job ID for the created job is returned. Otherwise, the job ID is null. The job ID corresponds to the ID in the jobs dashboard.
-
 
 #Language Codes
 
