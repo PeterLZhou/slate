@@ -1204,6 +1204,7 @@ function submitProductListing(productDescription) {
     requestTargetLanguages: ["zh"],
     lookupTargetLanguage: "zh",
     originalLanguage: "en",
+    isCached: false,
     projects: ["test-project"],
     description: "This is a product listing",
     requestMachine: false
@@ -1223,6 +1224,7 @@ class Form extends React.Component {
       requestTargetLanguages: ["zh"],
       lookupTargetLanguage: "zh",
       originalLanguage: "en",
+      isCached: false,
       projects: ["test-project"],
       description: "This is a product listing",
       requestMachine: false
@@ -1253,6 +1255,7 @@ function submitProductListing(productDescription: string) {
     requestTargetLanguages: ["zh"],
     lookupTargetLanguage: "zh",
     originalLanguage: "en",
+    isCached: false,
     projects: ["test-project"],
     description: "This is a product listing",
     requestMachine: false
@@ -1276,6 +1279,7 @@ class Form extends React.Component<{}, State> {
       requestTargetLanguages: ["zh"],
       lookupTargetLanguage: "zh",
       originalLanguage: "en",
+      isCached: false,
       projects: ["test-project"],
       description: "This is a product listing",
       requestMachine: false
@@ -1327,11 +1331,12 @@ The arguments should have the following form:
   - `projects` (optional): an array of strings containing the project names you want to request and receive translations for. If you only own one project, this is optional. Otherwise, you must supply a project name.
   - `description` (optional): A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.
   - `requestMachine` (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.
+  - `isCached` (optional): Defaults to fasle. If set to true, the phrase will appear in your cache when you run `langapi pull`
   - `pipeline` (optional): A string value representing what workflow you want your translations to go through. [Contact sales](mailto:sales@langapi.co) for information on how to customize translation workflows.
 
 By default, all of our dynamic translations are hosted on our CDN. We have solutions for self-hosting as well as integrations with your own database instrastructure - [Contact sales](mailto:sales@langapi.co) for more information.
 
-To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client. Optionally, you can run `langapi pull --live` on the CLI to cache all continuous translations into your translations.json.
+To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client.
 
 ## LiveTrObject
 
