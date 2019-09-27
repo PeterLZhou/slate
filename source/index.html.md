@@ -1505,13 +1505,13 @@ The arguments should have the following form:
 
 # Rest API
 
-## GET /translations
+## GET /translation/:id
 
 ```markdown
 # cURL
 
 curl -X GET \
- "https://lang-backend.herokuapp.com/api/v1/translations" \
+ "https://lang-backend.herokuapp.com/api/v1/translation?ids=[ck0hgrqof088n0844uhr5au29, ck0hgrqof088n0844uhr5au30]" \
  -H 'authorization: <YOUR API_KEY>' \
 ```
 
@@ -1523,6 +1523,7 @@ curl -X GET \
   "message": "OK",
   "translations": [
     {
+      "id": "ck0hgrqof088n0844uhr5au29",
       "original_text": "My name is Abhi!",
       "translation": "Me llamo Abhi!",
       "description": "welcome message on landing page",
@@ -1533,6 +1534,7 @@ curl -X GET \
       "parameters": []
     },
     {
+      "id": "ck0hgrqof088n0844uhr5au30",
       "original_text": "I have {0} apples",
       "translation": "Tengo {0} manzanas",
       "description": null,
@@ -1558,8 +1560,14 @@ Headers:
 
 - `authorization`: API key
 
+Body:
+
+- `id` (optional): The id of the requested translation
+- `ids` (optional): A list of ids for requested translations
+
 Response:
 
+- `id`: ID
 - `status`: status code
 - `message`: status message
 - `translations`: All the 'production' or 'development' translations depending on the API key.
@@ -1574,6 +1582,46 @@ Response:
     - `index`: integer. placeholder of parameter in the original string.
     - `type`: string. Possible values include "argument", "select", or "plural".
     - `plural`: string or null. If it's a plural parameter then it denotes a plural bucket, otherwise it's null.
+
+## GET /translations
+
+```markdown
+# cURL
+
+curl -X GET \
+ "https://lang-backend.herokuapp.com/api/v1/translations" \
+ -H 'authorization: <YOUR API_KEY>' \
+```
+
+> The above request returns a response like this:
+
+```json
+{
+  "status": "200",
+  "message": "OK",
+  "translations": [
+    {
+      "id": "ck0hgrqof088n0844uhr5au29",
+      "status": "pending"
+    },
+    {
+      "id": "ck0hgrqof088n0844uhr5au30",
+      "status": "approved"
+    }
+  ]
+}
+```
+
+All translation IDs can be fetched through this endpoint. Using the test API key will return all the machine translations and the prod API key will return all the human translations.
+
+Headers:
+
+- `authorization`: API key
+
+Response:
+
+- `id`: ID
+- `status`: status code
 
 ## POST /translations
 
@@ -1616,7 +1664,37 @@ Response:
 - `message`: status message
 - `job_id`: string or null. If at least one translation is new, the job ID for the created job is returned. Otherwise, the job ID is null. The job ID corresponds to the ID in the jobs dashboard.
 
-#Language Codes
+## GET /languages
+
+```markdown
+# cURL
+
+curl -X GET \
+ "https://lang-backend.herokuapp.com/api/v1/languages" \
+ -H 'authorization: <YOUR API_KEY>'
+```
+
+> The above request returns a response like this:
+
+```json
+{
+  "status": "200",
+  "message": "OK",
+  "languages": ["es", "fr", "de"]
+}
+```
+
+Headers:
+
+- `authorization`: API key
+
+Response:
+
+- `status`: status code
+- `message`: status message
+- `languages`: A list of all the languages you currently have translations for.
+
+# Language Codes
 
 Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.
 
