@@ -404,10 +404,16 @@
             <a href="#rest-api" class="toc-h1 toc-link" data-title="Rest API">Rest API</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#get-translation-id" class="toc-h2 toc-link" data-title="GET /translation/:id">GET /translation/:id</a>
+                  </li>
+                  <li>
                     <a href="#get-translations" class="toc-h2 toc-link" data-title="GET /translations">GET /translations</a>
                   </li>
                   <li>
                     <a href="#post-translations" class="toc-h2 toc-link" data-title="POST /translations">POST /translations</a>
+                  </li>
+                  <li>
+                    <a href="#get-languages" class="toc-h2 toc-link" data-title="GET /languages">GET /languages</a>
                   </li>
               </ul>
           </li>
@@ -1677,10 +1683,10 @@ cURL -X POST "https://lang-backend.herokuapp.com/api/v1/livetr" <span class="err
 <li><code>requestMachine</code> (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.</li>
 <li><code>pipeline</code> (optional): A string value representing what workflow you want your translations to go through. <a href="mailto:sales@langapi.co">Contact sales</a> for information on how to customize translation workflows.</li>
 </ul>
-<h1 id='rest-api'>Rest API</h1><h2 id='get-translations'>GET /translations</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
+<h1 id='rest-api'>Rest API</h1><h2 id='get-translation-id'>GET /translation/:id</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
 
 curl -X GET <span class="err">\</span>
- "https://lang-backend.herokuapp.com/api/v1/translations" <span class="err">\</span>
+ "https://lang-backend.herokuapp.com/api/v1/translation?ids=<span class="p">[</span><span class="nv">ck0hgrqof088n0844uhr5au29, ck0hgrqof088n0844uhr5au30</span><span class="p">]</span>" <span class="err">\</span>
  -H 'authorization: <span class="nt">&lt;YOUR</span> <span class="na">API_KEY</span><span class="nt">&gt;</span>' <span class="err">\</span>
 </code></pre>
 <blockquote>
@@ -1691,6 +1697,7 @@ curl -X GET <span class="err">\</span>
   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"translations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ck0hgrqof088n0844uhr5au29"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"original_text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My name is Abhi!"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"translation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Me llamo Abhi!"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"welcome message on landing page"</span><span class="p">,</span><span class="w">
@@ -1701,6 +1708,7 @@ curl -X GET <span class="err">\</span>
       </span><span class="s2">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ck0hgrqof088n0844uhr5au30"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"original_text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I have {0} apples"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"translation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tengo {0} manzanas"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
@@ -1727,9 +1735,17 @@ curl -X GET <span class="err">\</span>
 <li><code>authorization</code>: API key</li>
 </ul>
 
+<p>Body:</p>
+
+<ul>
+<li><code>id</code> (optional): The id of the requested translation</li>
+<li><code>ids</code> (optional): A list of ids for requested translations</li>
+</ul>
+
 <p>Response:</p>
 
 <ul>
+<li><code>id</code>: ID</li>
 <li><code>status</code>: status code</li>
 <li><code>message</code>: status message</li>
 <li><code>translations</code>: All the &#39;production&#39; or &#39;development&#39; translations depending on the API key.
@@ -1747,6 +1763,44 @@ curl -X GET <span class="err">\</span>
 <li><code>type</code>: string. Possible values include &quot;argument&quot;, &quot;select&quot;, or &quot;plural&quot;.</li>
 <li><code>plural</code>: string or null. If it&#39;s a plural parameter then it denotes a plural bucket, otherwise it&#39;s null.</li>
 </ul></li>
+</ul>
+<h2 id='get-translations'>GET /translations</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
+
+curl -X GET <span class="err">\</span>
+ "https://lang-backend.herokuapp.com/api/v1/translations" <span class="err">\</span>
+ -H 'authorization: <span class="nt">&lt;YOUR</span> <span class="na">API_KEY</span><span class="nt">&gt;</span>' <span class="err">\</span>
+</code></pre>
+<blockquote>
+<p>The above request returns a response like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"200"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"translations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ck0hgrqof088n0844uhr5au29"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ck0hgrqof088n0844uhr5au30"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"approved"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>All translation IDs can be fetched through this endpoint. Using the test API key will return all the machine translations and the prod API key will return all the human translations.</p>
+
+<p>Headers:</p>
+
+<ul>
+<li><code>authorization</code>: API key</li>
+</ul>
+
+<p>Response:</p>
+
+<ul>
+<li><code>id</code>: ID</li>
+<li><code>status</code>: status code</li>
 </ul>
 <h2 id='post-translations'>POST /translations</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
 
@@ -1786,6 +1840,34 @@ curl -X POST <span class="err">\</span>
 <li><code>status</code>: status code</li>
 <li><code>message</code>: status message</li>
 <li><code>job_id</code>: string or null. If at least one translation is new, the job ID for the created job is returned. Otherwise, the job ID is null. The job ID corresponds to the ID in the jobs dashboard.</li>
+</ul>
+<h2 id='get-languages'>GET /languages</h2><pre class="highlight markdown tab-markdown"><code><span class="gh"># cURL</span>
+
+curl -X GET <span class="err">\</span>
+ "https://lang-backend.herokuapp.com/api/v1/languages" <span class="err">\</span>
+ -H 'authorization: <span class="nt">&lt;YOUR</span> <span class="na">API_KEY</span><span class="nt">&gt;</span>'
+</code></pre>
+<blockquote>
+<p>The above request returns a response like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"200"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"languages"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"es"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fr"</span><span class="p">,</span><span class="w"> </span><span class="s2">"de"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Headers:</p>
+
+<ul>
+<li><code>authorization</code>: API key</li>
+</ul>
+
+<p>Response:</p>
+
+<ul>
+<li><code>status</code>: status code</li>
+<li><code>message</code>: status message</li>
+<li><code>languages</code>: A list of all the languages you currently have translations for.</li>
 </ul>
 <h1 id='language-codes'>Language Codes</h1>
 <p>Here are the supported language codes you can use as originalLanguage and targetLanguages inside of langconfig.json.</p>
