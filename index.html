@@ -1394,6 +1394,7 @@ Here, we&#39;ve added Spanish (es) as a target language.</p>
     <span class="na">requestTargetLanguages</span><span class="p">:</span> <span class="p">[</span><span class="s2">"zh"</span><span class="p">],</span>
     <span class="na">lookupTargetLanguage</span><span class="p">:</span> <span class="s2">"zh"</span><span class="p">,</span>
     <span class="na">originalLanguage</span><span class="p">:</span> <span class="s2">"en"</span><span class="p">,</span>
+    <span class="na">isCached</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="na">projects</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test-project"</span><span class="p">],</span>
     <span class="na">description</span><span class="p">:</span> <span class="s2">"This is a product listing"</span><span class="p">,</span>
     <span class="na">requestMachine</span><span class="p">:</span> <span class="kc">false</span>
@@ -1413,6 +1414,7 @@ Here, we&#39;ve added Spanish (es) as a target language.</p>
       <span class="na">requestTargetLanguages</span><span class="p">:</span> <span class="p">[</span><span class="s2">"zh"</span><span class="p">],</span>
       <span class="na">lookupTargetLanguage</span><span class="p">:</span> <span class="s2">"zh"</span><span class="p">,</span>
       <span class="na">originalLanguage</span><span class="p">:</span> <span class="s2">"en"</span><span class="p">,</span>
+      <span class="na">isCached</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
       <span class="na">projects</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test-project"</span><span class="p">],</span>
       <span class="na">description</span><span class="p">:</span> <span class="s2">"This is a product listing"</span><span class="p">,</span>
       <span class="na">requestMachine</span><span class="p">:</span> <span class="kc">false</span>
@@ -1440,6 +1442,7 @@ Here, we&#39;ve added Spanish (es) as a target language.</p>
     <span class="na">requestTargetLanguages</span><span class="p">:</span> <span class="p">[</span><span class="s2">"zh"</span><span class="p">],</span>
     <span class="na">lookupTargetLanguage</span><span class="p">:</span> <span class="s2">"zh"</span><span class="p">,</span>
     <span class="na">originalLanguage</span><span class="p">:</span> <span class="s2">"en"</span><span class="p">,</span>
+    <span class="na">isCached</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="na">projects</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test-project"</span><span class="p">],</span>
     <span class="na">description</span><span class="p">:</span> <span class="s2">"This is a product listing"</span><span class="p">,</span>
     <span class="na">requestMachine</span><span class="p">:</span> <span class="kc">false</span>
@@ -1463,6 +1466,7 @@ Here, we&#39;ve added Spanish (es) as a target language.</p>
       <span class="na">requestTargetLanguages</span><span class="p">:</span> <span class="p">[</span><span class="s2">"zh"</span><span class="p">],</span>
       <span class="na">lookupTargetLanguage</span><span class="p">:</span> <span class="s2">"zh"</span><span class="p">,</span>
       <span class="na">originalLanguage</span><span class="p">:</span> <span class="s2">"en"</span><span class="p">,</span>
+      <span class="na">isCached</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
       <span class="na">projects</span><span class="p">:</span> <span class="p">[</span><span class="s2">"test-project"</span><span class="p">],</span>
       <span class="na">description</span><span class="p">:</span> <span class="s2">"This is a product listing"</span><span class="p">,</span>
       <span class="na">requestMachine</span><span class="p">:</span> <span class="kc">false</span>
@@ -1513,13 +1517,14 @@ Here, we&#39;ve added Spanish (es) as a target language.</p>
 <li><code>projects</code> (optional): an array of strings containing the project names you want to request and receive translations for. If you only own one project, this is optional. Otherwise, you must supply a project name.</li>
 <li><code>description</code> (optional): A human-readable string description of the content you are translating. This will be sent to the translator for context. If description is supplied, the phrase and description combination will also be used as a unique identifier for future lookups.</li>
 <li><code>requestMachine</code> (optional): Defaults to true. If set to false, human translations for the phrase will be requested, otherwise machine translations will be requested.</li>
+<li><code>isCached</code> (optional): Defaults to fasle. If set to true, the phrase will appear in your cache when you run <code>langapi pull</code></li>
 <li><code>pipeline</code> (optional): A string value representing what workflow you want your translations to go through. <a href="mailto:sales@langapi.co">Contact sales</a> for information on how to customize translation workflows.</li>
 </ul></li>
 </ul>
 
 <p>By default, all of our dynamic translations are hosted on our CDN. We have solutions for self-hosting as well as integrations with your own database instrastructure - <a href="mailto:sales@langapi.co">Contact sales</a> for more information.</p>
 
-<p>To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client. Optionally, you can run <code>langapi pull --live</code> on the CLI to cache all continuous translations into your translations.json.</p>
+<p>To avoid your users making additional network requests, it is recommended you lookup translations server-side before serving them to the client.</p>
 <h2 id='livetrobject'>LiveTrObject</h2><pre class="highlight javascript tab-javascript"><code><span class="c1">// Relative path to auto-generated LangClient.js file</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">liveTrObject</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"./langapi/LangClient"</span><span class="p">;</span>
 
