@@ -1655,7 +1655,37 @@ curl -X POST \
 {
   "status": "200",
   "message": "OK",
-  "job_id": "cjzufipb2009h0708wtcp1rw1"
+  "job_id": "cjzufipb2009h0708wtcp1rw1",
+  "translations": [
+    {
+      "id": "ck0hgrqof088n0844uhr5au29",
+      "original_text": "My name is Abhi!",
+      "translation": "Me llamo Abhi!",
+      "description": "welcome message on landing page",
+      "original_language": "en",
+      "target_language": "es",
+      "is_test": true,
+      "status": "pending",
+      "parameters": []
+    },
+    {
+      "id": "ck0hgrqof088n0844uhr5au30",
+      "original_text": "I have {0} apples",
+      "translation": "Tengo {0} manzanas",
+      "description": null,
+      "original_language": "en",
+      "target_language": "es",
+      "is_test": true,
+      "status": "approved",
+      "parameters": [
+        {
+          "index": 0,
+          "type": "argument",
+          "plural": null
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -1668,6 +1698,7 @@ Response:
 - `status`: status code
 - `message`: status message
 - `job_id`: string or null. If at least one translation is new, the job ID for the created job is returned. Otherwise, the job ID is null. The job ID corresponds to the ID in the jobs dashboard.
+- `translations`: An array of translations that were created by the requested job.
 
 ## GET /languages
 
