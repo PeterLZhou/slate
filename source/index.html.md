@@ -1638,14 +1638,14 @@ curl -X POST \
  -H 'authorization: <YOUR API_KEY>' \
  -H 'content-type: application/json' \
  -d '{
-"requests": [
-{
-"original_text": "Welcome to Lang",
-"original_language": "en",
-"description": "header text on landing page",
-"languages": ["es"]
-}
-]
+  "requests": [
+    {
+      "original_text": "Welcome to Lang",
+      "original_language": "en",
+      "description": "header text on landing page",
+      "languages": ["es"]
+    }
+  ]
 }'
 ```
 
@@ -1653,39 +1653,26 @@ curl -X POST \
 
 ```json
 {
-  "status": "200",
-  "message": "OK",
-  "job_id": "cjzufipb2009h0708wtcp1rw1",
-  "translations": [
-    {
-      "id": "ck0hgrqof088n0844uhr5au29",
-      "original_text": "My name is Abhi!",
-      "translation": "Me llamo Abhi!",
-      "description": "welcome message on landing page",
-      "original_language": "en",
-      "target_language": "es",
-      "is_test": true,
-      "status": "pending",
-      "parameters": []
-    },
-    {
-      "id": "ck0hgrqof088n0844uhr5au30",
-      "original_text": "I have {0} apples",
-      "translation": "Tengo {0} manzanas",
-      "description": null,
-      "original_language": "en",
-      "target_language": "es",
-      "is_test": true,
-      "status": "approved",
-      "parameters": [
+    "status": "200",
+    "message": "OK",
+    "job_id": "ck1u6vcxj001c07386ewzqrkf",
+    "translations": [
         {
-          "index": 0,
-          "type": "argument",
-          "plural": null
+            "updatedAt": "2019-10-17T04:13:10.416Z",
+            "originalText": "Welcome to Lang",
+            "description": "header text on landing page",
+            "id": "4xj92ose6k81h39qvifbyvcpn",
+            "newLang": "es",
+            "isTest": true,
+            "status": null,
+            "createdAt": "2019-10-17T04:13:10.416Z",
+            "originalLang": "en",
+            "isLive": false,
+            "vendor": "machine",
+            "parameters": [],
+            "newText": null
         }
-      ]
-    }
-  ]
+    ]
 }
 ```
 
